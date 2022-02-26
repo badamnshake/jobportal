@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,6 +9,7 @@ using Identity.API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 namespace Identity.API.Data
 {
@@ -86,7 +88,25 @@ namespace Identity.API.Data
             await _userRepository.ChangePassword(user, changePasswordDto.NewPassword);
             return CreateUserDtoWithToken(user);
         }
+        [Authorize]
+        [HttpGet("authenticate")]
+        public ActionResult Authenticate()
+        {
+            return Ok();
+        }
 
+        [Authorize]
+        [HttpGet("get-role")]
+        public async Task<ActionResult<int>> GetRole(GetRoleDto roleDto)
+        {
+            // HttpContext.User. gotta check if i can use claims
+            if (!(await _userRepository.DoesUserExist(roleDto.Email)))
+            {
+                return Unauthorized("Invalid Credentials");
+            }
+            var user = await _userRepository.GetUserAsync(roleDto.Email);
+            return user.UserType == UserType.JobSeeker ? 1 : 0;
+        }
         public UserDto CreateUserDtoWithToken(User user)
         {
             return new UserDto
