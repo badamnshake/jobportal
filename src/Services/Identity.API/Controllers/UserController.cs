@@ -1,3 +1,4 @@
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -93,9 +94,11 @@ namespace Identity.API.Data
         }
         [Authorize]
         [HttpGet("authenticate")]
-        public ActionResult Authenticate()
+        public ActionResult Authenticate(AuthenticateDto authenticateDto)
         {
-            return Ok();
+            string email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (email.Equals(authenticateDto.Email, StringComparison.OrdinalIgnoreCase)) return Ok();
+            return Unauthorized();
         }
 
         [Authorize]
