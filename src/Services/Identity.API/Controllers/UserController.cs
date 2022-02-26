@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Identity.API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 namespace Identity.API.Data
@@ -71,11 +73,12 @@ namespace Identity.API.Data
         [HttpPut("change-password")]
         public async Task<ActionResult<UserDto>> ChangePassword(ChangePasswordDto changePasswordDto)
         {
-            if (!(await _userRepository.DoesUserExist(changePasswordDto.Email)))
+            string email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!(await _userRepository.DoesUserExist(email)))
             {
                 return Unauthorized("Invalid Credentials");
             }
-            var user = await _userRepository.GetUserAsync(changePasswordDto.Email);
+            var user = await _userRepository.GetUserAsync(email);
 
             // using var hmac = new HMACSHA512(user.PasswordSalt);
             // var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(changePasswordDto.NewPassword));
@@ -97,15 +100,16 @@ namespace Identity.API.Data
 
         [Authorize]
         [HttpGet("get-role")]
-        public async Task<ActionResult<int>> GetRole(GetRoleDto roleDto)
+        public async Task<ActionResult<int>> GetRole()
         {
+            string email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             // HttpContext.User. gotta check if i can use claims
-            if (!(await _userRepository.DoesUserExist(roleDto.Email)))
+            if (!(await _userRepository.DoesUserExist(email)))
             {
                 return Unauthorized("Invalid Credentials");
             }
-            var user = await _userRepository.GetUserAsync(roleDto.Email);
-            return user.UserType == UserType.JobSeeker ? 1 : 0;
+            var user = await _userRepository.GetUserAsync(email);
+            return user.UserType == UserType.JobSeeker ? 1 : 2;
         }
         public UserDto CreateUserDtoWithToken(User user)
         {
