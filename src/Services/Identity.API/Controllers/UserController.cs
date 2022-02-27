@@ -94,11 +94,9 @@ namespace Identity.API.Data
         }
         [Authorize]
         [HttpGet("authenticate")]
-        public ActionResult Authenticate(AuthenticateDto authenticateDto)
+        public ActionResult Authenticate()
         {
-            string email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (email.Equals(authenticateDto.Email, StringComparison.OrdinalIgnoreCase)) return Ok();
-            return Unauthorized();
+            return Ok();
         }
 
         [Authorize]
@@ -114,6 +112,7 @@ namespace Identity.API.Data
             var user = await _userRepository.GetUserAsync(email);
             return user.UserType == UserType.JobSeeker ? 1 : 2;
         }
+        [ApiExplorerSettings(IgnoreApi = true)]
         public UserDto CreateUserDtoWithToken(User user)
         {
             return new UserDto

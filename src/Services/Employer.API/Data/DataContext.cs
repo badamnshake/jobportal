@@ -7,5 +7,6 @@ namespace Employer.API.Data
         public DataContext(DbContextOptions options) : base(options)
         {
         }
+        // public Dbset<> MyProperty { get; set; }
     }
 }
