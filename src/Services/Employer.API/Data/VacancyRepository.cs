@@ -63,6 +63,10 @@ namespace Employer.API.Data
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Vacancy>> GetVacanciesFromLocation(int min)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

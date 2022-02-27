@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Employer.API.Entities;
 
 namespace Employer.API.Data
 {
@@ -7,6 +8,7 @@ namespace Employer.API.Data
         public DataContext(DbContextOptions options) : base(options)
         {
         }
-        // public Dbset<> MyProperty { get; set; }
+        public DbSet<EmployerEntity> EmployerEntities { get; set; }
+        public DbSet<Vacancy> Vacancies { get; set; }
     }
 }
