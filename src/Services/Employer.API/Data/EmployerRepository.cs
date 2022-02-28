@@ -12,7 +12,7 @@ namespace Employer.API.Data
         {
             _dataContext = dataContext;
         }
-        public async Task<bool> AddEmployerDetails(EmployerEntity employerEntity)
+        public async Task<bool> CreateEmployerDetails(EmployerEntity employerEntity)
         {
             await _dataContext.EmployerEntities.AddAsync(employerEntity);
             return await _dataContext.SaveChangesAsync() > 0;

@@ -1,15 +1,12 @@
+
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Employer.API.Entities
+namespace Employer.API.DTOs
 {
-    public class Vacancy
+    public class VacancyUpdateDto
     {
-        // id is automatically assigned to as primary key in entity framework
         public int Id { get; set; }
-        // organization name which it is published by
-        public string PublishedBy { get; set; }
-        public DateTime PublishedDate { get; set; }
         public int NoOfVacancies { get; set; }
         public string MinimumQualification { get; set; }
         public string JobDescription { get; set; }
@@ -18,9 +15,6 @@ namespace Employer.API.Entities
         public DateTime LastDateToApply { get; set; }
         public int MinSalary { get; set; }
         public int MaxSalary { get; set; }
-        [Required]
-        [EmailAddress]
-        public string CreatedByEmailUser { get; set;}
     }
 
 }

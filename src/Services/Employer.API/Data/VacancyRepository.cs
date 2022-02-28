@@ -16,10 +16,11 @@ namespace Employer.API.Data
         {
             _dataContext = dataContext;
         }
-        public async Task<int> AddVacancy(Vacancy vacancy)
+        public async Task<Vacancy> AddVacancy(Vacancy vacancy)
         {
             var createdVacancy = await _dataContext.Vacancies.AddAsync(vacancy);
-            return createdVacancy.Entity.Id;
+            await _dataContext.SaveChangesAsync();
+            return createdVacancy.Entity;
         }
         public async Task<bool> UpdateVacancy(Vacancy vacancy)
         {

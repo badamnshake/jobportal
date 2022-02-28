@@ -9,7 +9,7 @@ namespace Employer.API.Interfaces
 {
     public interface IVacancyRepository
     {
-        Task<int> AddVacancy(Vacancy vacancy);
+        Task<Vacancy> AddVacancy(Vacancy vacancy);
         Task<bool> UpdateVacancy(Vacancy vacancy);
         Task<bool> DeleteVacancy(Vacancy vacancy);
         Task<Vacancy> GetVacancyDetails(int id);
