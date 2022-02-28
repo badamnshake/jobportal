@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Employer.API.Entities;
+using Employer.API.Helpers;
 using Employer.API.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 namespace Employer.API.Data
 {
     public class VacancyRepository : IVacancyRepository
@@ -12,60 +16,64 @@ namespace Employer.API.Data
         {
             _dataContext = dataContext;
         }
-
-        public Task<int> AddVacancy()
+        public async Task<int> AddVacancy(Vacancy vacancy)
         {
-            throw new NotImplementedException();
+            var createdVacancy = await _dataContext.Vacancies.AddAsync(vacancy);
+            return createdVacancy.Entity.Id;
         }
-        public Task<bool> UpdateVacancy(Vacancy vacancy)
+        public async Task<bool> UpdateVacancy(Vacancy vacancy)
         {
-            throw new NotImplementedException();
+            _dataContext.Vacancies.Update(vacancy);
+            return await _dataContext.SaveChangesAsync() > 0;
         }
-
-
-        public Task<bool> DeleteVacancy(Vacancy vacancy)
+        public async Task<bool> DeleteVacancy(Vacancy vacancy)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Vacancy>> GetVacanciesFromLastDate(DateTime LastDate)
-        {
-            throw new NotImplementedException();
+            _dataContext.Vacancies.Remove(vacancy);
+            return await _dataContext.SaveChangesAsync() > 0;
         }
 
-        public Task<IEnumerable<Vacancy>> GetVacanciesFromOrganization(string organizationName)
+        // public async Task<bool> DoesVacancyExist(int id)
+        // {
+        //     return await _dataContext.Vacancies.FindAsync(id) != null;
+        // }
+        // return null if vacancy is not found
+        public async Task<Vacancy> GetVacancyDetails(int id)
         {
-            throw new NotImplementedException();
+            return await _dataContext.Vacancies.FindAsync(id);
+        }
+        public async Task<PagedList<Vacancy>> GetVacanciesFromLastDate(DateTime LastDate, PageParams pageParams)
+        {
+            var query = _dataContext.Vacancies.Where(x => x.LastDateToApply.CompareTo(LastDate) > 0).AsNoTracking();
+            return await PagedList<Vacancy>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+
+        }
+        public async Task<IEnumerable<Vacancy>> GetVacanciesFromPublishedDate(DateTime publishedDate)
+        {
+            var vacancies = await _dataContext.Vacancies.Where(x => x.PublishedDate.CompareTo(publishedDate) > 0).ToListAsync();
+            return vacancies;
+        }
+        public async Task<IEnumerable<Vacancy>> GetVacanciesFromOrganization(string organizationName)
+        {
+            var vacancies = await _dataContext.Vacancies.Where(x => x.PublishedBy == organizationName.Trim()).ToListAsync();
+            return vacancies;
         }
 
-        public Task<IEnumerable<Vacancy>> GetVacanciesFromOrganizationType(string organizationType)
-        {
-            throw new NotImplementedException();
-        }
+        // public async Task<IEnumerable<Vacancy>> GetVacanciesFromOrganizationType(string organizationType)
+        // {
+        //     var vacancies = await _dataContext.Vacancies.Where(x => x.PublishedBy == organizationName.Trim()).ToListAsync();
+        //     throw new NotImplementedException();
+        // }
 
-        public Task<IEnumerable<Vacancy>> GetVacanciesFromPublishedDate(DateTime publishedDate)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<IEnumerable<Vacancy>> GetVacanciesFromSalary(int min)
+        public async Task<IEnumerable<Vacancy>> GetVacanciesFromSalary(int minSalary)
         {
-            throw new NotImplementedException();
+            var vacancies = await _dataContext.Vacancies.Where(x => x.MinSalary >= minSalary).ToListAsync();
+            return vacancies;
         }
-
-        public Task<Vacancy> GetVacancyDetails(int id)
+        public async Task<IEnumerable<Vacancy>> GetVacanciesFromLocation(string location)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Vacancy> GetVacancyDetailsAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Vacancy>> GetVacanciesFromLocation(int min)
-        {
-            throw new NotImplementedException();
+            var vacancies = await _dataContext.Vacancies.Where(x => x.Location.Contains(location)).ToListAsync();
+            return vacancies;
         }
     }
 

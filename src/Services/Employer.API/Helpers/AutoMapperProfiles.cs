@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Employer.API.Data
+namespace Employer.API.Helpers
 {
     public class AutoMapperProfiles : Profile
     {

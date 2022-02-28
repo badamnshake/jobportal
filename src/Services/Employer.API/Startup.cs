@@ -1,4 +1,5 @@
 using Employer.API.Data;
+using Employer.API.Helpers;
 using Employer.API.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

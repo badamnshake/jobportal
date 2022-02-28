@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Employer.API.Entities;
 using Employer.API.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 namespace Employer.API.Data
 {
     public class EmployerRepository : IEmployerRepository
@@ -10,25 +12,24 @@ namespace Employer.API.Data
         {
             _dataContext = dataContext;
         }
-
-        public Task<EmployerEntity> AddEmployerDetailsAsync(EmployerEntity employerEntity)
+        public async Task<bool> AddEmployerDetails(EmployerEntity employerEntity)
         {
-            throw new System.NotImplementedException();
+            await _dataContext.EmployerEntities.AddAsync(employerEntity);
+            return await _dataContext.SaveChangesAsync() > 0;
         }
 
-        public Task<EmployerEntity> GetEmployerAsync(string email)
+        public async Task<bool> DoesEmployerExist(string userEmail)
         {
-            throw new System.NotImplementedException();
+            return await _dataContext.EmployerEntities.AnyAsync(x => x.CreatedByEmailUser == userEmail);
         }
-
-        public Task<bool> SaveAllChangesAsync()
+        public async Task<EmployerEntity> GetEmployer(string userEmail)
         {
-            throw new System.NotImplementedException();
+            return await _dataContext.EmployerEntities.SingleOrDefaultAsync(x => x.CreatedByEmailUser == userEmail);
         }
-
-        public Task<EmployerEntity> UpdateEmployerAsync(EmployerEntity employerEntity)
+        public async Task<bool> UpdateEmployerDetail(EmployerEntity employerEntity)
         {
-            throw new System.NotImplementedException();
+            _dataContext.EmployerEntities.Update(employerEntity);
+            return await _dataContext.SaveChangesAsync() > 0;
         }
     }
 

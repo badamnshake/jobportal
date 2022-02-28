@@ -6,10 +6,10 @@ namespace Employer.API.Interfaces
 {
     public interface IEmployerRepository
     {
-        Task<EmployerEntity> GetEmployerAsync(string email);
-        Task<EmployerEntity> AddEmployerDetailsAsync(EmployerEntity employerEntity);
-        Task<EmployerEntity> UpdateEmployerAsync(EmployerEntity employerEntity);
-        Task<bool> SaveAllChangesAsync();
+        Task<EmployerEntity> GetEmployer(string userEmail);
+        Task<bool> AddEmployerDetails(EmployerEntity employerEntity);
+        Task<bool> UpdateEmployerDetail(EmployerEntity employerEntity);
+        Task<bool> DoesEmployerExist(string userEmail);
 
     }
 }
