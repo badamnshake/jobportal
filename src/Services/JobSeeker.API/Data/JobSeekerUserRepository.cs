@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 using AutoMapper;
 using JobSeeker.API.DTOs;
 using JobSeeker.API.Interfaces;
@@ -15,10 +16,8 @@ namespace JobSeeker.API.Data
         {
             _dataContext = dataContext;
         }
-        public async Task<bool> AddJobSeekerUser(RequestJobSeekerUser request)
+        public async Task AddJobSeekerUser(RequestJobSeekerUser request)
         {
-            try
-            {
                 var result = await _dataContext.Database.ExecuteSqlRawAsync(
                     "exec spAddJobSeekerUser {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
                  request.FirstName,
@@ -31,12 +30,6 @@ namespace JobSeeker.API.Data
                  request.ExpectedSalaryAnnual,
                  request.DateOfBirth.ToString()
                 );
-                return true;
-            }
-            catch (System.Exception)
-            {
-                return false;
-            }
         }
 
         public async Task<JobSeekerUser> GetJobSeekerUser(RequestAppUserEmail request)
@@ -45,13 +38,12 @@ namespace JobSeeker.API.Data
                "exec spGetJobSeekerFromAppUserEmail {0}",
                request.AppUserEmail
             ).ToListAsync();
+            if(user.Count == 0) return null;
             return user[0];
         }
 
-        public async Task<bool> UpdateJobSeekerUser(RequestJobSeekerUser request)
+        public async Task UpdateJobSeekerUser(RequestJobSeekerUser request)
         {
-            try
-            {
                 var result = await _dataContext.Database.ExecuteSqlRawAsync(
                     "exec spUpdateJobSeekerUser {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
                  request.FirstName,
@@ -64,27 +56,13 @@ namespace JobSeeker.API.Data
                  request.ExpectedSalaryAnnual,
                  request.DateOfBirth.ToString()
                 );
-                return true;
-            }
-            catch (System.Exception)
-            {
-                return false;
-            }
         }
-        public async Task<bool> DeleteJobSeekerUser(RequestAppUserEmail request)
+        public async Task DeleteJobSeekerUser(RequestAppUserEmail request)
         {
-            try
-            {
-                var result = await _dataContext.Database.ExecuteSqlRawAsync(
-                   "exec spDeleteJobSeekerFromAppUserEmail {0}",
-                   request.AppUserEmail
-                );
-                return true;
-            }
-            catch (System.Exception)
-            {
-                return false;
-            }
+            await _dataContext.Database.ExecuteSqlRawAsync(
+               "exec spDeleteJobSeekerFromAppUserEmail {0}",
+               request.AppUserEmail
+            );
         }
 
     }

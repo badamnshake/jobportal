@@ -27,23 +27,20 @@ namespace JobSeeker.API.Controllers
         [HttpPost("add")]
         public async Task<ActionResult> AddJobSeekerUser(RequestJobSeekerUser request)
         {
-            var success = await _jobSeekerUserRepository.AddJobSeekerUser(request);
-            if (success) return Ok();
-            else return StatusCode(500, "Internal server error");
+            await _jobSeekerUserRepository.AddJobSeekerUser(request);
+            return Ok();
         }
         [HttpPut("update")]
         public async Task<ActionResult> UpdateJobSeekerUser(RequestJobSeekerUser request)
         {
-            var success = await _jobSeekerUserRepository.UpdateJobSeekerUser(request);
-            if (success) return Ok();
-            else return StatusCode(500, "Internal server error");
+            await _jobSeekerUserRepository.UpdateJobSeekerUser(request);
+            return Ok();
         }
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteJobSeekerUser(RequestAppUserEmail appUserEmail)
         {
-            var success = await _jobSeekerUserRepository.DeleteJobSeekerUser(appUserEmail);
-            if (success) return Ok();
-            else return StatusCode(500, "Internal server error");
+            await _jobSeekerUserRepository.DeleteJobSeekerUser(appUserEmail);
+            return Ok();
         }
 
     }

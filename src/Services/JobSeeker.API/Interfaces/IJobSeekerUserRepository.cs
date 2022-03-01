@@ -6,9 +6,9 @@ namespace JobSeeker.API.Interfaces
 {
     public interface IJobSeekerUserRepository 
     {
-        Task<bool> AddJobSeekerUser(RequestJobSeekerUser request);
-        Task<bool> UpdateJobSeekerUser(RequestJobSeekerUser request);
-        Task<bool> DeleteJobSeekerUser(RequestAppUserEmail request);
+        Task AddJobSeekerUser(RequestJobSeekerUser request);
+        Task UpdateJobSeekerUser(RequestJobSeekerUser request);
+        Task DeleteJobSeekerUser(RequestAppUserEmail request);
         Task<JobSeekerUser> GetJobSeekerUser(RequestAppUserEmail request);
 
     }
