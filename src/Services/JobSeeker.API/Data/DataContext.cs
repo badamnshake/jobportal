@@ -9,6 +9,7 @@ namespace JobSeeker.API.Data
         {
         }
         public DbSet<JobSeekerUser> JobSeekerUsers { get; set; }
+        public DbSet<VacancyRequest> VacancyRequests { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // base.OnModelCreating(modelBuilder);
