@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSeeker.API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220301031920_SimpleUnique")]
-    partial class SimpleUnique
+    [Migration("20220302023412_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace JobSeeker.API.Data.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
                     b.Property<string>("JobDescription")
                         .HasColumnType("nvarchar(max)");
@@ -51,7 +51,7 @@ namespace JobSeeker.API.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
                     b.HasKey("Id");
 
@@ -76,7 +76,7 @@ namespace JobSeeker.API.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -120,6 +120,9 @@ namespace JobSeeker.API.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateOfCompletion")
+                        .HasColumnType("Date");
+
                     b.Property<string>("GradeOrScore")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
@@ -134,9 +137,6 @@ namespace JobSeeker.API.Data.Migrations
 
                     b.Property<string>("University")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("YearOfCompletion")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -165,7 +165,7 @@ namespace JobSeeker.API.Data.Migrations
 
                     b.HasIndex("JobSeekerUserId");
 
-                    b.ToTable("VacancyRequest");
+                    b.ToTable("VacancyRequests");
                 });
 
             modelBuilder.Entity("JobSeeker.API.Models.Experience", b =>

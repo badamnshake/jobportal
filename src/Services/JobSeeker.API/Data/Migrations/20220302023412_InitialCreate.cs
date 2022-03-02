@@ -15,13 +15,13 @@ namespace JobSeeker.API.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppUserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppUserEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     TotalExperience = table.Column<int>(type: "int", nullable: false),
                     ExpectedSalaryAnnual = table.Column<int>(type: "int", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateOfBirth = table.Column<DateTime>(type: "Date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,8 +36,8 @@ namespace JobSeeker.API.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     JobSeekerUserId = table.Column<int>(type: "int", nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "Date", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "Date", nullable: false),
                     CompanyUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Designation = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -62,7 +62,7 @@ namespace JobSeeker.API.Data.Migrations
                     JobSeekerUserId = table.Column<int>(type: "int", nullable: false),
                     QualificationName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     University = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    YearOfCompletion = table.Column<int>(type: "int", nullable: false),
+                    DateOfCompletion = table.Column<DateTime>(type: "Date", nullable: false),
                     GradeOrScore = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
                 },
                 constraints: table =>
@@ -77,7 +77,7 @@ namespace JobSeeker.API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VacancyRequest",
+                name: "VacancyRequests",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -88,9 +88,9 @@ namespace JobSeeker.API.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VacancyRequest", x => x.Id);
+                    table.PrimaryKey("PK_VacancyRequests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VacancyRequest_JobSeekerUsers_JobSeekerUserId",
+                        name: "FK_VacancyRequests_JobSeekerUsers_JobSeekerUserId",
                         column: x => x.JobSeekerUserId,
                         principalTable: "JobSeekerUsers",
                         principalColumn: "Id",
@@ -103,13 +103,25 @@ namespace JobSeeker.API.Data.Migrations
                 column: "JobSeekerUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_JobSeekerUsers_AppUserEmail",
+                table: "JobSeekerUsers",
+                column: "AppUserEmail",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobSeekerUsers_Email",
+                table: "JobSeekerUsers",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Qualification_JobSeekerUserId",
                 table: "Qualification",
                 column: "JobSeekerUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VacancyRequest_JobSeekerUserId",
-                table: "VacancyRequest",
+                name: "IX_VacancyRequests_JobSeekerUserId",
+                table: "VacancyRequests",
                 column: "JobSeekerUserId");
         }
 
@@ -122,7 +134,7 @@ namespace JobSeeker.API.Data.Migrations
                 name: "Qualification");
 
             migrationBuilder.DropTable(
-                name: "VacancyRequest");
+                name: "VacancyRequests");
 
             migrationBuilder.DropTable(
                 name: "JobSeekerUsers");

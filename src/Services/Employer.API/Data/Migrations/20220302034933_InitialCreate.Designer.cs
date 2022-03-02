@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Employer.API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220227102312_InitialCreate")]
+    [Migration("20220302034933_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,9 @@ namespace Employer.API.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("EmployerEntityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ExperienceRequired")
                         .HasColumnType("nvarchar(max)");
 
@@ -98,7 +101,25 @@ namespace Employer.API.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployerEntityId");
+
                     b.ToTable("Vacancies");
+                });
+
+            modelBuilder.Entity("Employer.API.Entities.Vacancy", b =>
+                {
+                    b.HasOne("Employer.API.Entities.EmployerEntity", "EmployerEntity")
+                        .WithMany("Vacancies")
+                        .HasForeignKey("EmployerEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EmployerEntity");
+                });
+
+            modelBuilder.Entity("Employer.API.Entities.EmployerEntity", b =>
+                {
+                    b.Navigation("Vacancies");
                 });
 #pragma warning restore 612, 618
         }

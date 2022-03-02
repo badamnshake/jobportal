@@ -42,21 +42,33 @@ namespace Employer.API.Data.Migrations
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastDateToApply = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MinSalary = table.Column<int>(type: "int", nullable: false),
-                    MaxSalary = table.Column<int>(type: "int", nullable: false)
+                    MaxSalary = table.Column<int>(type: "int", nullable: false),
+                    EmployerEntityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vacancies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vacancies_EmployerEntities_EmployerEntityId",
+                        column: x => x.EmployerEntityId,
+                        principalTable: "EmployerEntities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vacancies_EmployerEntityId",
+                table: "Vacancies",
+                column: "EmployerEntityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmployerEntities");
+                name: "Vacancies");
 
             migrationBuilder.DropTable(
-                name: "Vacancies");
+                name: "EmployerEntities");
         }
     }
 }

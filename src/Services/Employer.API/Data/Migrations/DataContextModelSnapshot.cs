@@ -64,9 +64,8 @@ namespace Employer.API.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("CreatedByEmailUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EmployerEntityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ExperienceRequired")
                         .HasColumnType("nvarchar(max)");
@@ -100,7 +99,25 @@ namespace Employer.API.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployerEntityId");
+
                     b.ToTable("Vacancies");
+                });
+
+            modelBuilder.Entity("Employer.API.Entities.Vacancy", b =>
+                {
+                    b.HasOne("Employer.API.Entities.EmployerEntity", "EmployerEntity")
+                        .WithMany("Vacancies")
+                        .HasForeignKey("EmployerEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EmployerEntity");
+                });
+
+            modelBuilder.Entity("Employer.API.Entities.EmployerEntity", b =>
+                {
+                    b.Navigation("Vacancies");
                 });
 #pragma warning restore 612, 618
         }

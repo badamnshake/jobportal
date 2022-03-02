@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSeeker.API.Models
 {
@@ -12,8 +13,10 @@ namespace JobSeeker.API.Models
         [MaxLength(30)]
         public string CompanyName { get; set; }
         [Required]
+        [Column(TypeName ="Date")]
         public DateTime StartDate { get; set; }
         [Required]
+        [Column(TypeName ="Date")]
         public DateTime EndDate { get; set; }
         public string CompanyUrl { get; set; }
         [Required]

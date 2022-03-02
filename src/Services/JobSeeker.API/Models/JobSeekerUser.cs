@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobSeeker.API.Models
 {
@@ -26,6 +28,7 @@ namespace JobSeeker.API.Models
         public string Address { get; set; }
         public int TotalExperience { get; set; }
         public int ExpectedSalaryAnnual { get; set; }
+        [Column(TypeName ="Date")]
         public DateTime DateOfBirth { get; set; }
         public List<Qualification> Qualifications { get; set; }
         public List<VacancyRequest> VacancyRequests { get; set; }
