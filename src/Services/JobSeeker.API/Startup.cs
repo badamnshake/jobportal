@@ -30,6 +30,8 @@ namespace JobSeeker.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+            services.AddScoped<IQualificationRepository, QualificationRepository>();
+            // services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
             services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
             services.AddDbContext<DataContext>(options =>
             {

@@ -44,7 +44,7 @@ namespace Identity.API.Data
                 Email = registerDto.Email,
                 FullName = registerDto.FullName,
                 Phone = registerDto.Phone,
-                UserType = registerDto.UserType == 1 ? UserType.JobSeeker : UserType.Employer,
+                UserType = (UserType)registerDto.UserType,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key
             };
@@ -103,6 +103,7 @@ namespace Identity.API.Data
         [HttpGet("get-role")]
         public async Task<ActionResult<int>> GetRole()
         {
+            // job seeker is 0 and employer is 1
             string email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             // HttpContext.User. gotta check if i can use claims
             if (!(await _userRepository.DoesUserExist(email)))
@@ -110,7 +111,7 @@ namespace Identity.API.Data
                 return Unauthorized("Invalid Credentials");
             }
             var user = await _userRepository.GetUserAsync(email);
-            return user.UserType == UserType.JobSeeker ? 1 : 2;
+            return (int)user.UserType;
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         public UserDto CreateUserDtoWithToken(User user)

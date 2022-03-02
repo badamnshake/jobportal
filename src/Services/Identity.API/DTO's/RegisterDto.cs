@@ -22,7 +22,7 @@ namespace Identity.API.DTOs
         [MaxLength(15)]
         public string Phone { get; set; }
 
-        [Range(1, 2)]
+        [Range(0, 1)]
         public int UserType { get; set; }
     }
 }

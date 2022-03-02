@@ -60,7 +60,7 @@ namespace JobSeeker.API.Data
         public async Task DeleteJobSeekerUser(RequestAppUserEmail request)
         {
             await _dataContext.Database.ExecuteSqlRawAsync(
-               "exec spDeleteJobSeekerFromAppUserEmail {0}",
+               "exec spDeleteJobSeekerUser {0}",
                request.AppUserEmail
             );
         }

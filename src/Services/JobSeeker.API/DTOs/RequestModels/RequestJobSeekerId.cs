@@ -1,11 +1,11 @@
+
 using System.ComponentModel.DataAnnotations;
 
 namespace JobSeeker.API.DTOs
 {
-    public class RequestAppUserEmail
+    public class RequestJobSeekerId
     {
         [Required]
-        [EmailAddress]
-        public string AppUserEmail {get; set;}
+        public int Id {get; set;}
     }
 }

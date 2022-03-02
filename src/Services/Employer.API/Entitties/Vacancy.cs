@@ -5,9 +5,7 @@ namespace Employer.API.Entities
 {
     public class Vacancy
     {
-        // id is automatically assigned to as primary key in entity framework
         public int Id { get; set; }
-        // organization name which it is published by
         public string PublishedBy { get; set; }
         public DateTime PublishedDate { get; set; }
         public int NoOfVacancies { get; set; }
@@ -18,9 +16,9 @@ namespace Employer.API.Entities
         public DateTime LastDateToApply { get; set; }
         public int MinSalary { get; set; }
         public int MaxSalary { get; set; }
-        [Required]
-        [EmailAddress]
-        public string CreatedByEmailUser { get; set;}
+        // foreign key to employer entity config
+        public int EmployerEntityId { get; set; }
+        public EmployerEntity EmployerEntity { get; set; }
     }
 
 }

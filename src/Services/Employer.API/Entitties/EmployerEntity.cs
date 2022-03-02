@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Employer.API.Entities
@@ -23,6 +24,8 @@ namespace Employer.API.Entities
         [Required]
         [EmailAddress]
         public string CreatedByEmailUser { get; set; }
+        // by doing this vacancy columns cascade and depend on employer entity to work
+        public List<Vacancy> Vacancies { get; set; }
 
     }
 
