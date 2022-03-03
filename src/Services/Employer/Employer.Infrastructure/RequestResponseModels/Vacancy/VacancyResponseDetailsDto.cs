@@ -15,5 +15,6 @@ namespace Employer.Infrastructure.RequestResponseModels.Vacancy
         public DateTime LastDateToApply { get; set; }
         public int MinSalary { get; set; }
         public int MaxSalary { get; set; }
+        public int EmployerEntityId { get; set; }
     }
 }

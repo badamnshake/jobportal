@@ -34,6 +34,7 @@ namespace Identity.API
             });
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddCors();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
             {
@@ -70,6 +71,7 @@ namespace Identity.API
 
             app.UseRouting();
 
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins());
             app.UseAuthentication();
             app.UseAuthorization();
 

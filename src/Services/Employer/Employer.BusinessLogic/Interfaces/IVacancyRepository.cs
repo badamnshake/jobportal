@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Employer.Infrastructure.Helpers;
 using Employer.Infrastructure.Models;
+using Employer.Infrastructure.RequestResponseModels.Vacancy;
 
 namespace Employer.BusinessLogic.Interfaces
 {
@@ -13,15 +14,13 @@ namespace Employer.BusinessLogic.Interfaces
         Task<bool> DeleteVacancy(Vacancy vacancy);
 
         Task<Vacancy> GetVacancyDetails(int id);
-        // Task<bool> DoesVacancyExist(int id);
-
         // get vacancies from some...
-        Task<IEnumerable<Vacancy>> GetVacanciesFromOrganization(string organizationName);
+        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromOrganization(string organizationName, PageParams pageParams);
 
         // Task<IEnumerable<Vacancy>> GetVacanciesFromOrganizationType(string organizationType);
-        Task<IEnumerable<Vacancy>> GetVacanciesFromPublishedDate(DateTime publishedDate);
-        Task<PagedList<Vacancy>> GetVacanciesFromLastDate(DateTime lastDate, PageParams pageParams);
-        Task<IEnumerable<Vacancy>> GetVacanciesFromSalary(int minSalary);
-        Task<IEnumerable<Vacancy>> GetVacanciesFromLocation(string location);
+        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromPublishedDate(DateTime publishedDate, PageParams pageParams);
+        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromLastDate(DateTime lastDate, PageParams pageParams);
+        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromSalary(int minSalary, PageParams pageParams);
+        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromLocation(string location, PageParams pageParams);
     }
 }

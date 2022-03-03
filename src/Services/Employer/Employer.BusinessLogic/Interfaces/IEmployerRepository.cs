@@ -9,5 +9,6 @@ namespace Employer.BusinessLogic.Interfaces
         Task<bool> CreateEmployerDetails(EmployerEntity employerEntity);
         Task<bool> UpdateEmployerDetail(EmployerEntity employerEntity);
         Task<bool> DoesEmployerExist(string userEmail);
+        Task<bool> DoesEmployerExistById(int id);
     }
 }

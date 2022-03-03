@@ -25,6 +25,10 @@ namespace Employer.BusinessLogic.Repositories
         {
             return await _dataContext.EmployerEntities.AnyAsync(x => x.CreatedByEmailUser == userEmail);
         }
+        public async Task<bool> DoesEmployerExistById(int id)
+        {
+            return await _dataContext.EmployerEntities.FindAsync(id) != null;
+        }
 
         public async Task<EmployerEntity> GetEmployer(string userEmail)
         {
