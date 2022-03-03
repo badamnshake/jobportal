@@ -9,6 +9,9 @@ using Employer.BusinessLogic.Interfaces;
 using Employer.BusinessLogic.Repositories;
 using Employer.DataAccess;
 using Employer.Infrastructure.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Employer.API
 {
@@ -31,6 +34,23 @@ namespace Employer.API
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
+            {
+                var key = Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Jwt:key"));
+                jwt.SaveToken = true;
+                jwt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+
+                    ValidateIssuer = true,
+                    ValidIssuer = Configuration.GetValue<string>("Jwt:Issuer"),
+                   
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = false
+                };
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -50,6 +70,7 @@ namespace Employer.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

@@ -4,6 +4,7 @@ using Employer.BusinessLogic.Interfaces;
 using Employer.Infrastructure.Models;
 using Employer.Infrastructure.RequestResponseModels;
 using Employer.Infrastructure.RequestResponseModels.Employer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employer.API.Controllers
@@ -34,6 +35,7 @@ namespace Employer.API.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpPost("create-details")]
         public async Task<ActionResult> CreateDetails(DetailsDto details)
         {
@@ -47,6 +49,7 @@ namespace Employer.API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpPut("update-details")]
         public async Task<ActionResult> UpdateDetails(DetailsDto details)
         {

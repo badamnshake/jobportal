@@ -6,6 +6,7 @@ using Employer.BusinessLogic.Interfaces;
 using Employer.Infrastructure.Helpers;
 using Employer.Infrastructure.Models;
 using Employer.Infrastructure.RequestResponseModels.Vacancy;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employer.API.Controllers
@@ -34,6 +35,7 @@ namespace Employer.API.Controllers
             return _mapper.Map<VacancyReponseDetailsDto>(vacancy);
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpPost("create-details")]
         public async Task<ActionResult<VacancyReponseDetailsDto>> CreateDetails(VacancyDetailsDto details)
         {
@@ -49,6 +51,7 @@ namespace Employer.API.Controllers
             return BadRequest("login as employer");
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpPut("update-details")]
         public async Task<ActionResult> UpdateDetails(VacancyUpdateDto details)
         {
@@ -58,6 +61,7 @@ namespace Employer.API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteVacancy(VacancyDeleteDto details)
         {
