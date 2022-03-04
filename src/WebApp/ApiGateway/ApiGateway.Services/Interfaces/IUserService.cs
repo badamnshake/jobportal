@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using ApiGateway.Infrastructure.Identity.RequestResponseModels;
 
 namespace ApiGateway.Services.Interfaces
@@ -7,7 +7,9 @@ namespace ApiGateway.Services.Interfaces
     public interface IUserService
     {
 
-        public Task<ActionResult<UserDto>> ChangePassword(ChangePasswordDto changePasswordDto);
+        public Task<HttpResponseMessage> ChangePassword(ChangePasswordDto changePasswordDto);
+        public Task<HttpResponseMessage> Register(RegisterDto registerDto);
+        public Task<HttpResponseMessage> Login(LoginDto loginDto);
     }
 
 }

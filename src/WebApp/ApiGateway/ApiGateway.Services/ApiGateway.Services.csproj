@@ -8,4 +8,8 @@
     <ProjectReference Include="..\ApiGateway.Infrastructure\ApiGateway.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EndPointsConfig" />
+  </ItemGroup>
+
 </Project>

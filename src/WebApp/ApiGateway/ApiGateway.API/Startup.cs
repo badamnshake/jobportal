@@ -1,4 +1,5 @@
 using System;
+using ApiGateway.API.Extensions;
 using ApiGateway.Services.Interfaces;
 using ApiGateway.Services.Services;
 using Microsoft.AspNetCore.Builder;
@@ -22,33 +23,7 @@ namespace ApiGateway.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // http clients
-            services.AddHttpClient<IEmployerService, EmployerService>(c =>
-            {
-                c.BaseAddress = new Uri(Configuration.GetValue<string>("ApiSettings:EmployerUrl"));
-            });
-            services.AddHttpClient<IExperienceService, ExperienceService>(
-                c => { c.BaseAddress = new Uri(Configuration.GetValue<string>("ApiSettings:JobSeekerUrl")); }
-            );
-            services.AddHttpClient<IJobSeekerUserService, JobSeekerUserService>(
-                c => { c.BaseAddress = new Uri(Configuration.GetValue<string>("ApiSettings:JobSeekerUrl")); }
-            );
-            services.AddHttpClient<IQualificationService, QualificationService>(
-                c => { c.BaseAddress = new Uri(Configuration.GetValue<string>("ApiSettings:JobSeekerUrl")); }
-            );
-            services.AddHttpClient<IUserService, UserService>(c =>
-                {
-                    c.BaseAddress = new Uri(Configuration.GetValue<string>("ApiSettings:IdentityUrl"));
-                }
-            );
-            services.AddHttpClient<IVacancyRequestService, VacancyRequestService>(
-                c => { c.BaseAddress = new Uri(Configuration.GetValue<string>("ApiSettings:JobSeekerUrl")); }
-            );
-            services.AddHttpClient<IVacancyService, VacancyService>(c =>
-                {
-                    c.BaseAddress = new Uri(Configuration.GetValue<string>("ApiSettings:EmployerUrl"));
-                }
-            );
+            services.AddApplicationServices(Configuration);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

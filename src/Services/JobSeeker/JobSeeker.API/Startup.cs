@@ -1,16 +1,9 @@
-using System.Text;
-using JobSeeker.BusinessLogic.Interfaces;
-using JobSeeker.BusinessLogic.Repositories;
-using JobSeeker.DataAccess;
-using JobSeeker.Infrastrucure.Helpers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using JobSeeker.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace JobSeeker.API
@@ -27,32 +20,7 @@ namespace JobSeeker.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-            services.AddScoped<IQualificationRepository, QualificationRepository>();
-            services.AddScoped<IExperienceRepository, ExperienceRepository>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
-            {
-                var key = Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Jwt:key"));
-                jwt.SaveToken = true;
-                jwt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-
-                    ValidateIssuer = true,
-                    ValidIssuer = Configuration.GetValue<string>("Jwt:Issuer"),
-                   
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    RequireExpirationTime = false
-                };
-            });
-            // services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
-            services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            services.AddApplicationServices(Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

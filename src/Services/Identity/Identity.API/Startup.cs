@@ -1,17 +1,10 @@
-using Identity.API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
-using Identity.BusinessLogic;
-using Identity.BusinessLogic.Interfaces;
-using Identity.DataAccess;
+using Identity.API.Extensions;
 
 namespace Identity.API
 {
@@ -28,29 +21,7 @@ namespace Identity.API
         public void ConfigureServices(IServiceCollection services)
         {
             // add services
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddCors();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
-            {
-                var key = Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt")["key"]);
-                jwt.SaveToken = true;
-                jwt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    RequireExpirationTime = false
-                };
-            });
-
+            services.AddApplicationServices(Configuration);
             //
             services.AddControllers();
             services.AddSwaggerGen(c =>
