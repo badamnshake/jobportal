@@ -20,7 +20,7 @@ namespace JobSeeker.BusinessLogic.Repositories
 
         public async Task AddQualification(ReqAddQualification request)
         {
-            await _dataContext.Database.ExecuteSqlRawAsync(
+            var query = _dataContext.Qualifications.FromSqlRaw(
                 "exec spAddQualification {0}, {1}, {2}, {3}, {4}",
                 request.JobSeekerUserId,
                 request.QualificationName,
@@ -28,14 +28,28 @@ namespace JobSeeker.BusinessLogic.Repositories
                 request.DateOfCompletion,
                 request.GradeOrScore
             );
+           await query.SingleOrDefaultAsync();
+           
+            // await _dataContext.Database.ExecuteSqlRawAsync(
+           
+            //     "exec spAddQualification {0}, {1}, {2}, {3}, {4}",
+            //     request.JobSeekerUserId,
+            //     request.QualificationName,
+            //     request.University,
+            //     request.DateOfCompletion,
+            //     request.GradeOrScore
+            // );
         }
 
         public async Task DeleteQualification(ReqDelQualification request)
         {
-            await _dataContext.Database.ExecuteSqlRawAsync(
+            var query  = _dataContext.Qualifications.FromSqlRaw(
                 "exec spDeleteQualification {0}",
                 request.Id
             );
+           await query.SingleOrDefaultAsync();
+            // await _dataContext.Database.ExecuteSqlRawAsync(
+            // );
         }
 
         public async Task<IEnumerable<Qualification>> GetQualificationsOfJobSeeker(RequestJobSeekerId request)
