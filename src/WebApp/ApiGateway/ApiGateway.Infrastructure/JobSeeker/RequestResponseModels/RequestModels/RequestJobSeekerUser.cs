@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels
+namespace ApiGateway.Infrastructure.JobSeeker.RequestResponseModels.RequestModels
 {
     public class RequestJobSeekerUser
     {

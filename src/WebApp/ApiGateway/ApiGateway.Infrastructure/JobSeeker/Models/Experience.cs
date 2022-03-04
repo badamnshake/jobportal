@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JobSeeker.Infrastrucure.Models
+namespace ApiGateway.Infrastructure.JobSeeker.Models
 {
     public class Experience
     {

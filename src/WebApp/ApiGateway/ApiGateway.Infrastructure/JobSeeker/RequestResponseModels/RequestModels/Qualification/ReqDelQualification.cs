@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Qualification
+namespace ApiGateway.Infrastructure.JobSeeker.RequestResponseModels.RequestModels.Qualification
 {
     public class ReqDelQualification
     {

@@ -1,4 +1,4 @@
-namespace Employer.Infrastructure.RequestResponseModels.Employer
+namespace ApiGateway.Infrastructure.Employer.RequestResponseModels.Employer
 {
     public class EmployerResponseDto
     {

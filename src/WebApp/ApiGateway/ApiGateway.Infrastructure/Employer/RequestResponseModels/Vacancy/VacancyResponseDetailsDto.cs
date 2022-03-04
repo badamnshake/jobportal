@@ -1,6 +1,6 @@
 using System;
 
-namespace Employer.Infrastructure.RequestResponseModels.Vacancy
+namespace ApiGateway.Infrastructure.Employer.RequestResponseModels.Vacancy
 {
     public class VacancyReponseDetailsDto
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Employer.Infrastructure.Models
+namespace ApiGateway.Infrastructure.Employer.Models
 {
     public class EmployerEntity
     {

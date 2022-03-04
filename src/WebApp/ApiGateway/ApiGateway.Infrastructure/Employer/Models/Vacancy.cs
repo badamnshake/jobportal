@@ -1,6 +1,6 @@
 using System;
 
-namespace Employer.Infrastructure.Models
+namespace ApiGateway.Infrastructure.Employer.Models
 {
     public class Vacancy
     {

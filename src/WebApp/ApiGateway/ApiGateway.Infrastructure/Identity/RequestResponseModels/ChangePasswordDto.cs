@@ -1,4 +1,4 @@
-namespace Identity.Infrastructure.RequestResponseModels
+namespace ApiGateway.Infrastructure.Identity.RequestResponseModels
 {
     public class ChangePasswordDto
     {

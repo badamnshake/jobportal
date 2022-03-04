@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Identity.Infrastructure.RequestResponseModels
+namespace ApiGateway.Infrastructure.Identity.RequestResponseModels
 {
     public class RegisterDto
     {

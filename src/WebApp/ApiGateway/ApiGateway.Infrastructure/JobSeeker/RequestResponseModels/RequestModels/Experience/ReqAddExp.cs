@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Experience
+namespace ApiGateway.Infrastructure.JobSeeker.RequestResponseModels.RequestModels.Experience
 {
     public class ReqAddExp
     {

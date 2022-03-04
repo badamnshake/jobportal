@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Employer.Infrastructure.RequestResponseModels.Vacancy
+namespace ApiGateway.Infrastructure.Employer.RequestResponseModels.Vacancy
 {
     public class VacancyDetailsDto
     {

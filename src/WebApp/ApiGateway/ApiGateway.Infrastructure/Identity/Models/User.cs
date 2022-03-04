@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Identity.Infrastructure.Models
+namespace ApiGateway.Infrastructure.Identity.Models
 {
     public class User
     {

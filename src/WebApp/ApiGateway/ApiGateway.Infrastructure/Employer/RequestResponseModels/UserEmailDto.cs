@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Employer.Infrastructure.RequestResponseModels
+namespace ApiGateway.Infrastructure.Employer.RequestResponseModels
 {
     public class UserEmailDto
     {

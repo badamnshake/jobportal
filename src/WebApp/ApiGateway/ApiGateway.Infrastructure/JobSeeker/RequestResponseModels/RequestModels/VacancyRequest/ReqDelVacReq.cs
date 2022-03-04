@@ -1,4 +1,4 @@
-namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.VacancyRequest
+namespace ApiGateway.Infrastructure.JobSeeker.RequestResponseModels.RequestModels.VacancyRequest
 {
     public class ReqDelVacReq
     {

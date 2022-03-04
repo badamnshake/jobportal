@@ -1,6 +1,6 @@
 using System;
 
-namespace JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels
+namespace ApiGateway.Infrastructure.JobSeeker.RequestResponseModels.ResponseModels
 {
     public class ResponseJobSeekerUser
     {
