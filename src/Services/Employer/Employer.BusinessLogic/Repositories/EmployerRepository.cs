@@ -15,6 +15,11 @@ namespace Employer.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
+        public async Task<EmployerEntity> GetEmployerFromId(int id)
+        {
+            return await _dataContext.EmployerEntities.FindAsync(id);
+        }
+
         public async Task<bool> CreateEmployerDetails(EmployerEntity employerEntity)
         {
             await _dataContext.EmployerEntities.AddAsync(employerEntity);
@@ -32,7 +37,9 @@ namespace Employer.BusinessLogic.Repositories
 
         public async Task<EmployerEntity> GetEmployer(string userEmail)
         {
-            return await _dataContext.EmployerEntities.SingleOrDefaultAsync(x => x.CreatedByEmailUser == userEmail);
+            return  await _dataContext.EmployerEntities
+                .Include(x => x.Vacancies)
+                .SingleOrDefaultAsync(x => x.CreatedByEmailUser == userEmail);
         }
 
         public async Task<bool> UpdateEmployerDetail(EmployerEntity employerEntity)

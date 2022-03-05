@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Employer.API.Extensions;
@@ -19,7 +21,8 @@ namespace Employer.API.Controllers
         private readonly IEmployerRepository _employerRepository;
         private readonly IMapper _mapper;
 
-        public VacancyController(IVacancyRepository vacancyRepository, IMapper mapper, IEmployerRepository employerRepository)
+        public VacancyController(IVacancyRepository vacancyRepository, IMapper mapper,
+            IEmployerRepository employerRepository)
         {
             _mapper = mapper;
             _vacancyRepository = vacancyRepository;
@@ -39,24 +42,26 @@ namespace Employer.API.Controllers
         [HttpPost("create-details")]
         public async Task<ActionResult<VacancyReponseDetailsDto>> CreateDetails(VacancyDetailsDto details)
         {
-            if (await _employerRepository.DoesEmployerExistById(details.EmployerEntityId))
-            {
-                var vac = _mapper.Map<Vacancy>(details);
-                vac.PublishedDate = DateTime.Now;
-                var vacancy = await _vacancyRepository.AddVacancy(vac);
-                return _mapper.Map<VacancyReponseDetailsDto>(vacancy);
-                
-            }
+            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employer = await _employerRepository.GetEmployer(email);
+            
+            if (employer == null)
+                return BadRequest("login as employer");
 
-            return BadRequest("login as employer");
+            var vac = _mapper.Map<Vacancy>(details);
+            vac.PublishedDate = DateTime.Now;
+            vac.EmployerEntityId = employer.Id;
+            var vacancy = await _vacancyRepository.AddVacancy(vac);
+            return _mapper.Map<VacancyReponseDetailsDto>(vacancy);
         }
 
         [Authorize(Roles = "Employer")]
         [HttpPut("update-details")]
         public async Task<ActionResult> UpdateDetails(VacancyUpdateDto details)
         {
-            var vacancy = await _vacancyRepository.GetVacancyDetails(details.Id);
+            var vacancy = await VerifyTheTokenHolderAndFindVacancy(details.Id);
             if (vacancy == null) return BadRequest(" the vacancy doesn't exist");
+
             await _vacancyRepository.UpdateVacancy(vacancy);
             return Ok();
         }
@@ -65,10 +70,23 @@ namespace Employer.API.Controllers
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteVacancy(VacancyDeleteDto details)
         {
-            var vacancy = await _vacancyRepository.GetVacancyDetails(details.Id);
+            var vacancy = await VerifyTheTokenHolderAndFindVacancy(details.Id);
             if (vacancy == null) return BadRequest(" the vacancy doesn't exist");
             await _vacancyRepository.DeleteVacancy(vacancy);
             return Ok();
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<Vacancy> VerifyTheTokenHolderAndFindVacancy(int id)
+        {
+            // here when updating details or deleting
+            // it is needed to verify that the owner of the token is the owner of the
+            // vacancy that's why instead of getting vacancies from vacancy table we go other way around
+            // even if vacancy exists but token holder isn't the owner of the vacancy he cant change
+            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var emp = await _employerRepository.GetEmployer(email);
+            var vacancy = emp.Vacancies.SingleOrDefault(vac => vac.Id == id);
+            return vacancy;
         }
 
         [HttpGet("get-vacancies/date")]
@@ -89,7 +107,7 @@ namespace Employer.API.Controllers
             {
                 var vacancies = await _vacancyRepository.GetVacanciesFromPublishedDate(publishedDate, pageParams);
                 AddPaginationHeaderFromPagedList(vacancies);
-            return vacancies;
+                return vacancies;
             }
         }
 

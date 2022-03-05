@@ -79,24 +79,18 @@ namespace Identity.API.Controllers
             return CreateUserDtoWithToken(user);
         }
 
-        [Authorize]
-        [HttpGet("authenticate")]
-        public ActionResult Authenticate()
-        {
-            return Ok();
-        }
 
-        [Authorize]
-        [HttpGet("get-role")]
-        public async Task<ActionResult<int>> GetRole()
-        {
-            // job seeker is 0 and employer is 1
-            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // HttpContext.User. gotta check if i can use claims
-            if (!await _userRepository.DoesUserExist(email)) return Unauthorized("Invalid Credentials");
-            var user = await _userRepository.GetUserAsync(email);
-            return (int) user.UserType;
-        }
+        // [Authorize]
+        // [HttpGet("get")]
+        // public async Task<ActionResult<>> GetRole()
+        // {
+        //     // job seeker is 0 and employer is 1
+        //     var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //     // HttpContext.User. gotta check if i can use claims
+        //     if (!await _userRepository.DoesUserExist(email)) return Unauthorized("Invalid Credentials");
+        //     var user = await _userRepository.GetUserAsync(email);
+        //     return (int) user.UserType;
+        // }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public UserDto CreateUserDtoWithToken(User user)

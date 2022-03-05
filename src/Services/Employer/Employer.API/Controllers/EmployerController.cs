@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Employer.BusinessLogic.Interfaces;
@@ -26,25 +27,31 @@ namespace Employer.API.Controllers
         public async Task<ActionResult<EmployerResponseDto>> GetDetails(UserEmailDto userEmailDto)
         {
             var email = userEmailDto.Email;
-            if (await _employerRepository.DoesEmployerExist(email))
-            {
-                var obj = _mapper.Map<EmployerResponseDto>(await _employerRepository.GetEmployer(email));
-                return obj;
-            }
+            if (!await _employerRepository.DoesEmployerExist(email))
+                return BadRequest("employer with given email not found");
+            var obj = _mapper.Map<EmployerResponseDto>(await _employerRepository.GetEmployer(email));
+            return obj;
+        }
 
-            return BadRequest();
+        [HttpGet("get-details/{id:int}")]
+        public async Task<ActionResult<EmployerResponseDto>> GetDetails(int id)
+        {
+            var emp = await _employerRepository.GetEmployerFromId(id);
+            if (emp == null) return BadRequest("employer not found");
+            return _mapper.Map<EmployerResponseDto>(emp);
         }
 
         [Authorize(Roles = "Employer")]
         [HttpPost("create-details")]
         public async Task<ActionResult> CreateDetails(DetailsDto details)
         {
+            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //    _employerRepository.DoesEmployerExist(get email from token)
-            if (await _employerRepository.DoesEmployerExist(details.CreatedByEmailUser))
+            if (await _employerRepository.DoesEmployerExist(email))
                 return BadRequest("Employer already exists");
+
             var empEntity = _mapper.Map<EmployerEntity>(details);
-            // string email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // empEntity.CreatedByEmailUser = email;
+            empEntity.CreatedByEmailUser = email;
             await _employerRepository.CreateEmployerDetails(empEntity);
             return Ok();
         }
@@ -53,9 +60,13 @@ namespace Employer.API.Controllers
         [HttpPut("update-details")]
         public async Task<ActionResult> UpdateDetails(DetailsDto details)
         {
-            //    _employerRepository.DoesEmployerExist(get email from token)
-            var empEntity = await _employerRepository.GetEmployer(details.CreatedByEmailUser);
-            _mapper.Map<DetailsDto, EmployerEntity>(details, empEntity);
+            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!await _employerRepository.DoesEmployerExist(email))
+                return BadRequest("Employer Doesn't exist please create your employer profile first");
+
+            var empEntity = await _employerRepository.GetEmployer(email);
+            _mapper.Map(details, empEntity);
             await _employerRepository.UpdateEmployerDetail(empEntity);
             return Ok();
         }

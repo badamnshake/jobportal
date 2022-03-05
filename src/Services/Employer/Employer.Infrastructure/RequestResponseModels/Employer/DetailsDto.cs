@@ -12,6 +12,5 @@ namespace Employer.Infrastructure.RequestResponseModels.Employer
         public int StartYear { get; set; }
         public string About { get; set; }
 
-        [Required] [EmailAddress] public string CreatedByEmailUser { get; set; }
     }
 }
