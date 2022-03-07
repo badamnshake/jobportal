@@ -1,0 +1,41 @@
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="p-3 py-5 mx-3">
+    <div class="d-flex justify-content-around align-items-center mb-3">
+      <h4 class="text-center">
+        <span class="text-primary"> Company Name: </span>
+        {{ employer.organizationName }}
+      </h4>
+      <h4 class="text-center">
+        <span class="text-primary">Company Type: </span>
+        {{ employer.organizationType }}
+      </h4>
+    </div>
+    <div class="col-md-12 mt-2 border-bottom border-success">
+      <div class="text-primary">Company Email</div>
+      {{ employer.companyEmail }}
+    </div>
+    <div class="col-md-12 mt-2 border-bottom border-success">
+      <div class="text-primary">Company Phone</div>
+      {{ employer.companyPhone }}
+    </div>
+    <div class="row mt-2 p-1">
+      <div class="col-md-6 border-bottom border-success mt-3">
+        <div class="text-primary">Employees</div>
+        {{ employer.noOfEmployees }}
+      </div>
+      <div class="col-md-6 border-bottom border-success mt-3">
+        <div class="text-primary">Start Year</div>
+        {{ employer.startYear }}
+      </div>
+      <div class="col-md-12 border-bottom border-success mt-3">
+        <div class="text-primary">About</div>
+        {{ employer.about }}
+      </div>
+    </div>
+    <div class="mt-5 text-center">
+      <button class="btn btn-primary profile-button" type="button">
+        View Posted Vacancies
+      </button>
+    </div>
+  </div>
+</div>

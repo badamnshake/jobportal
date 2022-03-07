@@ -1,0 +1,51 @@
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="p-3 py-5 mx-3">
+    <div class="d-flex justify-content-around align-items-center mb-3">
+      <h4 class="text-center">
+        <span class="text-primary">Published By: </span>
+        {{ vacancy.publishedBy }}
+      </h4>
+      <h4 class="text-center">
+        <span class="text-primary">Published Date: </span>
+        {{ vacancy.publishedDate }}
+      </h4>
+      <h4 class="text-center">
+        <span class="text-primary">Total Vacancies: </span>
+        {{ vacancy.noOfVacancies }}
+      </h4>
+    </div>
+    <div class="d-flex justify-content-around align-items-center mb-3">
+      <h4 class="text-center">
+        <span class="text-primary">Experience Required: </span>
+        {{ vacancy.experienceRequired }}
+      </h4>
+      <h4 class="text-center">
+        <span class="text-primary">Salary: </span>
+        {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
+      </h4>
+      <h4 class="text-center">
+        <span class="text-primary">Location: </span>
+        {{ vacancy.location }}
+      </h4>
+    </div>
+    <div class="row mt-2 p-1">
+      <div class="col-md-6 border-bottom border-success mt-3">
+        <div class="text-primary">Minimum Qualification: </div>
+        {{ vacancy.minimumQualification }}
+      </div>
+      <div class="col-md-6 border-bottom border-success mt-3">
+        <div class="text-primary">Last Date to Apply: </div>
+        {{ vacancy.lastDateToApply }}
+      </div>
+      <div class="col-md-12 border-bottom border-success mt-3">
+        <div class="text-primary">About</div>
+        {{ vacancy.jobDescription }}
+      </div>
+    </div>
+    <div class="mt-5 text-center">
+      <button class="btn btn-primary profile-button" type="button">
+        Apply
+      </button>
+    </div>
+  </div>
+</div>

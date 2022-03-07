@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-5">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">Job-Portal</a>
+
+    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+      <!-- <ng-container *ngIf="accountService.currentUser$ | async"> -->
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page">Home</a>
+      </li>
+      <li class="nav-item" *ngIf="!(accountService.currentUser$ | async)">
+        <a class="nav-link" routerLinkActive="active" routerLink="/login"
+          >Login</a
+        >
+      </li>
+      <li class="nav-item" *ngIf="!(accountService.currentUser$ | async)">
+        <a class="nav-link" routerLinkActive="active" routerLink="/register"
+          >Register</a
+        >
+      </li>
+      <!-- </ng-container> -->
+      <li class="nav-item" *ngIf="accountService.currentUser$ | async">
+        <a (click)="logout()" class="nav-link"> Logout </a>
+      </li>
+    </ul>
+
+    <div
+      class="col text-end"
+      *ngIf="(accountService.currentRole$ | async) == 'Employer'"
+    >
+      <div ngbDropdown class="d-inline-block">
+        <button
+          class="btn btn-light"
+          id="dropdownMenuEmployer"
+          ngbDropdownToggle
+        >
+          Employer Menu
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuEmployer">
+          <button (click)="btnViewEmployerProfile()" ngbDropdownItem>
+            View Profile
+          </button>
+          <button (click)="btnEditEmployerProfile()" ngbDropdownItem>
+            Edit Profile
+          </button>
+          <button (click)="btnViewEmployerPostedVacancies()" ngbDropdownItem>
+            View/Edit Posted Vacancies
+          </button>
+          <button (click)="btnViewEmployerVacancyRequests()" ngbDropdownItem>
+            Vacancy Requests
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col text-end"
+      *ngIf="(accountService.currentRole$ | async) == 'JobSeeker'"
+    >
+      <div ngbDropdown class="d-inline-block">
+        <button
+          class="btn btn-light"
+          id="dropdownMenuJobSeeker"
+          ngbDropdownToggle
+        >
+          Seeker Menu
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuJobSeeker">
+          <button (click)="btnViewJSProfile()" ngbDropdownItem>
+            View Profile
+          </button>
+          <button (click)="btnEditJSProfile()" ngbDropdownItem>
+            Edit Profile
+          </button>
+          <button (click)="btnViewJSAppliedVacReq()" ngbDropdownItem>
+            Applied Vacancy Requests
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

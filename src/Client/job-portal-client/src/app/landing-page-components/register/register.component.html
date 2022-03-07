@@ -1,0 +1,107 @@
+<form
+  [formGroup]="registerForm"
+  (ngSubmit)="registerForm.valid && register()"
+  class="text-center border border-light p-5"
+>
+  <p class="h4 mb-4">Register</p>
+
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        registerForm.get('fullname').errors &&
+        registerForm.get('fullName').touched
+      "
+      type="text"
+      formControlName="fullname"
+      class="form-control"
+      placeholder="FullName"
+    />
+    <div class="invalid-feedback">Please enter a fullname</div>
+  </div>
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        registerForm.get('email').errors && registerForm.get('email').touched
+      "
+      type="email"
+      formControlName="email"
+      class="form-control"
+      placeholder="E-mail"
+    />
+    <div class="invalid-feedback">Please enter valid email</div>
+  </div>
+
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        registerForm.get('username').errors &&
+        registerForm.get('userName').touched
+      "
+      type="text"
+      formControlName="username"
+      class="form-control"
+      placeholder="Username"
+    />
+    <div class="invalid-feedback">Please enter a username</div>
+  </div>
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        registerForm.get('password').errors &&
+        registerForm.get('password').touched
+      "
+      type="password"
+      formControlName="password"
+      class="form-control"
+      placeholder="Password"
+    />
+    <div class="invalid-feedback">Please enter password of length 8</div>
+  </div>
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        registerForm.get('phone').errors && registerForm.get('phone').touched
+      "
+      type="text"
+      formControlName="phone"
+      class="form-control"
+      placeholder="Phone"
+    />
+    <div class="invalid-feedback">Please enter phone number</div>
+  </div>
+  <!-- Password -->
+  <div class="form-group mb-4 mx-auto maxW400">
+    <label class="control-lable" style="margin-right: 40px">I am a :</label>
+    <label class="radio-inline me-2">
+      <input
+        type="radio"
+        name="userType"
+        value="JobSeeker"
+        formControlName="userType"
+        class="ml-3"
+      />
+      JobSeeker
+    </label>
+    <label class="radio-inline">
+      <input
+        type="radio"
+        name="userType"
+        value="Employer"
+        formControlName="userType"
+      />
+      Employer
+    </label>
+  </div>
+
+  <!-- Sign in button -->
+  <button
+    block="true"
+    [disabled]="!registerForm.valid"
+    class="btn btn-info my-4"
+    type="submit"
+  >
+    Register
+  </button>
+
+  <!-- Register -->
+</form>

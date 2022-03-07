@@ -2,7 +2,7 @@ using System;
 
 namespace Employer.Infrastructure.RequestResponseModels.Vacancy
 {
-    public class VacancyReponseDetailsDto
+    public class VacancyResponseDetailsDto
     {
         public int Id { get; set; }
         public string PublishedBy { get; set; }

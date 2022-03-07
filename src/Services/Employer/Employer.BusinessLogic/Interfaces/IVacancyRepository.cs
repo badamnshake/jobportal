@@ -15,12 +15,12 @@ namespace Employer.BusinessLogic.Interfaces
 
         Task<Vacancy> GetVacancyDetails(int id);
         // get vacancies from some...
-        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromOrganization(string organizationName, PageParams pageParams);
+        Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromOrganization(string organizationName, PageParams pageParams);
 
         // Task<IEnumerable<Vacancy>> GetVacanciesFromOrganizationType(string organizationType);
-        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromPublishedDate(DateTime publishedDate, PageParams pageParams);
-        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromLastDate(DateTime lastDate, PageParams pageParams);
-        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromSalary(int minSalary, PageParams pageParams);
-        Task<PagedList<VacancyReponseDetailsDto>> GetVacanciesFromLocation(string location, PageParams pageParams);
+        Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromPublishedDate(DateTime publishedDate, PageParams pageParams);
+        Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromLastDate(DateTime lastDate, PageParams pageParams);
+        Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromSalary(int minSalary, PageParams pageParams);
+        Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromLocation(string location, PageParams pageParams);
     }
 }

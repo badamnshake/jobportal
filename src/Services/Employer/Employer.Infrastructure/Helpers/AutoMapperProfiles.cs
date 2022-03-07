@@ -12,7 +12,7 @@ namespace Employer.Infrastructure.Helpers
             CreateMap<EmployerEntity, EmployerResponseDto>();
             CreateMap<DetailsDto, EmployerEntity>();
             CreateMap<VacancyDetailsDto, Vacancy>();
-            CreateMap<Vacancy, VacancyReponseDetailsDto>();
+            CreateMap<Vacancy, VacancyResponseDetailsDto>();
         }
     }
 }

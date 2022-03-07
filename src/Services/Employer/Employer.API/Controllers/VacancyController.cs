@@ -30,21 +30,21 @@ namespace Employer.API.Controllers
         }
 
         [HttpGet("get-details")]
-        public async Task<ActionResult<VacancyReponseDetailsDto>> GetDetails([FromQuery] int id)
+        public async Task<ActionResult<VacancyResponseDetailsDto>> GetDetails([FromQuery] int id)
         {
             var vacancy = await _vacancyRepository.GetVacancyDetails(id);
             if (vacancy == null)
                 return BadRequest();
-            return _mapper.Map<VacancyReponseDetailsDto>(vacancy);
+            return _mapper.Map<VacancyResponseDetailsDto>(vacancy);
         }
 
         [Authorize(Roles = "Employer")]
         [HttpPost("create-details")]
-        public async Task<ActionResult<VacancyReponseDetailsDto>> CreateDetails(VacancyDetailsDto details)
+        public async Task<ActionResult<VacancyResponseDetailsDto>> CreateDetails(VacancyDetailsDto details)
         {
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employer = await _employerRepository.GetEmployer(email);
-            
+
             if (employer == null)
                 return BadRequest("login as employer");
 
@@ -52,7 +52,7 @@ namespace Employer.API.Controllers
             vac.PublishedDate = DateTime.Now;
             vac.EmployerEntityId = employer.Id;
             var vacancy = await _vacancyRepository.AddVacancy(vac);
-            return _mapper.Map<VacancyReponseDetailsDto>(vacancy);
+            return _mapper.Map<VacancyResponseDetailsDto>(vacancy);
         }
 
         [Authorize(Roles = "Employer")]
@@ -90,11 +90,11 @@ namespace Employer.API.Controllers
         }
 
         [HttpGet("get-vacancies/date")]
-        public async Task<ActionResult<PagedList<VacancyReponseDetailsDto>>> GetVacanciesFromDate(
+        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesFromDate(
             [FromQuery] DateTime lastDate,
             [FromQuery] DateTime publishedDate,
             [FromQuery] bool fromLastDate,
-            PageParams pageParams
+            [FromQuery] PageParams pageParams
         )
         {
             if (fromLastDate)
@@ -112,9 +112,9 @@ namespace Employer.API.Controllers
         }
 
         [HttpGet("get-vacancies/orgName")]
-        public async Task<ActionResult<PagedList<VacancyReponseDetailsDto>>> GetVacanciesOrganizationName(
+        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesOrganizationName(
             [FromQuery] string organizationName,
-            PageParams pageParams
+            [FromQuery] PageParams pageParams
         )
         {
             var vacancies = await _vacancyRepository.GetVacanciesFromOrganization(organizationName, pageParams);
@@ -123,9 +123,9 @@ namespace Employer.API.Controllers
         }
 
         [HttpGet("get-vacancies/location")]
-        public async Task<ActionResult<PagedList<VacancyReponseDetailsDto>>> GetVacanciesLocation(
+        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesLocation(
             [FromQuery] string location,
-            PageParams pageParams
+            [FromQuery] PageParams pageParams
         )
         {
             var vacancies = await _vacancyRepository.GetVacanciesFromLocation(location, pageParams);
@@ -134,9 +134,9 @@ namespace Employer.API.Controllers
         }
 
         [HttpGet("get-vacancies/salary")]
-        public async Task<ActionResult<PagedList<VacancyReponseDetailsDto>>> GetVacanciesSalary(
+        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesSalary(
             [FromQuery] int minSalary,
-            PageParams pageParams
+            [FromQuery] PageParams pageParams
         )
         {
             var vacancies = await _vacancyRepository.GetVacanciesFromSalary(minSalary, pageParams);
@@ -145,7 +145,7 @@ namespace Employer.API.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public void AddPaginationHeaderFromPagedList(PagedList<VacancyReponseDetailsDto> vacancies)
+        public void AddPaginationHeaderFromPagedList(PagedList<VacancyResponseDetailsDto> vacancies)
         {
             Response.AddPaginationHeader(vacancies.CurrentPage, vacancies.PageSize, vacancies.TotalCount,
                 vacancies.TotalPages);
