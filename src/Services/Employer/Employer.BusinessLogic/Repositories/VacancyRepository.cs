@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,63 +48,47 @@ namespace Employer.BusinessLogic.Repositories
             return await _dataContext.Vacancies.FindAsync(id);
         }
 
-        public async Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromLastDate(DateTime lastDate,
-            PageParams pageParams)
+        public async Task<PagedList<VacancyResponseDetailsDto>> GetVacancies(VacancyParams vacancyParams)
         {
-            var query = _dataContext.Vacancies.Where(x => x.LastDateToApply.CompareTo(lastDate) > 0)
-                .OrderBy(v => v.LastDateToApply)
+            var query = _dataContext.Vacancies
+                .OrderBy(v => v.MinSalary)
                 .ProjectTo<VacancyResponseDetailsDto>(_mapper.ConfigurationProvider)
-                .AsNoTracking();
-            return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, pageParams.PageNumber,
-                pageParams.PageSize);
-        }
+                .AsNoTracking()
+                .AsQueryable();
+            if (vacancyParams.Location != null)
+                query = query.Where(v => v.Location.Contains(vacancyParams.Location));
+            if (vacancyParams.MinSalary != 0)
+                query = query.Where(v => v.MinSalary > vacancyParams.MinSalary);
+            if (vacancyParams.MaxSalary != 0)
+                query = query.Where(v => v.MaxSalary > vacancyParams.MaxSalary);
+            if (vacancyParams.LastDateToApply != default)
+                query = query.Where(v => v.LastDateToApply.CompareTo(vacancyParams.LastDateToApply) > 0);
+            if (vacancyParams.PublishedDate != default)
+                query = query.Where(x => x.PublishedDate.CompareTo(vacancyParams.PublishedDate) > 0);
 
-        public async Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromPublishedDate(DateTime publishedDate,
-            PageParams pageParams)
-        {
-            var query = _dataContext.Vacancies.Where(x => x.PublishedDate.CompareTo(publishedDate) > 0)
-                .OrderBy(v => v.PublishedDate)
-                .ProjectTo<VacancyResponseDetailsDto>(_mapper.ConfigurationProvider)
-                .AsNoTracking();
-            return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, pageParams.PageNumber,
-                pageParams.PageSize);
-        }
-        //
+            switch (vacancyParams.OrderBy)
+            {
+                case ToOrderBy.MinSalaryAscending:
+                    query = query.OrderBy(v => v.MinSalary);
+                    break;
+                case ToOrderBy.MinSalaryDescending:
+                    query = query.OrderByDescending(v => v.MinSalary);
+                    break;
+                case ToOrderBy.MaxSalaryDescending:
+                    query = query.OrderByDescending(v => v.MaxSalary);
+                    break;
+                case ToOrderBy.LastDateToApply:
+                    query = query.OrderByDescending(v => v.LastDateToApply);
+                    break;
+                case ToOrderBy.PublishedDate:
+                    query = query.OrderBy(v => v.PublishedDate);
+                    break;
+            }
 
-        public async Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromOrganization(string organizationName,
-            PageParams pageParams)
-        {
-            var query = _dataContext.Vacancies.Where(x => x.PublishedBy == organizationName.Trim())
-                    .OrderBy(v => v.LastDateToApply)
-                    .ProjectTo<VacancyResponseDetailsDto>(_mapper.ConfigurationProvider)
-                    .AsNoTracking()
-                ;
-            return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, pageParams.PageNumber,
-                pageParams.PageSize);
-        }
+            query = query.Where(v => v.LastDateToApply.CompareTo(DateTime.Today) > 0);
 
-        public async Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromSalary(int minSalary,
-            PageParams pageParams)
-        {
-            var query = _dataContext.Vacancies.Where(x => x.MinSalary >= minSalary)
-                    .OrderByDescending(v => v.MinSalary)
-                    .ProjectTo<VacancyResponseDetailsDto>(_mapper.ConfigurationProvider)
-                    .AsNoTracking()
-                ;
-            return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, pageParams.PageNumber,
-                pageParams.PageSize);
-        }
-
-        public async Task<PagedList<VacancyResponseDetailsDto>> GetVacanciesFromLocation(string location,
-            PageParams pageParams)
-        {
-            var query = _dataContext.Vacancies.Where(x => x.Location.Contains(location))
-                    .OrderBy(v => v.LastDateToApply)
-                    .ProjectTo<VacancyResponseDetailsDto>(_mapper.ConfigurationProvider)
-                    .AsNoTracking()
-                ;
-            return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, pageParams.PageNumber,
-                pageParams.PageSize);
+            return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, vacancyParams.PageNumber,
+                vacancyParams.PageSize);
         }
     }
 }

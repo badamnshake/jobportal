@@ -29,8 +29,8 @@ namespace Employer.API.Controllers
             _employerRepository = employerRepository;
         }
 
-        [HttpGet("get-details")]
-        public async Task<ActionResult<VacancyResponseDetailsDto>> GetDetails([FromQuery] int id)
+        [HttpGet("get-details/{id:int}")]
+        public async Task<ActionResult<VacancyResponseDetailsDto>> GetDetails(int id)
         {
             var vacancy = await _vacancyRepository.GetVacancyDetails(id);
             if (vacancy == null)
@@ -89,60 +89,17 @@ namespace Employer.API.Controllers
             return vacancy;
         }
 
-        [HttpGet("get-vacancies/date")]
-        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesFromDate(
-            [FromQuery] DateTime lastDate,
-            [FromQuery] DateTime publishedDate,
-            [FromQuery] bool fromLastDate,
-            [FromQuery] PageParams pageParams
-        )
-        {
-            if (fromLastDate)
-            {
-                var vacancies = await _vacancyRepository.GetVacanciesFromLastDate(lastDate, pageParams);
-                AddPaginationHeaderFromPagedList(vacancies);
-                return vacancies;
-            }
-            else
-            {
-                var vacancies = await _vacancyRepository.GetVacanciesFromPublishedDate(publishedDate, pageParams);
-                AddPaginationHeaderFromPagedList(vacancies);
-                return vacancies;
-            }
-        }
 
-        [HttpGet("get-vacancies/orgName")]
-        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesOrganizationName(
-            [FromQuery] string organizationName,
-            [FromQuery] PageParams pageParams
+        [HttpGet("get-vacancies/")]
+        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacancies(
+            [FromQuery] VacancyParams vacancyParams
         )
         {
-            var vacancies = await _vacancyRepository.GetVacanciesFromOrganization(organizationName, pageParams);
+            var vacancies = await _vacancyRepository.GetVacancies(vacancyParams);
             AddPaginationHeaderFromPagedList(vacancies);
             return vacancies;
         }
 
-        [HttpGet("get-vacancies/location")]
-        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesLocation(
-            [FromQuery] string location,
-            [FromQuery] PageParams pageParams
-        )
-        {
-            var vacancies = await _vacancyRepository.GetVacanciesFromLocation(location, pageParams);
-            AddPaginationHeaderFromPagedList(vacancies);
-            return vacancies;
-        }
-
-        [HttpGet("get-vacancies/salary")]
-        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacanciesSalary(
-            [FromQuery] int minSalary,
-            [FromQuery] PageParams pageParams
-        )
-        {
-            var vacancies = await _vacancyRepository.GetVacanciesFromSalary(minSalary, pageParams);
-            AddPaginationHeaderFromPagedList(vacancies);
-            return vacancies;
-        }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public void AddPaginationHeaderFromPagedList(PagedList<VacancyResponseDetailsDto> vacancies)

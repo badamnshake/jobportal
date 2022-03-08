@@ -18,9 +18,9 @@ import { EmployerProfileEditComponent } from './employer/employer-profile-edit/e
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { SharedModule } from './_modules/shared.module';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
-import { VacancyPageComponent } from './vacancies/vacancy-page/vacancy-page.component';
 import { VacancyDetailsComponent } from './vacancies/vacancy-details/vacancy-details.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { VacancyListComponent } from './vacancies/vacancy-list/vacancy-list.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +33,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     EmployerProfileEditComponent,
     EmployerVacancyEditComponent,
     EmployerVacancyListComponent,
-    VacancyPageComponent,
     VacancyDetailsComponent,
+    VacancyListComponent,
   ],
   imports: [
     BrowserModule,

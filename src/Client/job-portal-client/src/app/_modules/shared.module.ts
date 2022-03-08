@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDatepickerModule,
+  NgbPaginationModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [],
@@ -11,7 +14,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
       positionClass: 'toast-bottom-right',
     }),
     NgbDatepickerModule,
+    NgbPaginationModule,
   ],
-  exports: [ ToastrModule, NgbDatepickerModule  ],
+  exports: [ToastrModule, NgbDatepickerModule, NgbPaginationModule],
 })
 export class SharedModule {}
