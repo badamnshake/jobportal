@@ -4,6 +4,7 @@ import { map, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import jwtDecode from 'jwt-decode';
 import { Employer } from '../_models/employer';
+import { Vacancy } from '../_models/vacancy';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,8 @@ export class EmployerService {
   // create details
   // update details
   baseUrl = environment.apiUrl;
+  private currentEmpIdSource = new ReplaySubject<number>(1);
+  currentEmpId$ = this.currentEmpIdSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -24,14 +27,17 @@ export class EmployerService {
         map((response: Employer) => {
           const employer = response;
           console.log(employer);
-          if (employer) localStorage.setItem('empId', id.toString());
+          if (employer) {
+            localStorage.setItem('empId', id.toString());
+            this.setCurrentEmpId(id);
+          }
           return response;
         })
       );
   }
   getEmployerFromEmail(email: string) {
     let queryParams = new HttpParams();
-    queryParams.append('email', email);
+    queryParams = queryParams.append('email', email);
     return this.http
       .get<Employer>(this.baseUrl + '/employer/get-details/', {
         params: queryParams,
@@ -40,7 +46,10 @@ export class EmployerService {
         map((response: Employer) => {
           const employer = response;
           console.log(employer);
-          if (employer) localStorage.setItem('empId', employer.id.toString());
+          if (employer) {
+            localStorage.setItem('empId', employer.id.toString());
+            this.setCurrentEmpId(employer.id);
+          }
           return response;
         })
       );
@@ -52,7 +61,7 @@ export class EmployerService {
         map((id: number) => {
           if (id) {
             localStorage.setItem('empId', id.toString());
-            // this.setCurrentUser(user);
+            this.setCurrentEmpId(id);
           }
           return id;
         })
@@ -68,14 +77,11 @@ export class EmployerService {
       );
   }
 
-  // setCurrentUser(user: User) {
-  //   this.currentUserSource.next(user);
-  //   let decodedJwt: any = jwtDecode(user.token);
-  //   this.currentRoleSource.next(decodedJwt.role);
-  // }
-  // logout() {
-  //   localStorage.removeItem('user');
-  //   this.currentUserSource.next(null);
-  //   this.currentRoleSource.next(null);
-  // }
+  setCurrentEmpId(id: number) {
+    this.currentEmpIdSource.next(id);
+  }
+  removeCurrentEmpId(id: number) {
+    this.currentEmpIdSource.next(null);
+  }
+
 }

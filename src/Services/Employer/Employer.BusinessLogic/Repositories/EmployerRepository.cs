@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Employer.BusinessLogic.Interfaces;
 using Employer.DataAccess;
 using Employer.Infrastructure.Models;
@@ -17,7 +18,9 @@ namespace Employer.BusinessLogic.Repositories
 
         public async Task<EmployerEntity> GetEmployerFromId(int id)
         {
-            return await _dataContext.EmployerEntities.FindAsync(id);
+            return await _dataContext.EmployerEntities
+                .Include(x => x.Vacancies)
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> CreateEmployerDetails(EmployerEntity employerEntity)

@@ -7,26 +7,39 @@ import { EmployerVacancyListComponent } from './employer/employer-vacancy-list/e
 import { HomeComponent } from './landing-page-components/home/home.component';
 import { LoginComponent } from './landing-page-components/login/login.component';
 import { RegisterComponent } from './landing-page-components/register/register.component';
+import { AuthEmployerGuard } from './_guards/auth-employer.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'employer-profile', component: EmployerProfileComponent },
+
   { path: 'employer-profile/:empId', component: EmployerProfileComponent },
+
   {
-    path: 'employer-profile-edit',
-    component: EmployerProfileEditComponent,
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthEmployerGuard],
+
+    children: [
+      {
+        path: 'employer-profile',
+        component: EmployerProfileComponent,
+      },
+      {
+        path: 'employer-profile-edit',
+        component: EmployerProfileEditComponent,
+      },
+      {
+        path: 'employer-vacancy-list',
+        component: EmployerVacancyListComponent,
+      },
+      {
+        path: 'employer-vacancy-edit/:id',
+        component: EmployerVacancyEditComponent,
+      },
+    ],
   },
-  {
-    path: 'employer-vacancy-list/:empId',
-    component: EmployerVacancyListComponent,
-  },
-  {
-    path: 'employer-vacancy-edit/:id',
-    component: EmployerVacancyEditComponent,
-  },
-  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({

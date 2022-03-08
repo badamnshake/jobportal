@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -5,6 +6,7 @@ using Employer.BusinessLogic.Interfaces;
 using Employer.Infrastructure.Models;
 using Employer.Infrastructure.RequestResponseModels;
 using Employer.Infrastructure.RequestResponseModels.Employer;
+using Employer.Infrastructure.RequestResponseModels.Vacancy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +26,7 @@ namespace Employer.API.Controllers
         }
 
         [HttpGet("get-details/")]
-        public async Task<ActionResult<EmployerResponseDto>> GetDetails([FromQuery]string email)
+        public async Task<ActionResult<EmployerResponseDto>> GetDetails([FromQuery] string email)
         {
             if (!await _employerRepository.DoesEmployerExist(email))
                 return BadRequest("employer with given email not found");
@@ -35,9 +37,11 @@ namespace Employer.API.Controllers
         [HttpGet("get-details/{id:int}")]
         public async Task<ActionResult<EmployerResponseDto>> GetDetails(int id)
         {
+            if (!await _employerRepository.DoesEmployerExistById(id)) return BadRequest("employer not found");
             var emp = await _employerRepository.GetEmployerFromId(id);
-            if (emp == null) return BadRequest("employer not found");
-            return _mapper.Map<EmployerResponseDto>(emp);
+            
+            var obj = _mapper.Map<EmployerResponseDto>(emp);
+            return obj;
         }
 
         [Authorize(Roles = "Employer")]

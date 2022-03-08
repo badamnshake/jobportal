@@ -1,1 +1,89 @@
-<p>employer-vacancy-edit works!</p>
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="p-3 py-5 mx-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="text-center">Profile Settings</h4>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <label class="labels">Organization Name</label
+        ><input
+        type="text"
+        class="form-control"
+        placeholder="first name"
+        [(ngModel)]="vacancy.publishedBy"
+      />
+      </div>
+      <div class="col-md-6">
+        <label class="labels">Min. Salary</label
+        ><input
+        type="number"
+        class="form-control"
+        [(ngModel)]="vacancy.minSalary"
+        placeholder="min salary"
+      />
+        <label class="labels">Max. Salary</label
+        ><input
+        type="number"
+        class="form-control"
+        [(ngModel)]="vacancy.maxSalary"
+        placeholder="min salary"
+      />
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <label class="labels">Experience Required</label
+        ><input
+        type="text"
+        class="form-control"
+        placeholder="enter phone number"
+        [(ngModel)]="vacancy.experienceRequired"
+      />
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Last Date to apply</label
+        ><input
+        type="text"
+        ngbDatepicker
+        #d="ngbDatepicker"
+        class="form-control"
+        placeholder="enter last date to apply"
+        [(ngModel)]="vacancy.lastDateToApply"
+      />
+      </div>
+
+      <div class="col-md-6">
+        <label class="labels">Number of Vacancies</label
+        ><input
+        type="text"
+        class="form-control"
+        placeholder="no of vacancies"
+        [(ngModel)]="vacancy.noOfVacancies"
+      />
+      </div>
+      <div class="col-md-6">
+        <label class="labels">Location</label
+        ><input
+        type="text"
+        class="form-control"
+        [(ngModel)]="vacancy.location"
+        placeholder="enter job location"
+      />
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Job Description</label
+        ><input
+        type="text"
+        class="form-control"
+        placeholder="Enter job description"
+        [(ngModel)]="vacancy.jobDescription"
+      />
+      </div>
+    </div>
+    <div class="mt-5 text-center">
+      <button class="btn btn-primary profile-button" type="button" (click)="updateOrCreateDetails()">
+        Save Profile
+      </button>
+    </div>
+  </div>
+</div>

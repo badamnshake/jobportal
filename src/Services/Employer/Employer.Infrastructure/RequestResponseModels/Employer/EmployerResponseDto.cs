@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Employer.Infrastructure.RequestResponseModels.Vacancy;
+
 namespace Employer.Infrastructure.RequestResponseModels.Employer
 {
     public class EmployerResponseDto
@@ -10,5 +13,7 @@ namespace Employer.Infrastructure.RequestResponseModels.Employer
         public int NoOfEmployees { get; set; }
         public int StartYear { get; set; }
         public string About { get; set; }
+        public List<VacancyResponseDetailsDto> Vacancies { get; set; }
+        
     }
 }

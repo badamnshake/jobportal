@@ -1,1 +1,22 @@
-<p>employer-vacancy-list works!</p>
+<div class="list-group" *ngIf="loaded">
+  <a
+    *ngFor="let vacancy of vacancyList"
+    class="container list-group-item list-group-item-action flex-column align-items-start"
+  >
+    <div class="d-flex w-100 justify-content-between mt-3">
+      <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
+      <small>{{ vacancy.publishedDate }}</small>
+    </div>
+    <p class="mb-1">
+      Experience Required: {{  vacancy.experienceRequired }}
+      <br />
+      Last date to apply {{ vacancy.lastDateToApply }}
+      <br />
+      Location: {{ vacancy.location }}
+    </p>
+    <div class="d-flex w-100 justify-content-between mb-2">
+      <h6 class="mb-md-0">Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}</h6>
+      <button class="btn btn-warning">Edit Vacancy</button>
+    </div>
+  </a>
+</div>

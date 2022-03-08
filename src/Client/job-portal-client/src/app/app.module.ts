@@ -20,6 +20,7 @@ import { SharedModule } from './_modules/shared.module';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { VacancyPageComponent } from './vacancies/vacancy-page/vacancy-page.component';
 import { VacancyDetailsComponent } from './vacancies/vacancy-details/vacancy-details.component';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { VacancyDetailsComponent } from './vacancies/vacancy-details/vacancy-det
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
 })

@@ -35,13 +35,13 @@ export class NavbarComponent implements OnInit {
   }
   // employer navs
   btnViewEmployerProfile() {
-    this.router.navigateByUrl('/employer-profile/');
+    this.router.navigateByUrl('/employer-profile');
   }
   btnEditEmployerProfile() {
     this.router.navigateByUrl('/employer-profile-edit');
   }
   btnViewEmployerPostedVacancies() {
-    this.router.navigateByUrl('/employer-profile/');
+    this.router.navigateByUrl('/employer-vacancy-list');
   }
   btnViewEmployerVacancyRequests() {
     this.router.navigateByUrl('/');
