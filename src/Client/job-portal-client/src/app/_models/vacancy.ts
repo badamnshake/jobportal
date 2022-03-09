@@ -12,3 +12,11 @@ export interface Vacancy {
   maxSalary: number;
   employerEntityId: number;
 }
+
+export enum ToOrderBy {
+  MinSalaryAscending = 0,
+  MinSalaryDescending = 1,
+  MaxSalaryDescending = 2,
+  LastDateToApply = 3,
+  PublishedDate = 4,
+}

@@ -32,10 +32,12 @@
 
 <div class="d-flex justify-content-center" *ngIf="pagination">
   <ngb-pagination
+  ngDefaultControl
     [(page)]="pageNumber"
     [pageSize]="pageSize"
     [collectionSize]="pagination.totalItems"
     [(ngModel)]="pagination.currentPage"
+    (pageChange)="pageChanged($event)"
     
   ></ngb-pagination>
 </div>

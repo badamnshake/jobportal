@@ -16,18 +16,23 @@ export class VacancyListComponent implements OnInit {
 
   constructor(private vacancyService: VacancyService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadVacancies();
+  }
 
   loadVacancies() {
-    this.vacancyService.getVacanciesFromDate(this.pageNumber, this.pageSize).subscribe((response) => {
+    this.vacancyService.getVacancies(this.pageNumber, this.pageSize).subscribe((response) => {
       this.vacancies = response.result;
+      console.log(this.vacancies);
+      
       this.pagination = response.pagination;
     })
   }
 
 
   pageChanged(event: any){
-    this.pageNumber = event.page;
+    
+    this.pageNumber = event;
     this.loadVacancies()
   }
 }

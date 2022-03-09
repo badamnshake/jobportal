@@ -51,7 +51,6 @@ namespace Employer.BusinessLogic.Repositories
         public async Task<PagedList<VacancyResponseDetailsDto>> GetVacancies(VacancyParams vacancyParams)
         {
             var query = _dataContext.Vacancies
-                .OrderBy(v => v.MinSalary)
                 .ProjectTo<VacancyResponseDetailsDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .AsQueryable();
@@ -68,9 +67,6 @@ namespace Employer.BusinessLogic.Repositories
 
             switch (vacancyParams.OrderBy)
             {
-                case ToOrderBy.MinSalaryAscending:
-                    query = query.OrderBy(v => v.MinSalary);
-                    break;
                 case ToOrderBy.MinSalaryDescending:
                     query = query.OrderByDescending(v => v.MinSalary);
                     break;
@@ -83,9 +79,13 @@ namespace Employer.BusinessLogic.Repositories
                 case ToOrderBy.PublishedDate:
                     query = query.OrderBy(v => v.PublishedDate);
                     break;
+                default:
+                    query = query.OrderBy(v => v.MinSalary);
+                    break;
+                    
             }
 
-            query = query.Where(v => v.LastDateToApply.CompareTo(DateTime.Today) > 0);
+            // query = query.Where(v => v.LastDateToApply.CompareTo(DateTime.Today) > 0);
 
             return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, vacancyParams.PageNumber,
                 vacancyParams.PageSize);

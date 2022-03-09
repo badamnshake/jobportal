@@ -38,14 +38,7 @@
         "Get",
         "Put",
         "Post"
-      ],
-      "RateLimitOptions" : {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/vacancy/{everything}",
@@ -62,14 +55,7 @@
         "Put",
         "Post",
         "Delete"
-      ],
-      "RateLimitOptions" : {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      ]
     }
   ],
   "GlobalConfiguration": {
