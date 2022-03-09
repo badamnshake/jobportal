@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Experience;
+using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Qualification;
 
 namespace JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels
 {
@@ -13,5 +16,8 @@ namespace JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels
         public int TotalExperience { get; set; }
         public int ExpectedSalaryAnnual { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public List<ResQualification> Qualifications { get; set; }
+        public List<ResExperience> Experiences { get; set; }
+        // public List<int> AppliedVacanciesId { get; set; }
     }
 }

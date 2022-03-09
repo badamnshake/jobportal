@@ -18,11 +18,11 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
-        public async Task AddExperience(ReqAddExp request)
+        public async Task AddExperience(ReqAddExp request, int jsId)
         {
            var query =  _dataContext.Experiences.FromSqlRaw(
                 "exec spAddExperience {0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                request.JobSeekerUserId,
+                jsId,
                 request.CompanyName,
                 request.CompanyUrl,
                 request.StartDate.Date,
@@ -35,22 +35,15 @@ namespace JobSeeker.BusinessLogic.Repositories
            // await _dataContext.Database.ExecuteSqlRawAsync();
         }
 
-        public async Task DeleteExperience(ReqDelExp request)
+        public async Task DeleteExperience( int eId)
         {
             var query = _dataContext.Experiences.FromSqlRaw(
                 "exec spDeleteExperience {0}",
-                request.Id
+                eId
                 );
            await query.SingleOrDefaultAsync();
             // await _dataContext.Database.ExecuteSqlRawAsync(
         }
 
-        public async Task<IEnumerable<Experience>> GetExperiencesOfJobSeeker(RequestJobSeekerId request)
-        {
-            var jobSeeker = await _dataContext.JobSeekerUsers
-                .Include(u => u.Experiences)
-                .SingleOrDefaultAsync(u => u.Id == request.Id);
-            return jobSeeker.Experiences;
-        }
     }
 }

@@ -1,4 +1,4 @@
-using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.DataAccess;
@@ -17,14 +17,14 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
-        public async Task CreateJobSeekerUser(RequestJobSeekerUser request)
+        public async Task CreateJobSeeker(RequestJobSeekerUser request, string appUserEmail)
         {
-            var result = await _dataContext.Database.ExecuteSqlRawAsync(
+            await _dataContext.Database.ExecuteSqlRawAsync(
                 "exec spAddJobSeekerUser {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
                 request.FirstName,
                 request.LastName,
                 request.Email,
-                request.AppUserEmail,
+                appUserEmail,
                 request.Phone,
                 request.Address,
                 request.TotalExperience,
@@ -33,23 +33,42 @@ namespace JobSeeker.BusinessLogic.Repositories
             );
         }
 
-        public async Task<JobSeekerUser> GetJobSeekerUser(string appUserEmail)
+        public async Task<JobSeekerUser> GetJobSeeker(string appUserEmail)
         {
-            var user = await _dataContext.JobSeekerUsers.FromSqlRaw<JobSeekerUser>(
-                "exec spGetJobSeekerFromAppUserEmail {0}",
-                appUserEmail
-            ).SingleOrDefaultAsync();
-            return user;
+            var jobSeeker = await _dataContext.JobSeekerUsers.SingleOrDefaultAsync(j => j.AppUserEmail == appUserEmail);
+            // var jobSeeker = await GetJobSeekerQuery(appUserEmail)
+            // .SingleOrDefaultAsync();
+            return jobSeeker;
         }
 
-        public async Task UpdateJobSeekerUser(RequestJobSeekerUser request)
+
+        public async Task<JobSeekerUser> GetJobSeekerDetailsForEmployer(string appUserEmail)
         {
-            var result = await _dataContext.Database.ExecuteSqlRawAsync(
+            var jobSeeker = await GetJobSeekerQuery(appUserEmail)
+                .Include(j => j.Qualifications)
+                .Include(j => j.Experiences)
+                .SingleOrDefaultAsync();
+            return jobSeeker;
+        }
+
+        public async Task<JobSeekerUser> GetJobSeekerDetailsForJobSeeker(string appUserEmail)
+        {
+            var jobSeeker = await GetJobSeekerQuery(appUserEmail)
+                .Include(j => j.Qualifications)
+                .Include(j => j.Experiences)
+                .Include(j => j.VacancyRequests)
+                .SingleOrDefaultAsync();
+            return jobSeeker;
+        }
+
+        public async Task UpdateJobSeeker(RequestJobSeekerUser request, int jobSeekerId)
+        {
+            
+            await _dataContext.Database.ExecuteSqlRawAsync(
                 "exec spUpdateJobSeekerUser {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
+                jobSeekerId,
                 request.FirstName,
                 request.LastName,
-                request.Email,
-                request.AppUserEmail,
                 request.Phone,
                 request.Address,
                 request.TotalExperience,
@@ -58,10 +77,19 @@ namespace JobSeeker.BusinessLogic.Repositories
             );
         }
 
-        public async Task DeleteJobSeekerUser(string appUserEmail)
+        public async Task DeleteJobSeeker(int jobSeekerId)
         {
             await _dataContext.Database.ExecuteSqlRawAsync(
                 "exec spDeleteJobSeekerUser {0}",
+                jobSeekerId
+            );
+        }
+
+
+        private IQueryable<JobSeekerUser> GetJobSeekerQuery(string appUserEmail)
+        {
+            return _dataContext.JobSeekerUsers.FromSqlRaw(
+                "exec spGetJobSeekerFromAppUserEmail {0}",
                 appUserEmail
             );
         }

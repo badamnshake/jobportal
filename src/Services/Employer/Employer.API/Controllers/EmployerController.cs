@@ -1,12 +1,9 @@
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Employer.BusinessLogic.Interfaces;
 using Employer.Infrastructure.Models;
-using Employer.Infrastructure.RequestResponseModels;
 using Employer.Infrastructure.RequestResponseModels.Employer;
-using Employer.Infrastructure.RequestResponseModels.Vacancy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

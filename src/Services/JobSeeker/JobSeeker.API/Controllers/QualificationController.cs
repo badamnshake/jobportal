@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AutoMapper;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Qualification;
@@ -14,31 +16,39 @@ namespace JobSeeker.API.Controllers
     {
         private readonly IQualificationRepository _qualificationRepository;
         private readonly IMapper _mapper;
+        private readonly IJobSeekerUserRepository _jobSeekerUserRepository;
 
-        public QualificationController(IQualificationRepository qualificationRepository, IMapper mapper)
+        public QualificationController(IQualificationRepository qualificationRepository, IMapper mapper,
+            IJobSeekerUserRepository jobSeekerUserRepository)
         {
             _qualificationRepository = qualificationRepository;
             _mapper = mapper;
-        }
-
-        [HttpGet("get")]
-        public async Task<List<ResQualification>> GetQualificationsOfUser(RequestJobSeekerId request)
-        {
-            var qualification = await _qualificationRepository.GetQualificationsOfJobSeeker(request);
-            return _mapper.Map<List<ResQualification>>(qualification);
+            _jobSeekerUserRepository = jobSeekerUserRepository;
         }
 
         [HttpPost("add")]
         public async Task<ActionResult> AddQualification(ReqAddQualification request)
         {
-            await _qualificationRepository.CreateQualification(request);
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
+            if (jobSeekerId == default) return Forbid("you can't change what you don't own");
+            await _qualificationRepository.CreateQualification(request,jobSeekerId);
             return Ok();
         }
 
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteQualification(ReqDelQualification request)
         {
-            await _qualificationRepository.DeleteQualification(request);
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
+
+            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeekerDetailsForJobSeeker(email);
+            if (jobSeekerId == default) Forbid("create a profile first");
+            if (jobSeekerUser.Qualifications.SingleOrDefault(x => x.Id == request.Id) == null)
+            {
+                return Forbid("you can't change what you don't own");
+            }
+
+            await _qualificationRepository.DeleteQualification(request.Id);
             return Ok();
         }
     }

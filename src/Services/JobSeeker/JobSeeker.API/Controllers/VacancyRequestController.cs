@@ -71,7 +71,7 @@ namespace JobSeeker.API.Controllers
         public async Task<int> VerifyTheTokenHolderAndFindJobSeekerId()
         {
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeekerUser(email);
+            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeeker(email);
             return jobSeekerUser == null ? 0 : jobSeekerUser.Id;
         }
     }

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
 using Employer.BusinessLogic.Interfaces;
 using Employer.DataAccess;
 using Employer.Infrastructure.Models;

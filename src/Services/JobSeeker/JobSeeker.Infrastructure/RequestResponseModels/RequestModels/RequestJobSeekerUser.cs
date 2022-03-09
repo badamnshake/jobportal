@@ -11,7 +11,6 @@ namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels
         [Required] [EmailAddress] public string Email { get; set; }
 
         // email which corresponds to the identity
-        [Required] [EmailAddress] public string AppUserEmail { get; set; }
         [MaxLength(15)] public string Phone { get; set; }
         [MaxLength(100)] public string Address { get; set; }
         [Required] public int TotalExperience { get; set; }

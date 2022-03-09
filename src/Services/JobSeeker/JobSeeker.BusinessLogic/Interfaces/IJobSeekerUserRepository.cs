@@ -6,9 +6,11 @@ namespace JobSeeker.BusinessLogic.Interfaces
 {
     public interface IJobSeekerUserRepository
     {
-        Task CreateJobSeekerUser(RequestJobSeekerUser request);
-        Task UpdateJobSeekerUser(RequestJobSeekerUser request);
-        Task DeleteJobSeekerUser(string appUserEmail);
-        Task<JobSeekerUser> GetJobSeekerUser(string appUserEmail);
+        Task CreateJobSeeker(RequestJobSeekerUser request, string appUserEmail);
+        Task UpdateJobSeeker(RequestJobSeekerUser request, int jobSeekerUserId);
+        Task DeleteJobSeeker(int jobSeekerUserId);
+        Task<JobSeekerUser> GetJobSeeker(string appUserEmail);
+        Task<JobSeekerUser> GetJobSeekerDetailsForEmployer(string appUserEmail);
+        Task<JobSeekerUser> GetJobSeekerDetailsForJobSeeker(string appUserEmail);
     }
 }

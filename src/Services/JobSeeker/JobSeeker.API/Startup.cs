@@ -1,6 +1,9 @@
+using System.Security.Claims;
 using JobSeeker.API.Extensions;
+using JobSeeker.API.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +25,7 @@ namespace JobSeeker.API
         {
             services.AddApplicationServices(Configuration);
             services.AddControllers();
+            services.AddTransient<VerifyTokenAndAddJobSeekerUserId>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "JobSeeker.API", Version = "v1"});
@@ -43,6 +47,11 @@ namespace JobSeeker.API
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseWhen(c => c.Request.Headers.ContainsKey("Authorization"), a =>
+            {
+                a.UseMiddleware<VerifyTokenAndAddJobSeekerUserId>();
+            });
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.DataAccess;
-using JobSeeker.Infrastrucure.Models;
-using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Qualification;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,11 +15,11 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
-        public async Task CreateQualification(ReqAddQualification request)
+        public async Task CreateQualification(ReqAddQualification request, int jsId)
         {
             var query = _dataContext.Qualifications.FromSqlRaw(
                 "exec spAddQualification {0}, {1}, {2}, {3}, {4}",
-                request.JobSeekerUserId,
+                jsId,
                 request.QualificationName,
                 request.University,
                 request.DateOfCompletion,
@@ -41,23 +38,16 @@ namespace JobSeeker.BusinessLogic.Repositories
             // );
         }
 
-        public async Task DeleteQualification(ReqDelQualification request)
+        public async Task DeleteQualification( int qId)
         {
             var query  = _dataContext.Qualifications.FromSqlRaw(
                 "exec spDeleteQualification {0}",
-                request.Id
+                qId
             );
            await query.SingleOrDefaultAsync();
             // await _dataContext.Database.ExecuteSqlRawAsync(
             // );
         }
 
-        public async Task<IEnumerable<Qualification>> GetQualificationsOfJobSeeker(RequestJobSeekerId request)
-        {
-            var jobSeeker = await _dataContext.JobSeekerUsers
-                .Include(u => u.Qualifications)
-                .SingleOrDefaultAsync(u => u.Id == request.Id);
-            return jobSeeker.Qualifications;
-        }
     }
 }
