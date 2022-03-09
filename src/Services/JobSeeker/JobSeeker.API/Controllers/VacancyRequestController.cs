@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AutoMapper;
 using System.Collections.Generic;
-using System.Security.Claims;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.Infrastrucure.Models;
 using JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels;
@@ -16,14 +15,12 @@ namespace JobSeeker.API.Controllers
     public class VacancyRequestController : ControllerBase
     {
         private readonly IVacancyRequestRepository _vacancyRequestRepository;
-        private readonly IJobSeekerUserRepository _jobSeekerUserRepository;
         private readonly IMapper _mapper;
 
         public VacancyRequestController(IVacancyRequestRepository vacancyRequestRepository,
             IJobSeekerUserRepository jobSeekerUserRepository, IMapper mapper)
         {
             _vacancyRequestRepository = vacancyRequestRepository;
-            _jobSeekerUserRepository = jobSeekerUserRepository;
             _mapper = mapper;
         }
 
@@ -39,7 +36,7 @@ namespace JobSeeker.API.Controllers
         [HttpPost("create")]
         public async Task<ActionResult> CreateVacancyRequest([FromQuery] int vacancyId)
         {
-            var jobSeekerId = await VerifyTheTokenHolderAndFindJobSeekerId();
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
             if (jobSeekerId == 0)
                 return Forbid("you need to create your profile first");
             var vacancyRequest = new VacancyRequest
@@ -60,19 +57,11 @@ namespace JobSeeker.API.Controllers
         {
             var vacReq = await _vacancyRequestRepository.GetVacancyRequestFromId(vacancyRequestId);
             if (vacReq == null) return BadRequest("Vacancy Request doesn't exist");
-            var jobSeekerId = await VerifyTheTokenHolderAndFindJobSeekerId();
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
             if (vacReq.JobSeekerUserId != jobSeekerId) return Forbid("You can't delete request you don't own");
             await _vacancyRequestRepository.DeleteVacancyRequest(vacReq);
             return Ok();
 
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<int> VerifyTheTokenHolderAndFindJobSeekerId()
-        {
-            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeeker(email);
-            return jobSeekerUser == null ? 0 : jobSeekerUser.Id;
         }
     }
 }
