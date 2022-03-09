@@ -63,7 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSeeker.Infrastructure", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{D027EE2D-BD46-487E-99CA-D4E5555C9FD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGw", "WebApp\ApiGateways\OcelotApiGw\OcelotApiGw.csproj", "{FA661FE9-C7F3-4DEB-9BB6-812BFE0EAFED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGw", "WebApp\ApiGateways\OcelotApiGw\OcelotApiGw.csproj", "{FA661FE9-C7F3-4DEB-9BB6-812BFE0EAFED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VacancyRequests.Aggregator", "WebApp\ApiGateways\VacancyRequests.Aggregator\VacancyRequests.Aggregator.csproj", "{166B3AA6-992E-4B17-B95D-9F4205347744}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,10 @@ Global
 		{FA661FE9-C7F3-4DEB-9BB6-812BFE0EAFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA661FE9-C7F3-4DEB-9BB6-812BFE0EAFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA661FE9-C7F3-4DEB-9BB6-812BFE0EAFED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{166B3AA6-992E-4B17-B95D-9F4205347744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166B3AA6-992E-4B17-B95D-9F4205347744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166B3AA6-992E-4B17-B95D-9F4205347744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166B3AA6-992E-4B17-B95D-9F4205347744}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +163,7 @@ Global
 		{C390A176-E053-417E-86E2-84B8D3E0905E} = {3145165F-1324-4B58-92E4-5CC17617EC78}
 		{D027EE2D-BD46-487E-99CA-D4E5555C9FD4} = {E6E3361B-07A6-484A-B37F-3F924056C9C8}
 		{FA661FE9-C7F3-4DEB-9BB6-812BFE0EAFED} = {D027EE2D-BD46-487E-99CA-D4E5555C9FD4}
+		{166B3AA6-992E-4B17-B95D-9F4205347744} = {D027EE2D-BD46-487E-99CA-D4E5555C9FD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {776AE405-185B-4067-BD4A-3267E51B5D73}
