@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Threading.Tasks;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.DataAccess;
@@ -16,7 +17,7 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
-        public async Task AddJobSeekerUser(RequestJobSeekerUser request)
+        public async Task CreateJobSeekerUser(RequestJobSeekerUser request)
         {
             var result = await _dataContext.Database.ExecuteSqlRawAsync(
                 "exec spAddJobSeekerUser {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
@@ -32,14 +33,13 @@ namespace JobSeeker.BusinessLogic.Repositories
             );
         }
 
-        public async Task<JobSeekerUser> GetJobSeekerUser(RequestAppUserEmail request)
+        public async Task<JobSeekerUser> GetJobSeekerUser(string appUserEmail)
         {
             var user = await _dataContext.JobSeekerUsers.FromSqlRaw<JobSeekerUser>(
                 "exec spGetJobSeekerFromAppUserEmail {0}",
-                request.AppUserEmail
-            ).ToListAsync();
-            if (user.Count == 0) return null;
-            return user[0];
+                appUserEmail
+            ).SingleOrDefaultAsync();
+            return user;
         }
 
         public async Task UpdateJobSeekerUser(RequestJobSeekerUser request)
@@ -58,11 +58,11 @@ namespace JobSeeker.BusinessLogic.Repositories
             );
         }
 
-        public async Task DeleteJobSeekerUser(RequestAppUserEmail request)
+        public async Task DeleteJobSeekerUser(string appUserEmail)
         {
             await _dataContext.Database.ExecuteSqlRawAsync(
                 "exec spDeleteJobSeekerUser {0}",
-                request.AppUserEmail
+                appUserEmail
             );
         }
     }

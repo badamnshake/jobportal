@@ -18,7 +18,7 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
-        public async Task AddQualification(ReqAddQualification request)
+        public async Task CreateQualification(ReqAddQualification request)
         {
             var query = _dataContext.Qualifications.FromSqlRaw(
                 "exec spAddQualification {0}, {1}, {2}, {3}, {4}",

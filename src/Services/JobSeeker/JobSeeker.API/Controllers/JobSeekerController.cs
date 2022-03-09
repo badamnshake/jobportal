@@ -31,7 +31,7 @@ namespace JobSeeker.API.Controllers
         [HttpPost("add")]
         public async Task<ActionResult> AddJobSeekerUser(RequestJobSeekerUser request)
         {
-            await _jobSeekerUserRepository.AddJobSeekerUser(request);
+            await _jobSeekerUserRepository.CreateJobSeekerUser(request);
             return Ok();
         }
 

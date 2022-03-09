@@ -24,14 +24,14 @@ namespace JobSeeker.API.Controllers
         [HttpGet("get")]
         public async Task<List<ResQualification>> GetQualificationsOfUser(RequestJobSeekerId request)
         {
-            var qualifictionas = await _qualificationRepository.GetQualificationsOfJobSeeker(request);
-            return _mapper.Map<List<ResQualification>>(qualifictionas);
+            var qualification = await _qualificationRepository.GetQualificationsOfJobSeeker(request);
+            return _mapper.Map<List<ResQualification>>(qualification);
         }
 
         [HttpPost("add")]
         public async Task<ActionResult> AddQualification(ReqAddQualification request)
         {
-            await _qualificationRepository.AddQualification(request);
+            await _qualificationRepository.CreateQualification(request);
             return Ok();
         }
 

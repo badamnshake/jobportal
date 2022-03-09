@@ -8,7 +8,7 @@ namespace JobSeeker.BusinessLogic.Interfaces
 {
     public interface IQualificationRepository
     {
-        Task AddQualification(ReqAddQualification request);
+        Task CreateQualification(ReqAddQualification request);
         Task DeleteQualification(ReqDelQualification request);
         Task<IEnumerable<Qualification>> GetQualificationsOfJobSeeker(RequestJobSeekerId request);
     }

@@ -5,8 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\JobSeeker.DataAccess\JobSeeker.DataAccess.csproj"/>
-        <ProjectReference Include="..\JobSeeker.Infrastructure\JobSeeker.Infrastructure.csproj"/>
+        <ProjectReference Include="..\JobSeeker.DataAccess\JobSeeker.DataAccess.csproj" />
+        <ProjectReference Include="..\JobSeeker.Infrastructure\JobSeeker.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
