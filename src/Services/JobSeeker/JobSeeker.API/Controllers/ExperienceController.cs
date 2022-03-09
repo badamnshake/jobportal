@@ -7,6 +7,7 @@ using System.Security.Claims;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Experience;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobSeeker.API.Controllers
 {
@@ -26,6 +27,7 @@ namespace JobSeeker.API.Controllers
         }
 
 
+        [Authorize(Roles = "JobSeeker")]
         [HttpPost("add")]
         public async Task<ActionResult> AddQualification(ReqAddExp request)
         {
@@ -35,13 +37,13 @@ namespace JobSeeker.API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "JobSeeker")]
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteQualification(ReqDelExp request)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
 
-            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeekerDetailsForJobSeeker(email);
+            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeekerDetailsForJobSeeker(jobSeekerId);
             if (jobSeekerId == default) Forbid("create a profile first");
             if (jobSeekerUser.Qualifications.SingleOrDefault(x => x.Id == request.Id) == null)
             {

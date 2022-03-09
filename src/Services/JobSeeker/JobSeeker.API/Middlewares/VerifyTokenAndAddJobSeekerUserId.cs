@@ -18,7 +18,7 @@ namespace JobSeeker.API.Middlewares
         {
             var email = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeeker(email);
-            context.Items["jobSeekerId"] = jobSeekerUser == null ? default : jobSeekerUser.Id;
+            context.Items.Add("jobSeekerId", jobSeekerUser == null ? default : jobSeekerUser.Id);
             await next(context);
         }
     }

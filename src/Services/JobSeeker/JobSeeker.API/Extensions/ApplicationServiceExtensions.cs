@@ -16,6 +16,10 @@ namespace JobSeeker.API.Extensions
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+            });
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IQualificationRepository, QualificationRepository>();
             services.AddScoped<IExperienceRepository, ExperienceRepository>();
@@ -38,10 +42,6 @@ namespace JobSeeker.API.Extensions
             });
             // services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
             services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-            });
             return services;
         }
     }

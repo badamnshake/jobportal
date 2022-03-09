@@ -44,5 +44,10 @@ namespace JobSeeker.BusinessLogic.Repositories
         {
             throw new System.NotImplementedException();
         }
+
+        public async Task<List<int>> GetAppliedVacancies(int jobSeekerId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
