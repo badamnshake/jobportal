@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using VacancyRequests.Aggregator.Extensions;
 
 namespace VacancyRequests.Aggregator
 {
@@ -20,6 +21,7 @@ namespace VacancyRequests.Aggregator
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddApplicationServices(Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

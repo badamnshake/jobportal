@@ -25,7 +25,7 @@ namespace JobSeeker.API.Controllers
         }
 
         [Authorize(Roles = "Employer")]
-        [HttpGet("get")]
+        [HttpGet("get/{vacancyId:int}")]
         public async Task<List<ResponseJobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId)
         {
             var jobSeekers = await _vacancyRequestRepository.GetVacancyRequestJobSeekers(vacancyId);
@@ -34,7 +34,7 @@ namespace JobSeeker.API.Controllers
 
         [Authorize(Roles = "JobSeeker")]
         [HttpPost("create")]
-        public async Task<ActionResult> CreateVacancyRequest([FromQuery] int vacancyId)
+        public async Task<ActionResult> CreateVacancyRequest([FromQuery]int vacancyId)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
             if (jobSeekerId == 0)

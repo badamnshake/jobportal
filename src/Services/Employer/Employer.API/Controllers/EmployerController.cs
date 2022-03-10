@@ -23,8 +23,9 @@ namespace Employer.API.Controllers
         }
 
         [HttpGet("get-details/")]
-        public async Task<ActionResult<EmployerResponseDto>> GetDetails([FromQuery] string email)
+        public async Task<ActionResult<EmployerResponseDto>> GetDetails()
         {
+            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!await _employerRepository.DoesEmployerExist(email))
                 return BadRequest("employer with given email not found");
             var obj = _mapper.Map<EmployerResponseDto>(await _employerRepository.GetEmployer(email));
