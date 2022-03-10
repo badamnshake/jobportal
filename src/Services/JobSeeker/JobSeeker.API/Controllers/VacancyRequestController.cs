@@ -34,11 +34,17 @@ namespace JobSeeker.API.Controllers
 
         [Authorize(Roles = "JobSeeker")]
         [HttpPost("create")]
-        public async Task<ActionResult> CreateVacancyRequest([FromQuery]int vacancyId)
+        public async Task<ActionResult> CreateVacancyRequest([FromQuery] int vacancyId)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
             if (jobSeekerId == 0)
                 return Forbid("you need to create your profile first");
+            
+            if (await _vacancyRequestRepository.DoesVacancyRequestExist(vacancyId, jobSeekerId))
+            {
+                return BadRequest("You already applied for this vacancy");
+            }
+
             var vacancyRequest = new VacancyRequest
             {
                 VacancyId = vacancyId,
@@ -61,7 +67,6 @@ namespace JobSeeker.API.Controllers
             if (vacReq.JobSeekerUserId != jobSeekerId) return Unauthorized("You can't delete request you don't own");
             await _vacancyRequestRepository.DeleteVacancyRequest(vacReq);
             return Ok();
-
         }
     }
 }

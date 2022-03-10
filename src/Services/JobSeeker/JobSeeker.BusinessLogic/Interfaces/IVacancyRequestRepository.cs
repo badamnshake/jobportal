@@ -11,6 +11,5 @@ namespace JobSeeker.BusinessLogic.Interfaces
         Task<bool> DoesVacancyRequestExist(int vacancyId, int jobSeekerId);
         Task<VacancyRequest> GetVacancyRequestFromId(int vacancyReqId);
         Task<List<JobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId);
-        Task<List<int>> GetAppliedVacancies(int jobSeekerId);
     }
 }

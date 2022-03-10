@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace JobSeeker.API.Data.Migrations
+namespace JobSeeker.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220309141113_lastOne")]
-    partial class lastOne
+    [Migration("20220310053734_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

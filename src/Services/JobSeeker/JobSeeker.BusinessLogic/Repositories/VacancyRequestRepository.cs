@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.DataAccess;
@@ -42,12 +43,11 @@ namespace JobSeeker.BusinessLogic.Repositories
 
         public async Task<List<JobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<List<int>> GetAppliedVacancies(int jobSeekerId)
-        {
-            throw new System.NotImplementedException();
+            var vacReq = await _dataContext.VacancyRequests
+                .Where(v => v.VacancyId == vacancyId)
+                .Select(j => j.JobSeekerUser)
+                .ToListAsync();
+            return vacReq;
         }
     }
 }
