@@ -6,6 +6,6 @@ namespace VacancyRequests.Aggregator.Services.Interfaces
     public interface IEmployerService
     {
 
-        public Task<HttpResponseMessage> GetDetails();
+        public Task<HttpResponseMessage> GetDetails(string email);
     }
 }

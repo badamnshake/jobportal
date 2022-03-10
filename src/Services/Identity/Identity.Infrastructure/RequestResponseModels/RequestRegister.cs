@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Identity.Infrastructure.RequestResponseModels
 {
-    public class RegisterDto
+    public class RequestRegister
     {
         [Required] public string FullName { get; set; }
 

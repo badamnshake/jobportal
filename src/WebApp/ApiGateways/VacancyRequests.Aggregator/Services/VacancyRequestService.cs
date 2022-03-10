@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using VacancyRequests.Aggregator.Models.Requests;
 using VacancyRequests.Aggregator.Services.Interfaces;
 
 namespace VacancyRequests.Aggregator.Services
@@ -14,12 +20,9 @@ namespace VacancyRequests.Aggregator.Services
             _client = client;
         }
 
-        public async Task<HttpResponseMessage> CreateVacancyRequest(int vacancyId)
+        public async Task<HttpResponseMessage> CreateVacancyRequest(int vacancyId, RequestCreateVacancyRequest request)
         {
-            var values = new Dictionary<string, string>();
-            values.Add("vacancyId", vacancyId.ToString());
-            var content = new FormUrlEncodedContent(values);
-            var response = await _client.PostAsync("api/vacancy-request/create", content);
+            var response = await _client.PostAsJsonAsync($"api/vacancy-request/create/{vacancyId}", request);
             return response;
         }
 

@@ -1,4 +1,4 @@
-﻿namespace VacancyRequests.Aggregator.Models.Requests
+﻿namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.VacancyRequest
 {
     public class RequestCreateVacancyRequest
     {

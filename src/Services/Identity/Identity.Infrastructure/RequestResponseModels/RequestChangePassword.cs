@@ -1,6 +1,6 @@
 namespace Identity.Infrastructure.RequestResponseModels
 {
-    public class ChangePasswordDto
+    public class RequestChangePassword
     {
         public string NewPassword { get; set; }
     }

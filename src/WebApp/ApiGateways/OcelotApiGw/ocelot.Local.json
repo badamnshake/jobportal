@@ -56,6 +56,82 @@
         "Post",
         "Delete"
       ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/job-seeker/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/job-seeker/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Put",
+        "Post",
+        "Delete"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/experience/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/experience/{everything}",
+      "UpstreamHttpMethod": [
+        "Post",
+        "Delete"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/qualification/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/qualification/{everything}",
+      "UpstreamHttpMethod": [
+        "Post",
+        "Delete"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/vacancy-request/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/vacancy-request/delete",
+      "UpstreamHttpMethod": [
+        "Delete"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/vac-req-aggregator/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/vacancy-request/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ]
     }
   ],
   "GlobalConfiguration": {

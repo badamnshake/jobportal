@@ -27,7 +27,7 @@ namespace Identity.API.Services
             {
                 new(JwtRegisteredClaimNames.NameId, user.Email),
                 new(JwtRegisteredClaimNames.Aud, "EmployerAPI"),
-                new(JwtRegisteredClaimNames.Aud, "JobseekerAPI"),
+                new(JwtRegisteredClaimNames.Aud, "JobSeekerAPI")
             };
 
             // add role

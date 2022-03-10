@@ -5,12 +5,12 @@ using AutoMapper;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels;
 using JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobSeeker.API.Controllers
 {
     [ApiController]
-    [Route("/api/jobseeker")]
+    [Route("/api/job-seeker")]
     public class JobSeekerController : ControllerBase
     {
         private readonly IJobSeekerUserRepository _jobSeekerUserRepository;
@@ -22,15 +22,16 @@ namespace JobSeeker.API.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "JobSeeker")]
         [HttpGet("get")]
-        public async Task<ActionResult<ResponseJobSeekerUser>> GetJobSeekerUser([FromQuery] string appUserEmail)
+        public async Task<ActionResult<ResponseJobSeekerUser>> GetJobSeekerDetailsForJobSeeker()
         {
-            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeeker(appUserEmail);
-            if (jobSeekerUser == null) return BadRequest("user with email doesn't exist");
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
+            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeekerDetailsForJobSeeker(jobSeekerId);
             return _mapper.Map<ResponseJobSeekerUser>(jobSeekerUser);
         }
 
-        [HttpPost("add")]
+        [HttpPost("create")]
         public async Task<ActionResult> AddJobSeekerUser(RequestJobSeekerUser request)
         {
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -38,21 +39,13 @@ namespace JobSeeker.API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "JobSeeker")]
         [HttpPut("update")]
         public async Task<ActionResult> UpdateJobSeekerUser(RequestJobSeekerUser request)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
-            if (jobSeekerId == default) return Forbid("you can't change what you don't own");
+            if (jobSeekerId == default) return BadRequest("you can't change what you don't own");
             await _jobSeekerUserRepository.UpdateJobSeeker(request, jobSeekerId);
-            return Ok();
-        }
-
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteJobSeekerUser()
-        {
-            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
-            if (jobSeekerId == default) return Forbid("you can't change what you don't own");
-            await _jobSeekerUserRepository.DeleteJobSeeker(jobSeekerId);
             return Ok();
         }
     }

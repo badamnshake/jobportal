@@ -22,6 +22,7 @@ namespace JobSeeker.API.Extensions
             });
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IQualificationRepository, QualificationRepository>();
+            services.AddScoped<IVacancyRequestRepository, VacancyRequestRepository>();
             services.AddScoped<IExperienceRepository, ExperienceRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
             {

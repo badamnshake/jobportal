@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Employer.Infrastructure.RequestResponseModels.Vacancy
 {
-    public class VacancyDetailsDto
+    public class RequestVacancyDetails
     {
         // id is automatically assigned to as primary key in entity framework
         // organization name which it is published by

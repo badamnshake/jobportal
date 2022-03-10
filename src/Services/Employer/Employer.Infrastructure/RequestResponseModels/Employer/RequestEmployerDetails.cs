@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Employer.Infrastructure.RequestResponseModels.Employer
 {
-    public class DetailsDto
+    public class RequestEmployerDetails
     {
         [Required] public string OrganizationName { get; set; }
         public string OrganizationType { get; set; }

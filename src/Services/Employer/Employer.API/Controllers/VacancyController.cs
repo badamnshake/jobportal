@@ -29,18 +29,18 @@ namespace Employer.API.Controllers
             _employerRepository = employerRepository;
         }
 
-        [HttpGet("get-details/{id:int}")]
-        public async Task<ActionResult<VacancyResponseDetailsDto>> GetDetails(int id)
+        [HttpGet("get/{id:int}")]
+        public async Task<ActionResult<ResponseVacancyDetails>> GetDetails(int id)
         {
             var vacancy = await _vacancyRepository.GetVacancyDetails(id);
             if (vacancy == null)
                 return BadRequest();
-            return _mapper.Map<VacancyResponseDetailsDto>(vacancy);
+            return _mapper.Map<ResponseVacancyDetails>(vacancy);
         }
 
         [Authorize(Roles = "Employer")]
-        [HttpPost("create-details")]
-        public async Task<ActionResult<VacancyResponseDetailsDto>> CreateDetails(VacancyDetailsDto details)
+        [HttpPost("create")]
+        public async Task<ActionResult<ResponseVacancyDetails>> CreateDetails(RequestVacancyDetails details)
         {
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employer = await _employerRepository.GetEmployer(email);
@@ -52,12 +52,12 @@ namespace Employer.API.Controllers
             vac.PublishedDate = DateTime.Now;
             vac.EmployerEntityId = employer.Id;
             var vacancy = await _vacancyRepository.AddVacancy(vac);
-            return _mapper.Map<VacancyResponseDetailsDto>(vacancy);
+            return _mapper.Map<ResponseVacancyDetails>(vacancy);
         }
 
         [Authorize(Roles = "Employer")]
-        [HttpPut("update-details")]
-        public async Task<ActionResult> UpdateDetails(VacancyUpdateDto details)
+        [HttpPut("update")]
+        public async Task<ActionResult> UpdateDetails(RequestVacancyUpdate details)
         {
             var vacancy = await VerifyTheTokenHolderAndFindVacancy(details.Id);
             if (vacancy == null) return BadRequest(" the vacancy doesn't exist");
@@ -67,10 +67,10 @@ namespace Employer.API.Controllers
         }
 
         [Authorize(Roles = "Employer")]
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteVacancy(VacancyDeleteDto details)
+        [HttpDelete("delete/{id:int}")]
+        public async Task<ActionResult> DeleteVacancy(int id)
         {
-            var vacancy = await VerifyTheTokenHolderAndFindVacancy(details.Id);
+            var vacancy = await VerifyTheTokenHolderAndFindVacancy(id);
             if (vacancy == null) return BadRequest(" the vacancy doesn't exist");
             await _vacancyRepository.DeleteVacancy(vacancy);
             return Ok();
@@ -91,7 +91,7 @@ namespace Employer.API.Controllers
 
 
         [HttpGet("get-vacancies/")]
-        public async Task<ActionResult<PagedList<VacancyResponseDetailsDto>>> GetVacancies(
+        public async Task<ActionResult<PagedList<ResponseVacancyDetails>>> GetVacancies(
             [FromQuery] VacancyParams vacancyParams
         )
         {
@@ -102,7 +102,7 @@ namespace Employer.API.Controllers
 
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public void AddPaginationHeaderFromPagedList(PagedList<VacancyResponseDetailsDto> vacancies)
+        public void AddPaginationHeaderFromPagedList(PagedList<ResponseVacancyDetails> vacancies)
         {
             Response.AddPaginationHeader(vacancies.CurrentPage, vacancies.PageSize, vacancies.TotalCount,
                 vacancies.TotalPages);

@@ -14,6 +14,6 @@ namespace Employer.BusinessLogic.Interfaces
         Task<Vacancy> GetVacancyDetails(int id);
 
         // get vacancies from some...
-        Task<PagedList<VacancyResponseDetailsDto>> GetVacancies(VacancyParams vacancyParams);
+        Task<PagedList<ResponseVacancyDetails>> GetVacancies(VacancyParams vacancyParams);
     }
 }

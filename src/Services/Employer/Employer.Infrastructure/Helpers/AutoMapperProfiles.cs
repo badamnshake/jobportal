@@ -9,10 +9,10 @@ namespace Employer.Infrastructure.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<EmployerEntity, EmployerResponseDto>();
-            CreateMap<DetailsDto, EmployerEntity>();
-            CreateMap<VacancyDetailsDto, Vacancy>();
-            CreateMap<Vacancy, VacancyResponseDetailsDto>();
+            CreateMap<EmployerEntity, ResponseEmployerDetails>();
+            CreateMap<RequestEmployerDetails, EmployerEntity>();
+            CreateMap<RequestVacancyDetails, Vacancy>();
+            CreateMap<Vacancy, ResponseVacancyDetails>();
         }
     }
 }

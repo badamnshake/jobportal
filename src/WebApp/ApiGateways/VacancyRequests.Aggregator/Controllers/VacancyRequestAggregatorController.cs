@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VacancyRequests.Aggregator.Models.Requests;
 using VacancyRequests.Aggregator.Models.Responses;
 using VacancyRequests.Aggregator.Services.Interfaces;
 
 namespace VacancyRequests.Aggregator.Controllers
 {
     [ApiController]
-    [Route("/vac-req-aggregator")]
+    [Route("/api/vac-req-aggregator")]
     public class VacancyRequestController : ControllerBase
     {
         private readonly IVacancyService _vacancyService;
@@ -26,10 +28,11 @@ namespace VacancyRequests.Aggregator.Controllers
         }
 
         [Authorize(Roles = "Employer")]
-        [HttpGet("get-js-on-vacancy/{vacancyId:int}")]
+        [HttpGet("get-job-seekers-who-applied-on-vacancy/{vacancyId:int}")]
         public async Task<ActionResult<List<ResponseJobSeeker>>> GetJobSeekersAppliedOnVacancy(int vacancyId)
         {
-            var response = await _employerService.GetDetails();
+            var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await _employerService.GetDetails(email);
             if (!response.IsSuccessStatusCode)
                 return BadRequest("Please create an Employer profile first");
 
@@ -52,13 +55,19 @@ namespace VacancyRequests.Aggregator.Controllers
         [HttpPost("create")]
         public async Task<ActionResult> CreateVacancyRequest([FromQuery] int vacancyId)
         {
+            var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var response = await _vacancyService.GetVacancy(vacancyId);
             var vacancy = await response
                 .Content.ReadFromJsonAsync<ResponseVacancyDetails>();
             if (vacancy == null)
                 return BadRequest("Vacancy you are trying to apply doesn't exist");
+            var request = new RequestCreateVacancyRequest
+            {
+                vacancyId = vacancyId,
+                jobSeekerEmail = email
+            };
 
-            var vacReqCreated = await _vacancyRequestService.CreateVacancyRequest(vacancyId);
+            var vacReqCreated = await _vacancyRequestService.CreateVacancyRequest(vacancyId, request);
 
             if (!vacReqCreated.IsSuccessStatusCode)
                 return BadRequest("Please create a JobSeeker profile first");

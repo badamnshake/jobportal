@@ -3,7 +3,7 @@ using Employer.Infrastructure.RequestResponseModels.Vacancy;
 
 namespace Employer.Infrastructure.RequestResponseModels.Employer
 {
-    public class EmployerResponseDto
+    public class ResponseEmployerDetails
     {
         public int Id { get; set; }
         public string OrganizationName { get; set; }
@@ -13,7 +13,7 @@ namespace Employer.Infrastructure.RequestResponseModels.Employer
         public int NoOfEmployees { get; set; }
         public int StartYear { get; set; }
         public string About { get; set; }
-        public List<VacancyResponseDetailsDto> Vacancies { get; set; }
+        public List<ResponseVacancyDetails> Vacancies { get; set; }
         
     }
 }

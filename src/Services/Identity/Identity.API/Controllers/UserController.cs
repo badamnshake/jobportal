@@ -25,20 +25,20 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<ResponseUserWithToken>> Register(RequestRegister requestRegister)
         {
-            if (await _userRepository.DoesUserExist(registerDto.Email))
+            if (await _userRepository.DoesUserExist(requestRegister.Email))
                 return BadRequest("User with same email already exists");
             using var hmac = new HMACSHA512();
 
             var user = new User
             {
-                UserName = registerDto.UserName,
-                Email = registerDto.Email,
-                FullName = registerDto.FullName,
-                Phone = registerDto.Phone,
-                UserType = (UserType) registerDto.UserType,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+                UserName = requestRegister.UserName,
+                Email = requestRegister.Email,
+                FullName = requestRegister.FullName,
+                Phone = requestRegister.Phone,
+                UserType = (UserType) requestRegister.UserType,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(requestRegister.Password)),
                 PasswordSalt = hmac.Key
             };
 
@@ -49,19 +49,19 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<ResponseUserWithToken>> Login(RequestLogin requestLogin)
         {
-            if (!await _userRepository.DoesUserExist(loginDto.Email)) return Unauthorized("Invalid Credentials");
-            var user = await _userRepository.GetUserAsync(loginDto.Email);
+            if (!await _userRepository.DoesUserExist(requestLogin.Email)) return Unauthorized("Invalid Credentials");
+            var user = await _userRepository.GetUserAsync(requestLogin.Email);
             using var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(requestLogin.Password));
             if (computedHash.SequenceEqual(user.PasswordHash)) return CreateUserDtoWithToken(user);
             return Unauthorized("Invalid Credentials");
         }
 
         [Authorize]
         [HttpPut("change-password")]
-        public async Task<ActionResult<UserDto>> ChangePassword(ChangePasswordDto changePasswordDto)
+        public async Task<ActionResult<ResponseUserWithToken>> ChangePassword(RequestChangePassword requestChangePassword)
         {
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!await _userRepository.DoesUserExist(email)) return Unauthorized("Invalid Credentials");
@@ -75,7 +75,7 @@ namespace Identity.API.Controllers
             //     return BadRequest("Please Enter New password from the last time");
             // }
 
-            await _userRepository.ChangePassword(user, changePasswordDto.NewPassword);
+            await _userRepository.ChangePassword(user, requestChangePassword.NewPassword);
             return CreateUserDtoWithToken(user);
         }
 
@@ -93,9 +93,9 @@ namespace Identity.API.Controllers
         // }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public UserDto CreateUserDtoWithToken(User user)
+        public ResponseUserWithToken CreateUserDtoWithToken(User user)
         {
-            return new UserDto
+            return new ResponseUserWithToken
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user)

@@ -68,6 +68,7 @@ namespace JobSeeker.BusinessLogic.Repositories
                 jobSeekerId,
                 request.FirstName,
                 request.LastName,
+                request.Email,
                 request.Phone,
                 request.Address,
                 request.TotalExperience,
@@ -76,12 +77,5 @@ namespace JobSeeker.BusinessLogic.Repositories
             );
         }
 
-        public async Task DeleteJobSeeker(int jobSeekerId)
-        {
-            await _dataContext.Database.ExecuteSqlRawAsync(
-                "exec spDeleteJobSeekerUser {0}",
-                jobSeekerId
-            );
-        }
     }
 }

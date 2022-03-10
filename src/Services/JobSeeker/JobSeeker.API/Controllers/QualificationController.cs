@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AutoMapper;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using JobSeeker.BusinessLogic.Interfaces;
-using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Qualification;
 using Microsoft.AspNetCore.Authorization;
 
@@ -28,7 +25,7 @@ namespace JobSeeker.API.Controllers
         }
 
         [Authorize(Roles = "JobSeeker")]
-        [HttpPost("add")]
+        [HttpPost("create")]
         public async Task<ActionResult> AddQualification(ReqAddQualification request)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
@@ -38,19 +35,19 @@ namespace JobSeeker.API.Controllers
         }
 
         [Authorize(Roles = "JobSeeker")]
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteQualification(ReqDelQualification request)
+        [HttpDelete("delete/{id:int}")]
+        public async Task<ActionResult> DeleteQualification(int id)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
 
             var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeekerDetailsForJobSeeker(jobSeekerId);
             if (jobSeekerId == default) Forbid("create a profile first");
-            if (jobSeekerUser.Qualifications.SingleOrDefault(x => x.Id == request.Id) == null)
+            if (jobSeekerUser.Qualifications.SingleOrDefault(x => x.Id == id) == null)
             {
                 return Forbid("you can't change what you don't own");
             }
 
-            await _qualificationRepository.DeleteQualification(request.Id);
+            await _qualificationRepository.DeleteQualification(id);
             return Ok();
         }
     }

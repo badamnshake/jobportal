@@ -13,9 +13,9 @@ namespace VacancyRequests.Aggregator.Services
             _client = client;
         }
 
-        public async Task<HttpResponseMessage> GetDetails()
+        public async Task<HttpResponseMessage> GetDetails(string email)
         {
-            var response = await _client.GetAsync("api/employer/get-details");
+            var response = await _client.GetAsync($"api/employer/get/{email}");
             
             return response;
         }

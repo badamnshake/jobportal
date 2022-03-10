@@ -46,10 +46,10 @@ namespace Employer.BusinessLogic.Repositories
             return await _dataContext.Vacancies.FindAsync(id);
         }
 
-        public async Task<PagedList<VacancyResponseDetailsDto>> GetVacancies(VacancyParams vacancyParams)
+        public async Task<PagedList<ResponseVacancyDetails>> GetVacancies(VacancyParams vacancyParams)
         {
             var query = _dataContext.Vacancies
-                .ProjectTo<VacancyResponseDetailsDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<ResponseVacancyDetails>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .AsQueryable();
             if (vacancyParams.Location != null)
@@ -85,7 +85,7 @@ namespace Employer.BusinessLogic.Repositories
 
             // query = query.Where(v => v.LastDateToApply.CompareTo(DateTime.Today) > 0);
 
-            return await PagedList<VacancyResponseDetailsDto>.CreateAsync(query, vacancyParams.PageNumber,
+            return await PagedList<ResponseVacancyDetails>.CreateAsync(query, vacancyParams.PageNumber,
                 vacancyParams.PageSize);
         }
     }

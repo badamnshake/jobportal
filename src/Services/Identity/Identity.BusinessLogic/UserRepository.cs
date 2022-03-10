@@ -21,45 +21,25 @@ namespace Identity.BusinessLogic
 
         public async Task<bool> Register(User user)
         {
-            try
-            {
                 _dataContext.Add(user);
-                await _dataContext.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                return false;
-                throw;
-            }
-
-            return true;
+                return await _dataContext.SaveChangesAsync() > 0;
         }
 
 
         // this method will be needed to authenticate
         public async Task<bool> ChangePassword(User user, string newPassword)
         {
-            try
-            {
                 using var hmac = new HMACSHA512();
                 user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
                 user.PasswordSalt = hmac.Key;
 
                 _dataContext.Users.Update(user);
-                await _dataContext.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                return false;
-                throw;
-            }
-
-            return true;
+                return await _dataContext.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> DoesUserExist(string email)
         {
-            return await _dataContext.Users.AnyAsync<User>(x => x.Email == email);
+            return await _dataContext.Users.AnyAsync(x => x.Email == email);
         }
 
         public async Task<User> GetUserAsync(string email)

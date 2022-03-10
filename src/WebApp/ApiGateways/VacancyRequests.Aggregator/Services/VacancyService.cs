@@ -15,7 +15,7 @@ namespace VacancyRequests.Aggregator.Services
 
         public async Task<HttpResponseMessage> GetVacancy(int vacancyId)
         {
-            var response = await _client.GetAsync($"api/vacancy/get-details/{vacancyId}");
+            var response = await _client.GetAsync($"api/vacancy/get/{vacancyId}");
             return response;
         }
 

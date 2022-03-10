@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.DataAccess;
-using JobSeeker.Infrastrucure.Models;
-using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Experience;
 using Microsoft.EntityFrameworkCore;
 
