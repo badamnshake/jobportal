@@ -16,6 +16,7 @@ namespace VacancyRequests.Aggregator.Services
         public async Task<HttpResponseMessage> GetDetails()
         {
             var response = await _client.GetAsync("api/employer/get-details");
+            
             return response;
         }
     }

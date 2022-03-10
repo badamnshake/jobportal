@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels
+namespace VacancyRequests.Aggregator.Models.Responses
 {
     public class ResExperience
     {

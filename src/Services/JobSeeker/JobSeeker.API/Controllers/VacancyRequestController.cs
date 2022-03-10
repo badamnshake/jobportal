@@ -58,7 +58,7 @@ namespace JobSeeker.API.Controllers
             var vacReq = await _vacancyRequestRepository.GetVacancyRequestFromId(vacancyRequestId);
             if (vacReq == null) return BadRequest("Vacancy Request doesn't exist");
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
-            if (vacReq.JobSeekerUserId != jobSeekerId) return Forbid("You can't delete request you don't own");
+            if (vacReq.JobSeekerUserId != jobSeekerId) return Unauthorized("You can't delete request you don't own");
             await _vacancyRequestRepository.DeleteVacancyRequest(vacReq);
             return Ok();
 
