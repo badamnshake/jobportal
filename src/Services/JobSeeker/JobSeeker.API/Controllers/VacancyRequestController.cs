@@ -7,7 +7,6 @@ using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.Infrastrucure.Models;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.VacancyRequest;
 using JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace JobSeeker.API.Controllers
 {
@@ -38,7 +37,7 @@ namespace JobSeeker.API.Controllers
         public async Task<ActionResult> CreateVacancyRequest(RequestCreateVacancyRequest request)
         {
             var email = request.jobSeekerEmail;
-            var jobSeeker = _jobSeekerUserRepository.GetJobSeeker(email);
+            var jobSeeker = await _jobSeekerUserRepository.GetJobSeeker(email);
 
 
             if (jobSeeker.Id == 0)

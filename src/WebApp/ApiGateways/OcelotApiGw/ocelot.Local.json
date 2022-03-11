@@ -105,7 +105,7 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/vacancy-request/delete",
+      "DownstreamPathTemplate": "/api/vacancy-request/delete/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -113,7 +113,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/vacancy-request/delete",
+      "UpstreamPathTemplate": "/vacancy-request/delete/{everything}",
       "UpstreamHttpMethod": [
         "Delete"
       ]

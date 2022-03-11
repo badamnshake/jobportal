@@ -52,8 +52,8 @@ namespace VacancyRequests.Aggregator.Controllers
         }
 
         [Authorize(Roles = "JobSeeker")]
-        [HttpPost("create")]
-        public async Task<ActionResult> CreateVacancyRequest([FromQuery] int vacancyId)
+        [HttpPost("create/{vacancyId:int}")]
+        public async Task<ActionResult> CreateVacancyRequest( int vacancyId)
         {
             var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var response = await _vacancyService.GetVacancy(vacancyId);
@@ -70,7 +70,7 @@ namespace VacancyRequests.Aggregator.Controllers
             var vacReqCreated = await _vacancyRequestService.CreateVacancyRequest(vacancyId, request);
 
             if (!vacReqCreated.IsSuccessStatusCode)
-                return BadRequest("Please create a JobSeeker profile first");
+                return BadRequest("Either you applied already or JobSeeker profile doesn't exist");
 
             return Ok();
         }
