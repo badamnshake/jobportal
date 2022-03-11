@@ -4,6 +4,7 @@ namespace Employer.Infrastructure.RequestResponseModels.Employer
 {
     public class RequestEmployerDetails
     {
+        // only org name is required to create emp profile
         [Required] public string OrganizationName { get; set; }
         public string OrganizationType { get; set; }
         [EmailAddress] public string CompanyEmail { get; set; }

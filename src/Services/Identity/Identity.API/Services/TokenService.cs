@@ -23,6 +23,7 @@ namespace Identity.API.Services
 
         public string CreateToken(User user)
         {
+            // adds audience to check
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.NameId, user.Email),
@@ -30,7 +31,7 @@ namespace Identity.API.Services
                 new(JwtRegisteredClaimNames.Aud, "JobSeekerAPI")
             };
 
-            // add role
+            // add role ,roles are JobSeeker and Employer
             claims.Add(new Claim(ClaimTypes.Role, user.UserType.ToString()));
 
 

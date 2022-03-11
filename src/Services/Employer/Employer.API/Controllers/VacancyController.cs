@@ -29,15 +29,22 @@ namespace Employer.API.Controllers
             _employerRepository = employerRepository;
         }
 
+        // get details of a single vacancy
+        //
         [HttpGet("get/{id:int}")]
         public async Task<ActionResult<ResponseVacancyDetails>> GetDetails(int id)
         {
+            // if not found return
             var vacancy = await _vacancyRepository.GetVacancyDetails(id);
             if (vacancy == null)
                 return BadRequest();
             return _mapper.Map<ResponseVacancyDetails>(vacancy);
         }
 
+        // employer can create a vacancy
+        // it fetches email from the token and creates an associated vacancy with that employer
+        // token is used get employer to attach vacancy
+        // this means that no other employer can create vacancy for other employer
         [Authorize(Roles = "Employer")]
         [HttpPost("create")]
         public async Task<ActionResult<ResponseVacancyDetails>> CreateDetails(RequestVacancyDetails details)
@@ -45,22 +52,31 @@ namespace Employer.API.Controllers
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employer = await _employerRepository.GetEmployer(email);
 
+            // if employer profile not found employer needs to create an employer profile
+            // to create employer controller create method is used
             if (employer == null)
-                return BadRequest("login as employer");
+                return BadRequest("create a profile first");
 
             var vac = _mapper.Map<Vacancy>(details);
+
+            // published time is set to now
             vac.PublishedDate = DateTime.Now;
+
+            // foreign key to emp table
             vac.EmployerEntityId = employer.Id;
             var vacancy = await _vacancyRepository.AddVacancy(vac);
             return _mapper.Map<ResponseVacancyDetails>(vacancy);
         }
 
+        // update vacancy details for employer
         [Authorize(Roles = "Employer")]
         [HttpPut("update")]
         public async Task<ActionResult> UpdateDetails(RequestVacancyUpdate details)
         {
+            // verify token holder checks if the employer who is trying to update the vacancy owns it or not
+            // if only employer owns the vacancy then only he can change
             var vacancy = await VerifyTheTokenHolderAndFindVacancy(details.Id);
-            if (vacancy == null) return BadRequest(" the vacancy doesn't exist");
+            if (vacancy == null) return BadRequest("Either the vacancy doesn't exist or you don't own it");
 
             await _vacancyRepository.UpdateVacancy(vacancy);
             return Ok();
@@ -70,8 +86,11 @@ namespace Employer.API.Controllers
         [HttpDelete("delete/{id:int}")]
         public async Task<ActionResult> DeleteVacancy(int id)
         {
+            // verify token holder checks if the employer who is trying to update the vacancy owns it or not
+            // if only employer owns the vacancy then only he can change
             var vacancy = await VerifyTheTokenHolderAndFindVacancy(id);
             if (vacancy == null) return BadRequest(" the vacancy doesn't exist");
+
             await _vacancyRepository.DeleteVacancy(vacancy);
             return Ok();
         }
@@ -90,17 +109,22 @@ namespace Employer.API.Controllers
         }
 
 
+        // paged list is used as response
+        // pagination parameters are required to fetch get vacancies
+        // various filtration can be found in vacancy repository
         [HttpGet("get-vacancies/")]
         public async Task<ActionResult<PagedList<ResponseVacancyDetails>>> GetVacancies(
             [FromQuery] VacancyParams vacancyParams
         )
         {
             var vacancies = await _vacancyRepository.GetVacancies(vacancyParams);
+            // this method adds pagination for the client to use
             AddPaginationHeaderFromPagedList(vacancies);
             return vacancies;
         }
 
 
+        // this method adds pagination for the client to use
         [ApiExplorerSettings(IgnoreApi = true)]
         public void AddPaginationHeaderFromPagedList(PagedList<ResponseVacancyDetails> vacancies)
         {

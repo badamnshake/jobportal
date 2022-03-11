@@ -4,6 +4,8 @@ namespace Employer.Infrastructure.Helpers
 {
     public class VacancyParams
     {
+        // if page size is more than 50 then 
+        // page size will be set to 50
         private const int MaxPageSize = 50;
         private int _pageSize = 10;
         public int PageNumber { get; set; } = 1;

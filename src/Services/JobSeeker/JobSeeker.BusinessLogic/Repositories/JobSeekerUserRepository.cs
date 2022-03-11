@@ -16,6 +16,9 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
+        /// <summary>
+        /// create new instance/profile of a job seeker 
+        /// </summary>
         public async Task CreateJobSeeker(RequestJobSeekerUser request, string appUserEmail)
         {
             await _dataContext.Database.ExecuteSqlRawAsync(
@@ -32,6 +35,10 @@ namespace JobSeeker.BusinessLogic.Repositories
             );
         }
 
+        /// <summary>
+        /// gets the job seeker from email
+        /// </summary>
+        /// <param name="appUserEmail">email which is in the token | foreign key in identity</param>
         public async Task<JobSeekerUser> GetJobSeeker(string appUserEmail)
         {
             var jobSeeker = await _dataContext.JobSeekerUsers.SingleOrDefaultAsync(j => j.AppUserEmail == appUserEmail);
@@ -40,16 +47,22 @@ namespace JobSeeker.BusinessLogic.Repositories
             return jobSeeker;
         }
 
-
-        public async Task<JobSeekerUser> GetJobSeekerDetailsForEmployer(int id)
+        /// <summary>
+        /// Deletes job seeker from database
+        /// </summary>
+        /// <param name="jobSeekerUser"> the entity to delete</param>
+        public async Task DeleteJobSeeker(JobSeekerUser jobSeekerUser)
         {
-            var jobSeeker = await _dataContext.JobSeekerUsers
-                .Include(j => j.Qualifications)
-                .Include(j => j.Experiences)
-                .SingleOrDefaultAsync(j => j.Id == id);
-            return jobSeeker;
+            _dataContext.JobSeekerUsers.Remove(jobSeekerUser);
+            await _dataContext.SaveChangesAsync();
         }
 
+
+        /// <summary>
+        /// for an authorized job seeker return their details
+        /// </summary>
+        /// <param name="id">id of the job seeker</param>
+        /// <returns>details of job seeker</returns>
         public async Task<JobSeekerUser> GetJobSeekerDetailsForJobSeeker(int id)
         {
             var jobSeeker = await _dataContext.JobSeekerUsers
@@ -60,9 +73,13 @@ namespace JobSeeker.BusinessLogic.Repositories
             return jobSeeker;
         }
 
+        /// <summary>
+        /// updates the job seeker user
+        /// </summary>
+        /// <param name="request"> info to update</param>
+        /// <param name="jobSeekerId">id of the js obj which got updated</param>
         public async Task UpdateJobSeeker(RequestJobSeekerUser request, int jobSeekerId)
         {
-            
             await _dataContext.Database.ExecuteSqlRawAsync(
                 "exec spUpdateJobSeekerUser {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
                 jobSeekerId,
@@ -76,6 +93,5 @@ namespace JobSeeker.BusinessLogic.Repositories
                 request.DateOfBirth.ToString()
             );
         }
-
     }
 }

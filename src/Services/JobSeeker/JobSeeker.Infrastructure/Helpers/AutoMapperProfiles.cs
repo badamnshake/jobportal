@@ -9,6 +9,7 @@ namespace JobSeeker.Infrastrucure.Helpers
     {
         public AutoMapperProfiles()
         {
+            // profile to map from and to 
             CreateMap<JobSeekerUser, ResponseJobSeekerUser>();
             CreateMap<Qualification, ResQualification>();
             CreateMap<Experience, ResExperience>();

@@ -2,6 +2,7 @@ namespace Employer.Infrastructure.Helpers
 {
     public class PaginationHeader
     {
+        // pagination header is used to communicate with client and server for page details
         public PaginationHeader(int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {
             CurrentPage = currentPage;

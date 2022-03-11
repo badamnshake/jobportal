@@ -28,6 +28,16 @@ namespace VacancyRequests.Aggregator.Extensions
                     c.BaseAddress = new Uri(config.GetValue<string>("ApiSettings:EmployerUrl"));
                 }
             );
+            services.AddHttpClient<IJobSeekerService, JobSeekerService>(c =>
+                {
+                    c.BaseAddress = new Uri(config.GetValue<string>("ApiSettings:JobSeekerUrl"));
+                }
+            );
+            services.AddHttpClient<IUserService, UserService>(c =>
+                {
+                    c.BaseAddress = new Uri(config.GetValue<string>("ApiSettings:IdentityUrl"));
+                }
+            );
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
             {
                 var key = Encoding.UTF8.GetBytes(config.GetValue<string>("Jwt:key"));

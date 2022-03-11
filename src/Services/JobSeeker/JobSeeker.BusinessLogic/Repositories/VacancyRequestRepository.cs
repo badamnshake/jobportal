@@ -10,6 +10,7 @@ namespace JobSeeker.BusinessLogic.Repositories
 {
     public class VacancyRequestRepository : IVacancyRequestRepository
     {
+        // this class has pretty self explanatory code
         private readonly DataContext _dataContext;
 
         public VacancyRequestRepository(DataContext dataContext)

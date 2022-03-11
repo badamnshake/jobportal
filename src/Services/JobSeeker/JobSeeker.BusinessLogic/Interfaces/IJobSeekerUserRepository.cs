@@ -9,7 +9,7 @@ namespace JobSeeker.BusinessLogic.Interfaces
         Task CreateJobSeeker(RequestJobSeekerUser request, string appUserEmail);
         Task UpdateJobSeeker(RequestJobSeekerUser request, int jobSeekerUserId);
         Task<JobSeekerUser> GetJobSeeker(string appUserEmail);
-        Task<JobSeekerUser> GetJobSeekerDetailsForEmployer(int id);
         Task<JobSeekerUser> GetJobSeekerDetailsForJobSeeker(int id);
+        Task DeleteJobSeeker(JobSeekerUser jobSeekerUser);
     }
 }

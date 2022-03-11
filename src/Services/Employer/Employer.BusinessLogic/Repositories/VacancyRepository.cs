@@ -48,6 +48,8 @@ namespace Employer.BusinessLogic.Repositories
 
         public async Task<PagedList<ResponseVacancyDetails>> GetVacancies(VacancyParams vacancyParams)
         {
+            // this method has various filtration
+            // creates query from the coming variables
             var query = _dataContext.Vacancies
                 .ProjectTo<ResponseVacancyDetails>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
@@ -55,34 +57,29 @@ namespace Employer.BusinessLogic.Repositories
             if (vacancyParams.Location != null)
                 query = query.Where(v => v.Location.Contains(vacancyParams.Location));
             if (vacancyParams.MinSalary != 0)
+                // more than min salary records will be shows
                 query = query.Where(v => v.MinSalary > vacancyParams.MinSalary);
             if (vacancyParams.MaxSalary != 0)
+                // more than max salary records will be shows
                 query = query.Where(v => v.MaxSalary > vacancyParams.MaxSalary);
             if (vacancyParams.LastDateToApply != default)
-                query = query.Where(v => v.LastDateToApply.CompareTo(vacancyParams.LastDateToApply) > 0);
+                // only vacancies when the last date is after the applied date
+                query = query.Where(v => v.LastDateToApply.CompareTo(vacancyParams.LastDateToApply) >= 0);
+                // only vacancies when the published date is after the applied date
             if (vacancyParams.PublishedDate != default)
                 query = query.Where(x => x.PublishedDate.CompareTo(vacancyParams.PublishedDate) > 0);
 
-            switch (vacancyParams.OrderBy)
+            query = vacancyParams.OrderBy switch
             {
-                case ToOrderBy.MinSalaryDescending:
-                    query = query.OrderByDescending(v => v.MinSalary);
-                    break;
-                case ToOrderBy.MaxSalaryDescending:
-                    query = query.OrderByDescending(v => v.MaxSalary);
-                    break;
-                case ToOrderBy.LastDateToApply:
-                    query = query.OrderByDescending(v => v.LastDateToApply);
-                    break;
-                case ToOrderBy.PublishedDate:
-                    query = query.OrderBy(v => v.PublishedDate);
-                    break;
-                default:
-                    query = query.OrderBy(v => v.MinSalary);
-                    break;
-                    
-            }
+                ToOrderBy.MinSalaryDescending => query.OrderByDescending(v => v.MinSalary),
+                ToOrderBy.MaxSalaryDescending => query.OrderByDescending(v => v.MaxSalary),
+                ToOrderBy.LastDateToApply => query.OrderByDescending(v => v.LastDateToApply),
+                ToOrderBy.PublishedDate => query.OrderBy(v => v.PublishedDate),
+                _ => query.OrderBy(v => v.MinSalary)
+            };
 
+            // maybe in future the app only shows vacancies where last date isn't expired
+            // meaning last date is after today, only those entries will be shown
             // query = query.Where(v => v.LastDateToApply.CompareTo(DateTime.Today) > 0);
 
             return await PagedList<ResponseVacancyDetails>.CreateAsync(query, vacancyParams.PageNumber,

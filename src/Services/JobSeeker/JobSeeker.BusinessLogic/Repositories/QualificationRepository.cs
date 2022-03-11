@@ -15,6 +15,9 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
+        /// <summary>
+        /// creates a qualification for a js user
+        /// </summary>
         public async Task CreateQualification(ReqAddQualification request, int jsId)
         {
             await  _dataContext.Database.ExecuteSqlRawAsync(
@@ -26,19 +29,11 @@ namespace JobSeeker.BusinessLogic.Repositories
                 request.DateOfCompletion,
                 request.GradeOrScore
             );
-           // await query.ToListAsync();
-           
-            // await _dataContext.Database.ExecuteSqlRawAsync(
-           
-            //     "exec spAddQualification {0}, {1}, {2}, {3}, {4}",
-            //     request.JobSeekerUserId,
-            //     request.QualificationName,
-            //     request.University,
-            //     request.DateOfCompletion,
-            //     request.GradeOrScore
-            // );
         }
 
+        /// <summary>
+        /// deletes a qualification from a js user
+        /// </summary>
         public async Task DeleteQualification( int qId)
         {
             await  _dataContext.Database.ExecuteSqlRawAsync(

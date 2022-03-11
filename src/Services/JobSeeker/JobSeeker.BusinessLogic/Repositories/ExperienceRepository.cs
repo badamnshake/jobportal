@@ -15,6 +15,9 @@ namespace JobSeeker.BusinessLogic.Repositories
             _dataContext = dataContext;
         }
 
+        /// <summary>
+        /// creates an experience for a js user
+        /// </summary>
         public async Task AddExperience(ReqAddExp request, int jsId)
         {
             await  _dataContext.Database.ExecuteSqlRawAsync(
@@ -33,6 +36,9 @@ namespace JobSeeker.BusinessLogic.Repositories
            // await _dataContext.Database.ExecuteSqlRawAsync();
         }
 
+        /// <summary>
+        /// deletes an experience from a js user
+        /// </summary>
         public async Task DeleteExperience( int eId)
         {
             await  _dataContext.Database.ExecuteSqlRawAsync(

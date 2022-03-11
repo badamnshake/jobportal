@@ -11,16 +11,23 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.API.Extensions
 {
+    // it adds services
     public static class ApplicationServiceExtensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            // db
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
+            
+            // repository for user
             services.AddScoped<IUserRepository, UserRepository>();
+            
+            // token service for auth
             services.AddScoped<ITokenService, TokenService>();
+            
             services.AddCors();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>

@@ -18,17 +18,22 @@ namespace Identity.API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
 
+        // token service for returning token
         public UserController(IUserRepository userRepository, ITokenService tokenService)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
         }
 
+        // register a user in db
         [HttpPost("register")]
         public async Task<ActionResult<ResponseUserWithToken>> Register(RequestRegister requestRegister)
         {
+            // if entry exists then return
             if (await _userRepository.DoesUserExist(requestRegister.Email))
                 return BadRequest("User with same email already exists");
+
+            // for password creation
             using var hmac = new HMACSHA512();
 
             var user = new User
@@ -48,50 +53,56 @@ namespace Identity.API.Controllers
             return CreateUserDtoWithToken(user);
         }
 
+        // returns an auth token 
         [HttpPost("login")]
         public async Task<ActionResult<ResponseUserWithToken>> Login(RequestLogin requestLogin)
         {
+            // if entry doesnt exist then return
             if (!await _userRepository.DoesUserExist(requestLogin.Email)) return Unauthorized("Invalid Credentials");
+
             var user = await _userRepository.GetUserAsync(requestLogin.Email);
+
+            // get the password salt to compare password
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(requestLogin.Password));
+
+            // compare password and return
             if (computedHash.SequenceEqual(user.PasswordHash)) return CreateUserDtoWithToken(user);
             return Unauthorized("Invalid Credentials");
         }
 
+        // change password
         [Authorize]
         [HttpPut("change-password")]
-        public async Task<ActionResult<ResponseUserWithToken>> ChangePassword(RequestChangePassword requestChangePassword)
+        public async Task<ActionResult<ResponseUserWithToken>> ChangePassword(
+            RequestChangePassword requestChangePassword)
         {
+            // it takes email from token
+            // as token is already specified, don't compare old password as auth is provided
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // if entry with specified email doesnt exist then return
             if (!await _userRepository.DoesUserExist(email)) return Unauthorized("Invalid Credentials");
             var user = await _userRepository.GetUserAsync(email);
 
-            // using var hmac = new HMACSHA512(user.PasswordSalt);
-            // var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(changePasswordDto.NewPassword));
-
-            // if (computedHash.SequenceEqual(user.PasswordHash))
-            // {
-            //     return BadRequest("Please Enter New password from the last time");
-            // }
 
             await _userRepository.ChangePassword(user, requestChangePassword.NewPassword);
             return CreateUserDtoWithToken(user);
         }
 
 
-        // [Authorize]
-        // [HttpGet("get")]
-        // public async Task<ActionResult<>> GetRole()
-        // {
-        //     // job seeker is 0 and employer is 1
-        //     var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //     // HttpContext.User. gotta check if i can use claims
-        //     if (!await _userRepository.DoesUserExist(email)) return Unauthorized("Invalid Credentials");
-        //     var user = await _userRepository.GetUserAsync(email);
-        //     return (int) user.UserType;
-        // }
+        // deletes the entry of user
+        // this end point isn't accessed directly it goes through aggregator
+        // the reason is when a user is deleted from identity 
+        // the counter parts in other db with same email should also be deleted
+        [Authorize]
+        [HttpDelete("delete")]
+        public async Task<ActionResult> DeleteUser(RequestDelete requestDelete)
+        {
+            await _userRepository.DeleteUser(requestDelete.email);
+            return Ok();
+        }
 
+        // creates a token using jwt with token service for auth purposes
         [ApiExplorerSettings(IgnoreApi = true)]
         public ResponseUserWithToken CreateUserDtoWithToken(User user)
         {

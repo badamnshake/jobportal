@@ -20,10 +20,17 @@ namespace JobSeeker.API.Extensions
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
+            // auto mapper profiles for smooth mapping between objects
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+            
+            // needed repos
+            services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
             services.AddScoped<IQualificationRepository, QualificationRepository>();
             services.AddScoped<IVacancyRequestRepository, VacancyRequestRepository>();
             services.AddScoped<IExperienceRepository, ExperienceRepository>();
+            
+            
+            // bearer provided by Identity API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
             {
                 var key = Encoding.UTF8.GetBytes(config.GetValue<string>("Jwt:key"));
@@ -42,7 +49,6 @@ namespace JobSeeker.API.Extensions
                 };
             });
             // services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
-            services.AddScoped<IJobSeekerUserRepository, JobSeekerUserRepository>();
             return services;
         }
     }

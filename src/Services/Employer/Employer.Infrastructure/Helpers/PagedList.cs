@@ -8,6 +8,9 @@ namespace Employer.Infrastructure.Helpers
 {
     public class PagedList<T> : List<T>
     {
+        // Paged list dynamic class with T generic
+        // any object can be used as paged list
+        
         public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
         {
             CurrentPage = pageNumber;
@@ -22,6 +25,7 @@ namespace Employer.Infrastructure.Helpers
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
 
+        // takes page number and creates query to get the objects are paged
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = await source.CountAsync();

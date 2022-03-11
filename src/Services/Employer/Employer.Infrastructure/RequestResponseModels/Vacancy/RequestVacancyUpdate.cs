@@ -4,6 +4,8 @@ namespace Employer.Infrastructure.RequestResponseModels.Vacancy
 {
     public class RequestVacancyUpdate
     {
+        // on update not everything is required
+        // auto mapper will only work with supplied values
         public int Id { get; set; }
         public int NoOfVacancies { get; set; }
         public string MinimumQualification { get; set; }
