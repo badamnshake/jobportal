@@ -1,10 +1,9 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Employer, VacResValue } from 'src/app/_models/employer';
+import { Employer } from 'src/app/_models/employer';
+import { Vacancy } from 'src/app/_models/vacancy';
 import { BusyService } from 'src/app/_services/busy.service';
-import { Vacancy } from '../../_models/vacancy';
-import { AccountService } from '../../_services/account.service';
 import { EmployerService } from '../../_services/employer.service';
 
 @Component({
@@ -15,7 +14,7 @@ import { EmployerService } from '../../_services/employer.service';
 export class EmployerVacancyListComponent implements OnInit {
   employer: Employer;
   id: number;
-  vacancyList: VacResValue[];
+  vacancyList: Vacancy[];
   ownsVacancy = false;
   loaded = false;
 
@@ -44,7 +43,7 @@ export class EmployerVacancyListComponent implements OnInit {
     });
     if (empId != null) {
       this.employerService.getEmployerFromId(empId).subscribe((response) => {
-        this.vacancyList =  response.vacancies.$values;
+        this.vacancyList =  response.vacancies;
       });
     } else {
       this.employerService
@@ -53,7 +52,7 @@ export class EmployerVacancyListComponent implements OnInit {
           if (response == null) {
             console.log('need to create some vacancies');
           } else {
-            this.vacancyList = response.vacancies.$values;
+            this.vacancyList = response.vacancies;
           }
         });
     }

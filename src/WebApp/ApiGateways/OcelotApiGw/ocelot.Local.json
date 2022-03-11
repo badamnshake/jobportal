@@ -105,7 +105,7 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/vacancy-request/delete/{everything}",
+      "DownstreamPathTemplate": "/api/vacancy-request/delete/{vacancyRequestId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -113,13 +113,13 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/vacancy-request/delete/{everything}",
+      "UpstreamPathTemplate": "/vacancy-request/delete/{vacancyRequestId}",
       "UpstreamHttpMethod": [
         "Delete"
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/vac-req-aggregator/{everything}",
+      "DownstreamPathTemplate": "/api/vac-req-aggregator/create",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -127,10 +127,23 @@
           "Port": 5005
         }
       ],
-      "UpstreamPathTemplate": "/vacancy-request/{everything}",
+      "UpstreamPathTemplate": "/vacancy-request/create",
       "UpstreamHttpMethod": [
-        "Get",
         "Post"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/vac-req-aggregator/get-job-seekers-who-applied-on-vacancy/{vacancyId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/get-job-seekers-who-applied-on-vacancy/{vacancyId}",
+      "UpstreamHttpMethod": [
+        "Get"
       ]
     }
   ],

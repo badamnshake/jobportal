@@ -15,9 +15,9 @@ namespace VacancyRequests.Aggregator.Services
             _client = client;
         }
 
-        public async Task<HttpResponseMessage> CreateVacancyRequest(int vacancyId, RequestCreateVacancyRequest request)
+        public async Task<HttpResponseMessage> CreateVacancyRequest(int vacancyId, VacancyRequestModel vacancyRequest)
         {
-            var response = await _client.PostAsJsonAsync($"api/vacancy-request/create/", request);
+            var response = await _client.PostAsJsonAsync($"api/vacancy-request/create/", vacancyRequest);
             return response;
         }
 

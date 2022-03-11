@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, max, min } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { JobSeeker } from '../_models/job-seeker';
 import { PaginatedResult } from '../_models/pagination';
-import { GetVacancyResponse } from '../_models/responseModels/getvacancies';
 import { ToOrderBy, Vacancy } from '../_models/vacancy';
 
 @Injectable({
@@ -62,15 +62,15 @@ export class VacancyService {
       }
     }
     return this.http
-      .get<GetVacancyResponse>(this.baseUrl + '/vacancy/get-vacancies/', {
+      .get<Vacancy[]>(this.baseUrl + '/vacancy/get-vacancies/', {
         observe: 'response',
         params: queryParams,
       })
       .pipe(
         map((response) => {
           console.log(response.body);
-          
-          this.paginatedResult.result = response.body.$values;
+
+          this.paginatedResult.result = response.body;
           if (response.headers.get('Pagination') !== null) {
             this.paginatedResult.pagination = JSON.parse(
               response.headers.get('Pagination')
@@ -95,5 +95,16 @@ export class VacancyService {
         console.log('hello');
       })
     );
+  }
+  getJobSeekersWhoAppliedOn(vacancyId: number) {
+    return this.http
+      .get<JobSeeker[]>(
+        this.baseUrl + `/get-job-seekers-who-applied-on-vacancy/${vacancyId}`
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
   }
 }

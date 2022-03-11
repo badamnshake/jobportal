@@ -52,22 +52,22 @@ namespace VacancyRequests.Aggregator.Controllers
         }
 
         [Authorize(Roles = "JobSeeker")]
-        [HttpPost("create/{vacancyId:int}")]
-        public async Task<ActionResult> CreateVacancyRequest( int vacancyId)
+        [HttpPost("create")]
+        public async Task<ActionResult> CreateVacancyRequest(RequestCreateVacReq req)
         {
             var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var response = await _vacancyService.GetVacancy(vacancyId);
+            var response = await _vacancyService.GetVacancy(req.vacancyId);
             var vacancy = await response
                 .Content.ReadFromJsonAsync<ResponseVacancyDetails>();
             if (vacancy == null)
                 return BadRequest("Vacancy you are trying to apply doesn't exist");
-            var request = new RequestCreateVacancyRequest
+            var request = new VacancyRequestModel
             {
-                vacancyId = vacancyId,
+                vacancyId = req.vacancyId,
                 jobSeekerEmail = email
             };
 
-            var vacReqCreated = await _vacancyRequestService.CreateVacancyRequest(vacancyId, request);
+            var vacReqCreated = await _vacancyRequestService.CreateVacancyRequest(req.vacancyId, request);
 
             if (!vacReqCreated.IsSuccessStatusCode)
                 return BadRequest("Either you applied already or JobSeeker profile doesn't exist");
