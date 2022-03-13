@@ -7,5 +7,6 @@ namespace VacancyRequests.Aggregator.Services.Interfaces
     {
 
         public Task<HttpResponseMessage> GetDetails(string email);
+        public Task<HttpResponseMessage> DeleteEmployer(string email);
     }
 }

@@ -16,7 +16,13 @@ namespace VacancyRequests.Aggregator.Services
         public async Task<HttpResponseMessage> GetDetails(string email)
         {
             var response = await _client.GetAsync($"api/employer/get/{email}");
-            
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> DeleteEmployer(string email)
+        {
+            var response = await _client.DeleteAsync($"api/employer/delete/{email}");
             return response;
         }
     }

@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: Services/Identity/Identity.API/Dockerfile
+
+  employer.api:
+    image: ${DOCKER_REGISTRY-}employerapi
+    build:
+      context: .
+      dockerfile: Services/Employer/Employer.API/Dockerfile
+
+
+  jobseeker.api:
+    image: ${DOCKER_REGISTRY-}jobseekerapi
+    build:
+      context: .
+      dockerfile: Services/JobSeeker/JobSeeker.API/Dockerfile
+
+
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: WebApp/ApiGateways/OcelotApiGw/Dockerfile
+
+
+  vacancyrequests.aggregator:
+    image: ${DOCKER_REGISTRY-}vacancyrequestsaggregator
+    build:
+      context: .
+      dockerfile: WebApp/ApiGateways/VacancyRequests.Aggregator/Dockerfile
+

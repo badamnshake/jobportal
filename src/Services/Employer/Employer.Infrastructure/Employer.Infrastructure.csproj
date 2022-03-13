@@ -9,8 +9,5 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\JobSeeker\JobSeeker.Infrastructure\JobSeeker.Infrastructure.csproj" />
-    </ItemGroup>
 
 </Project>

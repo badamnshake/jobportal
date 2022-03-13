@@ -68,11 +68,11 @@ namespace JobSeeker.API.Controllers
         /// </summary>
         /// <param name="request"> id of job seeker</param>
         /// <returns> status code 200 or 500</returns>
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteJobSeekerUser(RequestJobSeekerDelete request)
+        [HttpDelete("delete/{email}")]
+        public async Task<ActionResult> DeleteJobSeekerUser(string email)
         {
             // the middleware gets job seeker Id from the auth jwt token and adds to context
-            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeeker(request.Email);
+            var jobSeekerUser = await _jobSeekerUserRepository.GetJobSeeker(email);
             // if job seeker doesn't exist then there is no reason to delete it
             if (jobSeekerUser == null) return Ok();
             await _jobSeekerUserRepository.DeleteJobSeeker(jobSeekerUser);

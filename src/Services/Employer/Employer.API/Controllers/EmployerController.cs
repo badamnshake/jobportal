@@ -33,6 +33,7 @@ namespace Employer.API.Controllers
             var obj = _mapper.Map<ResponseEmployerDetails>(await _employerRepository.GetEmployer(email));
             return obj;
         }
+
         // gets the employer from email
         // only the request aggregator uses this method otherwise it doesn't make sense to use this
         // request aggregator fetches the details from this
@@ -46,8 +47,8 @@ namespace Employer.API.Controllers
             var obj = _mapper.Map<ResponseEmployerDetails>(await _employerRepository.GetEmployer(email));
             return obj;
         }
-        
-        
+
+
         // the reason for this endpoint was to get employers for job seekers
         // making it searchable through id
         // as vacancy has employer id in it
@@ -57,7 +58,7 @@ namespace Employer.API.Controllers
         {
             if (!await _employerRepository.DoesEmployerExistById(id)) return BadRequest("employer not found");
             var emp = await _employerRepository.GetEmployerFromId(id);
-            
+
             var obj = _mapper.Map<ResponseEmployerDetails>(emp);
             return obj;
         }
@@ -68,16 +69,15 @@ namespace Employer.API.Controllers
         [HttpPost("create")]
         public async Task<ActionResult> CreateDetails(RequestEmployerDetails requestEmployerDetails)
         {
-            
             var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+
             // if employer details exist then return
             if (await _employerRepository.DoesEmployerExist(email))
                 return BadRequest("Employer already exists");
 
             // it maps from request to employer entity
             var empEntity = _mapper.Map<EmployerEntity>(requestEmployerDetails);
-            
+
             // email works as identity foreign key for purpose and taken from token
             empEntity.CreatedByEmailUser = email;
             await _employerRepository.CreateEmployerDetails(empEntity);
@@ -101,17 +101,15 @@ namespace Employer.API.Controllers
             await _employerRepository.UpdateEmployerDetail(empEntity);
             return Ok();
         }
-        
-        
+
+
         // it deletes the employer
         // this route doesn't exist directly
         // only gateway aggregator deletes the employer profile automatically
         // when the Identity is deleted {identity api}
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteEmployer(RequestEmployerDelete request)
+        [HttpDelete("delete/{email}")]
+        public async Task<ActionResult> DeleteEmployer(string email)
         {
-            var email = request.Email;
-
             if (!await _employerRepository.DoesEmployerExist(email))
                 // if employer doesn't exist no need to remove
                 return Ok();

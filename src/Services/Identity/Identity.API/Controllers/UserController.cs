@@ -94,11 +94,10 @@ namespace Identity.API.Controllers
         // this end point isn't accessed directly it goes through aggregator
         // the reason is when a user is deleted from identity 
         // the counter parts in other db with same email should also be deleted
-        [Authorize]
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteUser(RequestDelete requestDelete)
+        [HttpDelete("delete/{email}")]
+        public async Task<ActionResult> DeleteUser(string email)
         {
-            await _userRepository.DeleteUser(requestDelete.email);
+            await _userRepository.DeleteUser(email);
             return Ok();
         }
 

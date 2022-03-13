@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VacancyRequests.Aggregator.Models.Requests;
-using VacancyRequests.Aggregator.Models.Responses;
 using VacancyRequests.Aggregator.Services.Interfaces;
 
 namespace VacancyRequests.Aggregator.Controllers
@@ -29,10 +24,13 @@ namespace VacancyRequests.Aggregator.Controllers
 
 
         [Authorize]
-        [HttpPost("delete")]
-        public async Task<ActionResult> CreateVacancyRequest(RequestCreateVacReq req)
+        [HttpDelete("delete")]
+        public async Task<ActionResult> DeleteUser()
         {
             var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _userService.DeleteUser(email);
+            await _employerService.DeleteEmployer(email);
+            await _jobSeekerService.DeleteJobSeeker(email);
             return Ok();
         }
     }

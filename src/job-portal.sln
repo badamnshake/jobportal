@@ -65,7 +65,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGw", "WebApp\ApiGateways\OcelotApiGw\OcelotApiGw.csproj", "{FA661FE9-C7F3-4DEB-9BB6-812BFE0EAFED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VacancyRequests.Aggregator", "WebApp\ApiGateways\VacancyRequests.Aggregator\VacancyRequests.Aggregator.csproj", "{166B3AA6-992E-4B17-B95D-9F4205347744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VacancyRequests.Aggregator", "WebApp\ApiGateways\VacancyRequests.Aggregator\VacancyRequests.Aggregator.csproj", "{166B3AA6-992E-4B17-B95D-9F4205347744}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{66456187-7CEF-448A-8A38-1A443D2C3EF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{166B3AA6-992E-4B17-B95D-9F4205347744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{166B3AA6-992E-4B17-B95D-9F4205347744}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{166B3AA6-992E-4B17-B95D-9F4205347744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66456187-7CEF-448A-8A38-1A443D2C3EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66456187-7CEF-448A-8A38-1A443D2C3EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66456187-7CEF-448A-8A38-1A443D2C3EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66456187-7CEF-448A-8A38-1A443D2C3EF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
