@@ -7,7 +7,7 @@ using VacancyRequests.Aggregator.Services.Interfaces;
 namespace VacancyRequests.Aggregator.Controllers
 {
     [ApiController]
-    [Route("/api/user")]
+    [Route("/api/vac-req-aggregator/user")]
     public class UserAggregatorController : ControllerBase
     {
         private readonly IUserService _userService;

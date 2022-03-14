@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Employer } from 'src/app/_models/employer';
-import { User } from 'src/app/_models/user';
 import { EmployerService } from 'src/app/_services/employer.service';
 
 @Component({
@@ -22,18 +21,9 @@ export class EmployerProfileEditComponent implements OnInit {
 
   ngOnInit(): void {
     let id: number = parseInt(localStorage.getItem('empId'));
-    if (id) {
-      this.employerService.getEmployerFromId(id).subscribe((response) => {
-        this.checkForEmployerAndSetValues(response);
-      });
-    } else {
-      let user: User = JSON.parse(localStorage.getItem('user'));
-      this.employerService
-        .getEmployerFromEmail(user.email)
-        .subscribe((response) => {
-          this.checkForEmployerAndSetValues(response);
-        });
-    }
+    this.employerService.getEmployerMe().subscribe((response) => {
+      this.checkForEmployerAndSetValues(response);
+    });
   }
 
   checkForEmployerAndSetValues(response: Employer) {
@@ -43,7 +33,7 @@ export class EmployerProfileEditComponent implements OnInit {
   }
 
   setDisplayTexts() {
-    if (this.doesEmpExist) {
+    if (!this.doesEmpExist) {
       this.submitButtonText = 'Create Profile';
       this.descriptionText = 'Add Details  & Create Profile';
     } else {
@@ -52,10 +42,8 @@ export class EmployerProfileEditComponent implements OnInit {
     }
   }
   updateOrCreateDetails() {
-    if (this.doesEmpExist) {
-      this.employerService.createEmployer(this.employer).subscribe((empId) => {
-        localStorage.setItem('empId', empId.toString());
-      });
+    if (!this.doesEmpExist) {
+      this.employerService.createEmployer(this.employer).subscribe(() => {});
     } else {
       this.employerService.updateEmployer(this.employer).subscribe({
         next: () => {},

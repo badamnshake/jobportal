@@ -145,6 +145,20 @@
       "UpstreamHttpMethod": [
         "Get"
       ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/vac-req-aggregator/user/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/user/delete",
+      "UpstreamHttpMethod": [
+        "Delete"
+      ]
     }
   ],
   "GlobalConfiguration": {

@@ -18,14 +18,13 @@ export class JobSeekerService {
   getMyDetails() {
     return this.http.get<JobSeeker>(this.baseUrl + '/job-seeker/get/').pipe(
       map((response: JobSeeker) => {
-        const jobSeeker = response;
         return response;
       })
     );
   }
   createJobSeeker(model: JobSeeker) {
     return this.http
-      .post(this.baseUrl + '/job-seeker/create-details', model)
+      .post(this.baseUrl + '/job-seeker/create', model)
       .pipe(
         map((id: number) => {
           return id;
@@ -34,7 +33,7 @@ export class JobSeekerService {
   }
   updateJobSeeker(model: JobSeeker) {
     return this.http
-      .post(this.baseUrl + '/job-seeker/update-details', model)
+      .post(this.baseUrl + '/job-seeker/update', model)
       .pipe(
         map(() => {
           console.log('hello');

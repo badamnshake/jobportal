@@ -1,9 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { map, ReplaySubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import jwtDecode from 'jwt-decode';
 import { Employer } from '../_models/employer';
+import { JobSeeker } from '../_models/job-seeker';
 import { Vacancy } from '../_models/vacancy';
 
 @Injectable({
@@ -15,73 +15,58 @@ export class EmployerService {
   // create details
   // update details
   baseUrl = environment.apiUrl;
-  private currentEmpIdSource = new ReplaySubject<number>(1);
-  currentEmpId$ = this.currentEmpIdSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
   getEmployerFromId(id: number) {
-    return this.http
-      .get<Employer>(this.baseUrl + `/employer/get-details/${id}`)
-      .pipe(
-        map((response: Employer) => {
-          const employer = response;
-          console.log(employer);
-          if (employer) {
-            localStorage.setItem('empId', id.toString());
-            this.setCurrentEmpId(id);
-          }
-          return response;
-        })
-      );
-  }
-  getEmployerFromEmail(email: string) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('email', email);
-    return this.http
-      .get<Employer>(this.baseUrl + '/employer/get-details/', {
-        params: queryParams,
+    return this.http.get<Employer>(this.baseUrl + `/employer/get/${id}`).pipe(
+      map((response: Employer) => {
+        return response;
       })
-      .pipe(
-        map((response: Employer) => {
-          const employer = response;
-          console.log(employer);
-          if (employer) {
-            localStorage.setItem('empId', employer.id.toString());
-            this.setCurrentEmpId(employer.id);
-          }
-          return response;
-        })
-      );
+    );
+  }
+  getEmployerMe() {
+    return this.http.get<Employer>(this.baseUrl + '/employer/get/').pipe(
+      map((response: Employer) => {
+        return response;
+      })
+    );
   }
   createEmployer(model: Employer) {
-    return this.http
-      .post(this.baseUrl + '/employer/create-details', model)
-      .pipe(
-        map((id: number) => {
-          if (id) {
-            localStorage.setItem('empId', id.toString());
-            this.setCurrentEmpId(id);
-          }
-          return id;
-        })
-      );
+    return this.http.post(this.baseUrl + '/employer/create', model).pipe(
+      map(() => {
+        return true;
+      })
+    );
   }
   updateEmployer(model: Employer) {
+    return this.http.post(this.baseUrl + '/employer/update', model).pipe(
+      map(() => {
+        return true;
+      })
+    );
+  }
+  // related to vacancies
+  createVacancy(model: any) {
+    return this.http.post(this.baseUrl + '/vacancy/create', model).pipe(
+      map((vac: Vacancy) => {
+        return vac;
+      })
+    );
+  }
+  updateVacancy(model: any) {
     return this.http
-      .post(this.baseUrl + '/employer/update-details', model)
+      .post(this.baseUrl + '/vacancy/update', model)
+  }
+  getJobSeekersWhoAppliedOn(vacancyId: number) {
+    return this.http
+      .get<JobSeeker[]>(
+        this.baseUrl + `/get-job-seekers-who-applied-on-vacancy/${vacancyId}`
+      )
       .pipe(
-        map(() => {
-          console.log('hello');
+        map((response) => {
+          return response;
         })
       );
   }
-
-  setCurrentEmpId(id: number) {
-    this.currentEmpIdSource.next(id);
-  }
-  removeCurrentEmpId(id: number) {
-    this.currentEmpIdSource.next(null);
-  }
-
 }

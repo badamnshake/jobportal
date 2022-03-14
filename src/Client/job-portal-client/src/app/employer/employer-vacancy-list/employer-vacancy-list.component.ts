@@ -26,36 +26,22 @@ export class EmployerVacancyListComponent implements OnInit {
 
   ngOnInit(): void {
     this.busyService.busy();
-      this.fetchVacancyListAfterLoggedIn(this.employerService);
+    this.fetchVacancyListAfterLoggedIn();
     this.busyService.idle();
     this.loaded = true;
-    
   }
 
-  DateToString( date:Date) {
-    return formatDate(date, "short", "gmt");
+  DateToString(date: Date) {
+    return formatDate(date, 'short', 'gmt');
   }
 
-  fetchVacancyListAfterLoggedIn(employerService: EmployerService) {
-    let empId: number = null;
-    this.employerService.currentEmpId$.subscribe((id) => {
-      empId = id;
+  fetchVacancyListAfterLoggedIn() {
+    this.employerService.getEmployerMe().subscribe((response) => {
+      if (response == null) {
+        console.log('need to create some vacancies');
+      } else {
+        this.vacancyList = response.vacancies;
+      }
     });
-    if (empId != null) {
-      this.employerService.getEmployerFromId(empId).subscribe((response) => {
-        this.vacancyList =  response.vacancies;
-      });
-    } else {
-      this.employerService
-        .getEmployerFromEmail(JSON.parse(localStorage.getItem('user')).email)
-        .subscribe((response) => {
-          if (response == null) {
-            console.log('need to create some vacancies');
-          } else {
-            this.vacancyList = response.vacancies;
-          }
-        });
-    }
-    
   }
 }

@@ -42,7 +42,18 @@ export class AccountService {
     );
   }
 
+  delete() {
+    return this.http.delete(this.baseUrl + '/user/delete').pipe(
+      map(() => {
+        this.logout();
+      })
+    );
+  }
   setCurrentUser(user: User) {
+    if (!user) {
+      this.logout();
+      return;
+    }
     this.currentUserSource.next(user);
     let decodedJwt: any = jwtDecode(user.token);
     this.currentRoleSource.next(decodedJwt.role);

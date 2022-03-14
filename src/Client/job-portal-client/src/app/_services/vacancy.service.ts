@@ -16,13 +16,11 @@ export class VacancyService {
   constructor(private http: HttpClient) {}
 
   getVacancyFromId(id: number) {
-    return this.http
-      .get<Vacancy>(this.baseUrl + `/vacancy/get-details/${id}`)
-      .pipe(
-        map((response: Vacancy) => {
-          return response;
-        })
-      );
+    return this.http.get<Vacancy>(this.baseUrl + `/vacancy/get/${id}`).pipe(
+      map((response: Vacancy) => {
+        return response;
+      })
+    );
   }
   getVacancies(
     page?: number,
@@ -77,33 +75,6 @@ export class VacancyService {
             );
           }
           return this.paginatedResult;
-        })
-      );
-  }
-  createVacancy(model: any) {
-    return this.http.post(this.baseUrl + '/vacancy/create-details', model).pipe(
-      map((id: number) => {
-        if (id) {
-        }
-        return id;
-      })
-    );
-  }
-  updateVacancy(model: any) {
-    return this.http.post(this.baseUrl + '/vacancy/update-details', model).pipe(
-      map(() => {
-        console.log('hello');
-      })
-    );
-  }
-  getJobSeekersWhoAppliedOn(vacancyId: number) {
-    return this.http
-      .get<JobSeeker[]>(
-        this.baseUrl + `/get-job-seekers-who-applied-on-vacancy/${vacancyId}`
-      )
-      .pipe(
-        map((response) => {
-          return response;
         })
       );
   }
