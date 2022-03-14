@@ -77,7 +77,7 @@ namespace Employer.API.Controllers
             // if only employer owns the vacancy then only he can change
             var vacancy = await VerifyTheTokenHolderAndFindVacancy(details.Id);
             if (vacancy == null) return BadRequest("Either the vacancy doesn't exist or you don't own it");
-
+            _mapper.Map(details, vacancy);
             await _vacancyRepository.UpdateVacancy(vacancy);
             return Ok();
         }

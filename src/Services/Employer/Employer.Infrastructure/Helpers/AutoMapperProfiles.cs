@@ -12,8 +12,15 @@ namespace Employer.Infrastructure.Helpers
             // required mappings from request to object
             // and object in response
             CreateMap<EmployerEntity, ResponseEmployerDetails>();
-            CreateMap<RequestEmployerDetails, EmployerEntity>();
+            
+            // this map ensures when updating the entity if null value is passed it will not update it
+            CreateMap<RequestEmployerDetails, EmployerEntity>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<RequestVacancyDetails, Vacancy>();
+
+            // this map ensures when updating the entity if null value is passed it will not update it
+            CreateMap<RequestVacancyUpdate, Vacancy>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Vacancy, ResponseVacancyDetails>();
         }
     }

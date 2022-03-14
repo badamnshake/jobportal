@@ -40,7 +40,7 @@ export class EmployerService {
     );
   }
   updateEmployer(model: Employer) {
-    return this.http.post(this.baseUrl + '/employer/update', model).pipe(
+    return this.http.put(this.baseUrl + '/employer/update', model).pipe(
       map(() => {
         return true;
       })
@@ -54,9 +54,9 @@ export class EmployerService {
       })
     );
   }
-  updateVacancy(model: any) {
+  updateVacancy( model: Vacancy) {
     return this.http
-      .post(this.baseUrl + '/vacancy/update', model)
+      .put(this.baseUrl + "/vacancy/update", model)
   }
   getJobSeekersWhoAppliedOn(vacancyId: number) {
     return this.http

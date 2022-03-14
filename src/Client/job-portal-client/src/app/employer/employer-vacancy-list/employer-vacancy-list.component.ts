@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Employer } from 'src/app/_models/employer';
 import { Vacancy } from 'src/app/_models/vacancy';
 import { BusyService } from 'src/app/_services/busy.service';
@@ -19,7 +19,7 @@ export class EmployerVacancyListComponent implements OnInit {
   loaded = false;
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private employerService: EmployerService,
     private busyService: BusyService
   ) {}
@@ -37,11 +37,15 @@ export class EmployerVacancyListComponent implements OnInit {
 
   fetchVacancyListAfterLoggedIn() {
     this.employerService.getEmployerMe().subscribe((response) => {
-      if (response == null) {
+      if (!response) {
         console.log('need to create some vacancies');
       } else {
         this.vacancyList = response.vacancies;
       }
     });
+  }
+
+  editVacancy(id: number) {
+    this.router.navigateByUrl(`/employer-vacancy-edit/${id}`);
   }
 }

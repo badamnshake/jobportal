@@ -1,4 +1,4 @@
-<div class="list-group" *ngIf="loaded">
+<div class="list-group" *ngIf="vacancyList">
   <a
     *ngFor="let vacancy of vacancyList"
     class="container list-group-item list-group-item-action flex-column align-items-start"
@@ -18,14 +18,19 @@
       </span>
       <span>
         <span class="text-info"> Last date to apply :</span>
-        {{ vacancy.lastDateToApply }}. 
+        {{ vacancy.lastDateToApply }}.
       </span>
     </p>
     <div class="d-flex w-100 justify-content-between mt-3">
       <h6 class="mb-md-0">
         Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
       </h6>
-      <button class="btn btn-warning">Edit Vacancy</button>
+      <button
+        class="btn btn-warning"
+        (click)="editVacancy(vacancy.id)"
+      >
+        Edit Vacancy
+      </button>
     </div>
   </a>
 </div>

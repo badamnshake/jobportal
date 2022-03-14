@@ -12,6 +12,7 @@ export class EmployerProfileEditComponent implements OnInit {
   submitButtonText: string;
   descriptionText: string;
   doesEmpExist = true;
+  loaded = false;
 
   employer: Employer;
   constructor(
@@ -20,16 +21,16 @@ export class EmployerProfileEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let id: number = parseInt(localStorage.getItem('empId'));
     this.employerService.getEmployerMe().subscribe((response) => {
       this.checkForEmployerAndSetValues(response);
     });
+    this.setDisplayTexts();
+    this.loaded = true;
   }
 
   checkForEmployerAndSetValues(response: Employer) {
     this.employer = response;
     if (!this.employer) this.doesEmpExist = false;
-    else localStorage.setItem('empId', this.employer.id.toString());
   }
 
   setDisplayTexts() {
