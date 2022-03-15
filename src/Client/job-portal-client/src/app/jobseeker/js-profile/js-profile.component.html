@@ -1,0 +1,107 @@
+<div class="container rounded bg-white mt-5 mb-5" *ngIf="jobSeeker">
+  <div class="p-3 py-5 mx-3">
+    <div class="d-flex justify-content-around align-items-center mb-3">
+      <h4 class="text-center">
+        {{ jobSeeker.firstName }} {{ jobSeeker.lastName }}
+      </h4>
+      <h4 class="text-center">
+        <span class="text-primary">Experience </span>
+        {{ jobSeeker.totalExperience }}
+      </h4>
+    </div>
+    <div class="col-md-12 mt-2 border-bottom border-success">
+      <div class="text-primary">Email</div>
+      {{ jobSeeker.email }}
+    </div>
+    <div class="col-md-12 mt-2 border-bottom border-success">
+      <div class="text-primary">Phone</div>
+      {{ jobSeeker.phone }}
+    </div>
+    <div class="row mt-2 p-1">
+      <div class="col-md-6 border-bottom border-success mt-3">
+        <div class="text-primary">Expected Annual Salary</div>
+        {{ jobSeeker.expectedSalaryAnnual }}
+      </div>
+      <div class="col-md-6 border-bottom border-success mt-3">
+        <div class="text-primary">DOB</div>
+        {{ jobSeeker.dateOfBirth }}
+      </div>
+      <div class="col-md-12 border-bottom border-success mt-3">
+        <div class="text-primary">Address</div>
+        {{ jobSeeker.address }}
+      </div>
+    </div>
+    <div class="border border-lg"></div>
+
+    <!-- Qualifications  -->
+    <!-- ********************************  -->
+
+    <div class="list-group">
+      <a
+        *ngFor="let q of jobSeeker.qualifications"
+        class="container list-group-item list-group-item-action flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
+          <h5 class="mb-1">{{ q.qualificationName }}</h5>
+          <small>{{ q.university }}</small>
+        </div>
+        <p class="mb-1 p-1">
+          <span>
+            <span class="text-info"> Grade/Score : </span>
+            {{ q.gradeOrScore }} ,
+          </span>
+          <span>
+            <span class="text-info"> Completion Date : </span>
+            {{ q.dateOfCompletion }} ,
+          </span>
+        </p>
+        <div class="d-flex w-100 justify-content-between mt-3">
+          <button class="btn btn-warning">Edit</button>
+        </div>
+      </a>
+    </div>
+    <div class="mt-5 text-center">
+      <button class="btn btn-primary profile-button" type="button">
+        Add New Qualification
+      </button>
+    </div>
+
+    <!-- ************ -->
+    <!-- Experiences  -->
+    <!-- ********************************  -->
+
+    <div class="list-group">
+      <a
+        *ngFor="let e of jobSeeker.experiences"
+        class="container list-group-item list-group-item-action flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
+          <h5 class="mb-1">{{ e.companyName }} --</h5>
+          <small>{{ e.designation }}</small>
+        </div>
+        <p class="mb-1 p-1">
+          <span>
+            <span class="text-info"> Start : : </span>
+            {{ e.startDate }} ,
+            <span class="text-info"> End : : </span>
+            {{ e.endDate }}
+          </span>
+          <span>
+            <span class="text-info"> Job Info : </span>
+            {{ e.jobDescription }} ,
+          </span>
+        </p>
+        <div class="d-flex w-100 justify-content-between mt-3">
+          <button class="btn btn-warning">Edit</button>
+        </div>
+      </a>
+    </div>
+    <div class="mt-5 text-center">
+      <button class="btn btn-primary profile-button" type="button">
+        Add New Experience
+      </button>
+    </div>
+
+    <!-- ************ -->
+  </div>
+</div>

@@ -21,6 +21,12 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { VacancyDetailsComponent } from './vacancies/vacancy-details/vacancy-details.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { VacancyListComponent } from './vacancies/vacancy-list/vacancy-list.component';
+import { JsAppliedVacanciesComponent } from './jobseeker/js-applied-vacancies/js-applied-vacancies.component';
+import { JsProfileComponent } from './jobseeker/js-profile/js-profile.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { JsEditProfileComponent } from './jobseeker/js-edit-profile/js-edit-profile.component';
+import { JsCreateExperienceComponent } from './jobseeker/js-create-experience/js-create-experience.component';
+import { JsCreateQualificationComponent } from './jobseeker/js-create-qualification/js-create-qualification.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +41,12 @@ import { VacancyListComponent } from './vacancies/vacancy-list/vacancy-list.comp
     EmployerVacancyListComponent,
     VacancyDetailsComponent,
     VacancyListComponent,
+    JsAppliedVacanciesComponent,
+    JsProfileComponent,
+    JsEditProfileComponent,
+    JsCreateExperienceComponent,
+    JsCreateQualificationComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

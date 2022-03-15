@@ -1,0 +1,74 @@
+<form
+  [formGroup]="qualificationForm"
+  (ngSubmit)="qualificationForm.valid && createDetails()"
+  class="text-center border border-light p-5"
+>
+  <p class="h4 mb-4">Register</p>
+
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        qualificationForm.get('qualificationName').errors &&
+        qualificationForm.get('qualificationName').touched
+      "
+      type="text"
+      formControlName="qualificationName"
+      class="form-control"
+      placeholder="Name"
+    />
+    <div class="invalid-feedback">Please enter Qualification Name</div>
+  </div>
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        qualificationForm.get('university').errors &&
+        qualificationForm.get('university').touched
+      "
+      type="url"
+      formControlName="university"
+      class="form-control"
+      placeholder="university name"
+    />
+    <div class="invalid-feedback">Please enter university name</div>
+  </div>
+
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        qualificationForm.get('dateOfCompletion').errors &&
+        qualificationForm.get('dateOfCompletion').touched
+      "
+      type="date"
+      formControlName="dateOfCompletion"
+      class="form-control"
+      placeholder="dateOfCompletion"
+    />
+    <div class="invalid-feedback">Please enter a dateOfCompletion</div>
+  </div>
+  <div class="form-group mb-4 mx-auto maxW400">
+    <input
+      [class.is-invalid]="
+        qualificationForm.get('gradeOrScore').errors &&
+        qualificationForm.get('gradeOrScore').touched
+      "
+      type="date"
+      formControlName="gradeOrScore"
+      class="form-control"
+      placeholder="Grade or Score"
+    />
+    <div class="invalid-feedback">Please enter Grade or Score</div>
+  </div>
+  <!-- Password -->
+
+  <!-- Sign in button -->
+  <button
+    block="true"
+    [disabled]="!qualificationForm.valid"
+    class="btn btn-info my-4"
+    type="submit"
+  >
+    Register
+  </button>
+
+  <!-- Register -->
+</form>

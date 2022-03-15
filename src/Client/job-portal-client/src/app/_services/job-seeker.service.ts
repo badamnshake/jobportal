@@ -15,6 +15,8 @@ export class JobSeekerService {
 
   constructor(private http: HttpClient) {}
 
+  getJobSeekerDetails() {}
+
   getMyDetails() {
     return this.http.get<JobSeeker>(this.baseUrl + '/job-seeker/get/').pipe(
       map((response: JobSeeker) => {
@@ -23,22 +25,18 @@ export class JobSeekerService {
     );
   }
   createJobSeeker(model: JobSeeker) {
-    return this.http
-      .post(this.baseUrl + '/job-seeker/create', model)
-      .pipe(
-        map((id: number) => {
-          return id;
-        })
-      );
+    return this.http.post(this.baseUrl + '/job-seeker/create', model).pipe(
+      map((id: number) => {
+        return id;
+      })
+    );
   }
   updateJobSeeker(model: JobSeeker) {
-    return this.http
-      .post(this.baseUrl + '/job-seeker/update', model)
-      .pipe(
-        map(() => {
-          console.log('hello');
-        })
-      );
+    return this.http.post(this.baseUrl + '/job-seeker/update', model).pipe(
+      map(() => {
+        console.log('hello');
+      })
+    );
   }
 
   createExperience(model: Experience) {

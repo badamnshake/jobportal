@@ -23,7 +23,6 @@ export class VacancyListComponent implements OnInit {
   loadVacancies() {
     this.vacancyService.getVacancies(this.pageNumber, this.pageSize).subscribe((response) => {
       this.vacancies = response.result;
-      console.log(this.vacancies);
       
       this.pagination = response.pagination;
     })

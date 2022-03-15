@@ -1,0 +1,92 @@
+<div class="container rounded bg-white mt-5 mb-5" *ngIf="jobSeeker">
+  <div class="p-3 py-5 mx-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="text-center">{{ descriptionText }}</h4>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <label class="labels">First Name</label
+        ><input
+          type="text"
+          class="form-control"
+          placeholder="first name"
+          [(ngModel)]="jobSeeker.firstName"
+        />
+        <label class="labels">Last Name</label
+        ><input
+          type="text"
+          class="form-control"
+          placeholder="first name"
+          [(ngModel)]="jobSeeker.lastName"
+        />
+      </div>
+      <div class="col-md-6">
+        <label class="labels">Total Exp: </label
+        ><input
+          type="text"
+          class="form-control"
+          [(ngModel)]="jobSeeker.totalExperience"
+          placeholder="surname"
+        />
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <label class="labels">Phone</label
+        ><input
+          type="text"
+          class="form-control"
+          placeholder="enter phone number"
+          [(ngModel)]="jobSeeker.phone"
+        />
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Email</label
+        ><input
+          type="text"
+          class="form-control"
+          placeholder="enter address line 2"
+          [(ngModel)]="jobSeeker.email"
+        />
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <label class="labels">Expected Salary</label
+        ><input
+          type="text"
+          class="form-control"
+          placeholder="country"
+          [(ngModel)]="jobSeeker.expectedSalaryAnnual"
+        />
+      </div>
+      <div class="col-md-6">
+        <label class="labels">DOB</label
+        ><input
+          type="text"
+          class="form-control"
+          [(ngModel)]="jobSeeker.dateOfBirth"
+          placeholder="state"
+        />
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Address</label
+        ><input
+          type="text"
+          class="form-control"
+          placeholder="enter address line 2"
+          [(ngModel)]="jobSeeker.address"
+        />
+      </div>
+    </div>
+    <div class="mt-5 text-center">
+      <button
+        class="btn btn-primary profile-button"
+        type="button"
+        (click)="updateOrCreateDetails()"
+      >
+        {{ submitButtonText }}
+      </button>
+    </div>
+  </div>
+</div>
