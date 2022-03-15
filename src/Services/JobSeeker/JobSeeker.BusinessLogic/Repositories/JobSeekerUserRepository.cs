@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Threading.Tasks;
 using JobSeeker.BusinessLogic.Interfaces;
 using JobSeeker.DataAccess;
@@ -31,7 +32,7 @@ namespace JobSeeker.BusinessLogic.Repositories
                 request.Address,
                 request.TotalExperience,
                 request.ExpectedSalaryAnnual,
-                request.DateOfBirth.ToString()
+                request.DateOfBirth.ToString(CultureInfo.InvariantCulture)
             );
         }
 
@@ -90,7 +91,7 @@ namespace JobSeeker.BusinessLogic.Repositories
                 request.Address,
                 request.TotalExperience,
                 request.ExpectedSalaryAnnual,
-                request.DateOfBirth.ToString()
+                request.DateOfBirth.ToString(CultureInfo.InvariantCulture)
             );
         }
     }

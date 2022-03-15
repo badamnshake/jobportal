@@ -32,9 +32,8 @@ export class JobSeekerService {
     );
   }
   updateJobSeeker(model: JobSeeker) {
-    return this.http.post(this.baseUrl + '/job-seeker/update', model).pipe(
+    return this.http.put(this.baseUrl + '/job-seeker/update', model).pipe(
       map(() => {
-        console.log('hello');
       })
     );
   }

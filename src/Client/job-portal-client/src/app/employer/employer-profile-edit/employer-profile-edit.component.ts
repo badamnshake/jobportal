@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Employer } from 'src/app/_models/employer';
 import { EmployerService } from 'src/app/_services/employer.service';
@@ -14,25 +15,38 @@ export class EmployerProfileEditComponent implements OnInit {
   doesEmpExist = true;
   loaded = false;
 
+  employerForm: FormGroup;
   employer: Employer;
   constructor(
     private router: Router,
+    private fb: FormBuilder,
     private employerService: EmployerService
   ) {}
 
   ngOnInit(): void {
     this.employerService.getEmployerMe().subscribe((response) => {
-      this.checkForEmployerAndSetValues(response);
+      if (!response) this.doesEmpExist = false;
+      else this.employer = response;
     });
+
+    this.initializeForm();
+
+    if (this.employer) this.employerForm.patchValue(this.employer);
     this.setDisplayTexts();
     this.loaded = true;
   }
 
-  checkForEmployerAndSetValues(response: Employer) {
-    this.employer = response;
-    if (!this.employer) this.doesEmpExist = false;
+  initializeForm() {
+    this.employerForm = this.fb.group({
+      organizationName: ['', Validators.required],
+      organizationType: ['', Validators.required],
+      companyEmail: ['', Validators.email],
+      companyPhone: [''],
+      noOfEmployees: [''],
+      startYear: ['', Validators.required],
+      about: ['', Validators.required],
+    });
   }
-
   setDisplayTexts() {
     if (!this.doesEmpExist) {
       this.submitButtonText = 'Create Profile';

@@ -8,11 +8,11 @@
   <div class="form-group mb-4 mx-auto maxW400">
     <input
       [class.is-invalid]="
-        registerForm.get('fullname').errors &&
+        registerForm.get('fullName').errors &&
         registerForm.get('fullName').touched
       "
       type="text"
-      formControlName="fullname"
+      formControlName="fullName"
       class="form-control"
       placeholder="FullName"
     />
@@ -34,11 +34,11 @@
   <div class="form-group mb-4 mx-auto maxW400">
     <input
       [class.is-invalid]="
-        registerForm.get('username').errors &&
+        registerForm.get('userName').errors &&
         registerForm.get('userName').touched
       "
       type="text"
-      formControlName="username"
+      formControlName="userName"
       class="form-control"
       placeholder="Username"
     />

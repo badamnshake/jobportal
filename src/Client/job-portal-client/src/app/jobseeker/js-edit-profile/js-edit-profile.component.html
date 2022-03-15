@@ -1,4 +1,8 @@
-<div class="container rounded bg-white mt-5 mb-5" *ngIf="jobSeeker">
+<form
+  [formGroup]="jsForm"
+  (ngSubmit)="jsForm.valid && updateOrCreateDetails()"
+  class="container rounded bg-white mt-5 mb-5"
+>
   <div class="p-3 py-5 mx-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4 class="text-center">{{ descriptionText }}</h4>
@@ -7,86 +11,112 @@
       <div class="col-md-6">
         <label class="labels">First Name</label
         ><input
+          [class.is-invalid]="
+            jsForm.get('firstName').errors && jsForm.get('firstName').touched
+          "
           type="text"
+          formControlName="firstName"
           class="form-control"
-          placeholder="first name"
-          [(ngModel)]="jobSeeker.firstName"
-        />
-        <label class="labels">Last Name</label
-        ><input
-          type="text"
-          class="form-control"
-          placeholder="first name"
-          [(ngModel)]="jobSeeker.lastName"
+          placeholder="first Name"
         />
       </div>
       <div class="col-md-6">
-        <label class="labels">Total Exp: </label
+        <label class="labels">Last Name</label
         ><input
+          [class.is-invalid]="
+            jsForm.get('lastName').errors && jsForm.get('lastName').touched
+          "
           type="text"
+          formControlName="lastName"
           class="form-control"
-          [(ngModel)]="jobSeeker.totalExperience"
-          placeholder="surname"
+          placeholder="Last Name"
         />
       </div>
     </div>
     <div class="row mt-3">
       <div class="col-md-12">
-        <label class="labels">Phone</label
+        <label class="labels"> Phone</label
         ><input
+          [class.is-invalid]="
+            jsForm.get('phone').errors && jsForm.get('phone').touched
+          "
           type="text"
+          formControlName="phone"
           class="form-control"
-          placeholder="enter phone number"
-          [(ngModel)]="jobSeeker.phone"
+          placeholder=" Phone"
         />
       </div>
       <div class="col-md-12">
         <label class="labels">Email</label
         ><input
+          [class.is-invalid]="
+            jsForm.get('email').errors && jsForm.get('email').touched
+          "
           type="text"
+          formControlName="email"
           class="form-control"
-          placeholder="enter address line 2"
-          [(ngModel)]="jobSeeker.email"
+          placeholder="Email"
         />
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col-md-6">
+      <div class="col-md-4">
+        <label class="labels">Total Experience</label
+        ><input
+          [class.is-invalid]="
+            jsForm.get('totalExperience').errors &&
+            jsForm.get('totalExperience').touched
+          "
+          type="text"
+          formControlName="totalExperience"
+          class="form-control"
+          placeholder="Total Experience"
+        />
+      </div>
+      <div class="col-md-4">
         <label class="labels">Expected Salary</label
         ><input
+          [class.is-invalid]="
+            jsForm.get('expectedSalaryAnnual').errors &&
+            jsForm.get('expectedSalaryAnnual').touched
+          "
           type="text"
+          formControlName="expectedSalaryAnnual"
           class="form-control"
-          placeholder="country"
-          [(ngModel)]="jobSeeker.expectedSalaryAnnual"
+          placeholder="Start Year"
         />
       </div>
-      <div class="col-md-6">
-        <label class="labels">DOB</label
-        ><input
-          type="text"
+      <div class="col-md-4">
+        <label class="labels">D.O.B</label>
+        <div class="input-group">
+        <input
           class="form-control"
-          [(ngModel)]="jobSeeker.dateOfBirth"
-          placeholder="state"
+          (dateSelect)="onDateSelect($event)"
+          ngbDatepicker
+          #d="ngbDatepicker"
         />
+        <button
+          class="btn btn-outline-secondary calendar"
+          (click)="d.toggle()"
+          type="button"
+        >
+      &#8711;</button></div>
       </div>
       <div class="col-md-12">
-        <label class="labels">Address</label
+        <label class="labels">About</label
         ><input
+          [class.is-invalid]="
+            jsForm.get('address').errors && jsForm.get('address').touched
+          "
           type="text"
+          formControlName="address"
           class="form-control"
-          placeholder="enter address line 2"
-          [(ngModel)]="jobSeeker.address"
+          placeholder="Address"
         />
       </div>
     </div>
-    <div class="mt-5 text-center">
-      <button
-        class="btn btn-primary profile-button"
-        type="button"
-        (click)="updateOrCreateDetails()"
-      >
-        {{ submitButtonText }}
-      </button>
-    </div>
+    <button class="btn btn-primary my-4" type="submit">
+      {{ submitButtonText }}
+    </button>
   </div>
-</div>
+</form>

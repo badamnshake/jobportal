@@ -28,6 +28,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.registerForm.patchValue({
+      userName: "hello"
+    })
   }
 
   initializeForm() {
@@ -42,6 +45,9 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.registerForm.value.userType =this.registerForm.value.userType == "JobSeeker" ? 0: 1;
+    console.log(this.registerForm.value);
+    
     this.accountService.register(this.registerForm.value).subscribe({
       next: (response) => {
         this.router.navigateByUrl('/home');

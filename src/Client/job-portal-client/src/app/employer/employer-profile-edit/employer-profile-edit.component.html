@@ -1,4 +1,8 @@
-<div class="container rounded bg-white mt-5 mb-5" *ngIf="employer">
+<form
+  [formGroup]="employerForm"
+  (ngSubmit)="employerForm.valid && updateOrCreateDetails()"
+  class="container rounded bg-white mt-5 mb-5"
+>
   <div class="p-3 py-5 mx-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4 class="text-center">{{ descriptionText }}</h4>
@@ -7,19 +11,27 @@
       <div class="col-md-6">
         <label class="labels">Organization Name</label
         ><input
+          [class.is-invalid]="
+            employerForm.get('organizationName').errors &&
+            employerForm.get('organizationName').touched
+          "
           type="text"
+          formControlName="organizationName"
           class="form-control"
-          placeholder="first name"
-          [(ngModel)]="employer.organizationName"
+          placeholder="Organization Name"
         />
       </div>
       <div class="col-md-6">
         <label class="labels">Organization Type</label
         ><input
+          [class.is-invalid]="
+            employerForm.get('organizationType').errors &&
+            employerForm.get('organizationType').touched
+          "
           type="text"
+          formControlName="organizationType"
           class="form-control"
-          [(ngModel)]="employer.organizationType"
-          placeholder="surname"
+          placeholder="Organization Type"
         />
       </div>
     </div>
@@ -27,19 +39,27 @@
       <div class="col-md-12">
         <label class="labels">Company Phone</label
         ><input
+          [class.is-invalid]="
+            employerForm.get('companyPhone').errors &&
+            employerForm.get('companyPhone').touched
+          "
           type="text"
+          formControlName="companyPhone"
           class="form-control"
-          placeholder="enter phone number"
-          [(ngModel)]="employer.companyPhone"
+          placeholder="Company Phone"
         />
       </div>
       <div class="col-md-12">
         <label class="labels">Company Email</label
         ><input
+          [class.is-invalid]="
+            employerForm.get('companyEmail').errors &&
+            employerForm.get('companyEmail').touched
+          "
           type="text"
+          formControlName="companyEmail"
           class="form-control"
-          placeholder="enter address line 2"
-          [(ngModel)]="employer.companyEmail"
+          placeholder="Company Email"
         />
       </div>
     </div>
@@ -47,39 +67,49 @@
       <div class="col-md-6">
         <label class="labels">Number of Employees</label
         ><input
+          [class.is-invalid]="
+            employerForm.get('noOfEmployees').errors &&
+            employerForm.get('noOfEmployees').touched
+          "
           type="text"
+          formControlName="noOfEmployees"
           class="form-control"
-          placeholder="country"
-          [(ngModel)]="employer.noOfEmployees"
+          placeholder="Start Year"
         />
       </div>
       <div class="col-md-6">
         <label class="labels">Start Year</label
         ><input
+          [class.is-invalid]="
+            employerForm.get('startYear').errors &&
+            employerForm.get('startYear').touched
+          "
           type="text"
+          formControlName="startYear"
           class="form-control"
-          [(ngModel)]="employer.startYear"
-          placeholder="state"
+          placeholder="Start Year"
         />
       </div>
       <div class="col-md-12">
         <label class="labels">About</label
         ><input
+          [class.is-invalid]="
+            employerForm.get('about').errors &&
+            employerForm.get('about').touched
+          "
           type="text"
+          formControlName="about"
           class="form-control"
-          placeholder="enter address line 2"
-          [(ngModel)]="employer.about"
+          placeholder="About"
         />
       </div>
     </div>
-    <div class="mt-5 text-center">
-      <button
-        class="btn btn-primary profile-button"
-        type="button"
-        (click)="updateOrCreateDetails()"
-      >
-        {{ submitButtonText }}
-      </button>
-    </div>
+    <button
+      class="btn btn-primary my-4"
+      type="submit"
+      (click)="updateOrCreateDetails()"
+    >
+      {{ submitButtonText }}
+    </button>
   </div>
-</div>
+</form>

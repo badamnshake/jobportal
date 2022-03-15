@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {
+  NgbDateParserFormatter,
+  NgbDateStruct,
+} from '@ng-bootstrap/ng-bootstrap';
+import { Employer } from 'src/app/_models/employer';
 import { JobSeeker } from 'src/app/_models/job-seeker';
 import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 
@@ -11,31 +17,54 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 export class JsEditProfileComponent implements OnInit {
   submitButtonText: string;
   descriptionText: string;
-  doesJSExist = true;
-  loaded = false;
-  // --------------------------------
-  jobSeeker: JobSeeker;
+  doesJsExist = true;
 
+  jsForm: FormGroup;
+  js: JobSeeker;
   constructor(
     private router: Router,
-    private jobSeekerService: JobSeekerService
+    private fb: FormBuilder,
+    private jobSeekerService: JobSeekerService,
+    private ngbDateParserFormatter: NgbDateParserFormatter
   ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
     this.jobSeekerService.getMyDetails().subscribe((response) => {
-      this.checkForJSAndSetValues(response);
+      if (!response) this.doesJsExist = false;
+      else this.js = response;
+      if (this.js) this.patchValuesIntoForm();
     });
+
     this.setDisplayTexts();
-    this.loaded = true;
   }
 
-  checkForJSAndSetValues(response: JobSeeker) {
-    this.jobSeeker = response;
-    if (!this.jobSeeker) this.doesJSExist = false;
+  initializeForm() {
+    this.jsForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required],
+      address: ['', Validators.required],
+      totalExperience: [''],
+      expectedSalaryAnnual: [''],
+      dateOfBirth: [''],
+    });
   }
-
+  patchValuesIntoForm() {
+    this.jsForm.patchValue({
+      firstName: this.js.firstName,
+      lastName: this.js.lastName,
+      email: this.js.email,
+      phone: this.js.phone,
+      address: this.js.address,
+      totalExperience: this.js.totalExperience,
+      expectedSalaryAnnual: this.js.expectedSalaryAnnual,
+      dateOfBirth: this.js.dateOfBirth,
+    });
+  }
   setDisplayTexts() {
-    if (!this.doesJSExist) {
+    if (!this.doesJsExist) {
       this.submitButtonText = 'Create Profile';
       this.descriptionText = 'Add Details  & Create Profile';
     } else {
@@ -43,11 +72,20 @@ export class JsEditProfileComponent implements OnInit {
       this.descriptionText = 'Profile Settings';
     }
   }
+  onDateSelect(event: NgbDateStruct) {
+    this.jsForm.value.dateOfBirth = this.ngbDateParserFormatter.format(event);
+  }
   updateOrCreateDetails() {
-    if (!this.doesJSExist) {
-      this.jobSeekerService.createJobSeeker(this.jobSeeker).subscribe(() => {});
+    this.jsForm.value.dateOfBirth = new Date(
+      this.jsForm.value.dateOfBirth
+    ).toISOString();
+
+    if (!this.doesJsExist) {
+      this.jobSeekerService
+        .createJobSeeker(this.jsForm.value)
+        .subscribe(() => {});
     } else {
-      this.jobSeekerService.updateJobSeeker(this.jobSeeker).subscribe({
+      this.jobSeekerService.updateJobSeeker(this.jsForm.value).subscribe({
         next: () => {},
         error: () => {
           console.log('failed to udpate');

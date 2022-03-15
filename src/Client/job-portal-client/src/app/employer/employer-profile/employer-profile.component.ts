@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Employer } from 'src/app/_models/employer';
 import { EmployerService } from 'src/app/_services/employer.service';
@@ -9,6 +10,7 @@ import { EmployerService } from 'src/app/_services/employer.service';
 })
 export class EmployerProfileComponent implements OnInit {
   employer: Employer;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -17,7 +19,8 @@ export class EmployerProfileComponent implements OnInit {
 
   ngOnInit(): void {
     let id = parseInt(this.route.snapshot.paramMap.get('id'));
-    if (id !== null) {
+
+    if (id) {
       this.employerService.getEmployerFromId(id).subscribe((response) => {
         this.employer = response;
       });
