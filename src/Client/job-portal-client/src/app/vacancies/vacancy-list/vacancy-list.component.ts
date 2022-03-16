@@ -3,9 +3,15 @@ import {
   NgbDateParserFormatter,
   NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Pagination } from 'src/app/_models/pagination';
 import { ToOrderBy, Vacancy } from 'src/app/_models/vacancy';
+import { VacancyRequest } from 'src/app/_models/vacancy-request';
+import { AccountService } from 'src/app/_services/account.service';
+import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 import { VacancyService } from 'src/app/_services/vacancy.service';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vacancy-list',
@@ -13,6 +19,7 @@ import { VacancyService } from 'src/app/_services/vacancy.service';
   styleUrls: ['./vacancy-list.component.css'],
 })
 export class VacancyListComponent implements OnInit {
+  faCalendar = faCalendar;
   vacancies: Vacancy[];
   pagination: Pagination;
   pageNumber = 1;
@@ -29,8 +36,12 @@ export class VacancyListComponent implements OnInit {
   };
 
   constructor(
+    public accountService: AccountService,
+    private router: Router,
     private vacancyService: VacancyService,
-    private ngbDateParserFormatter: NgbDateParserFormatter
+    private jobSeekerService: JobSeekerService,
+    private ngbDateParserFormatter: NgbDateParserFormatter,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +68,19 @@ export class VacancyListComponent implements OnInit {
 
         this.pagination = response.pagination;
       });
+  }
+
+  applyForVacancy(id: number) {
+    let vr: VacancyRequest;
+    vr.vacancyId = id;
+
+    this.jobSeekerService.createVacancyRequest(vr).subscribe(() => {
+      this.toastr.success('Applied For Vacancy');
+    });
+  }
+  getEmployerDetails(id: number) {
+    this.router.navigateByUrl(`employer-profile/${id}`)
+
   }
 
   pageChanged(event: any) {

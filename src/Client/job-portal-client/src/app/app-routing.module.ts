@@ -13,7 +13,6 @@ import { HomeComponent } from './landing-page-components/home/home.component';
 import { LoginComponent } from './landing-page-components/login/login.component';
 import { RegisterComponent } from './landing-page-components/register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { VacancyDetailsComponent } from './vacancies/vacancy-details/vacancy-details.component';
 import { VacancyListComponent } from './vacancies/vacancy-list/vacancy-list.component';
 import { AuthEmployerGuard } from './_guards/auth-employer.guard';
 import { AuthJobSeekerGuard } from './_guards/auth-job-seeker.guard';
@@ -25,7 +24,6 @@ const routes: Routes = [
 
   { path: 'employer-profile/:id', component: EmployerProfileComponent },
   { path: 'vacancy-list', component: VacancyListComponent },
-  { path: 'vacancy-details/:id', component: VacancyDetailsComponent },
 
   {
     path: '',

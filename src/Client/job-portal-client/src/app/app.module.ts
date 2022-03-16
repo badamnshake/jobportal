@@ -18,7 +18,6 @@ import { EmployerProfileEditComponent } from './employer/employer-profile-edit/e
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { SharedModule } from './_modules/shared.module';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
-import { VacancyDetailsComponent } from './vacancies/vacancy-details/vacancy-details.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { VacancyListComponent } from './vacancies/vacancy-list/vacancy-list.component';
 import { JsAppliedVacanciesComponent } from './jobseeker/js-applied-vacancies/js-applied-vacancies.component';
@@ -27,8 +26,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { JsEditProfileComponent } from './jobseeker/js-edit-profile/js-edit-profile.component';
 import { JsCreateExperienceComponent } from './jobseeker/js-create-experience/js-create-experience.component';
 import { JsCreateQualificationComponent } from './jobseeker/js-create-qualification/js-create-qualification.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
 
+              // "node_modules/bootstrap/dist/css/bootstrap.min.css",
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +39,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     EmployerProfileEditComponent,
     EmployerVacancyEditComponent,
     EmployerVacancyListComponent,
-    VacancyDetailsComponent,
     VacancyListComponent,
     JsAppliedVacanciesComponent,
     JsProfileComponent,
@@ -57,7 +55,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},

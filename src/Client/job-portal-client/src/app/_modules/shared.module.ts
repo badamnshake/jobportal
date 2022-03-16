@@ -6,6 +6,7 @@ import {
   NgbPaginationModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [],
@@ -17,7 +18,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgxSpinnerModule,
     NgbDatepickerModule,
     NgbPaginationModule,
+    FontAwesomeModule
   ],
-  exports: [ToastrModule, NgbDatepickerModule, NgbPaginationModule, NgxSpinnerModule],
+  exports: [ToastrModule, NgbDatepickerModule, NgbPaginationModule, NgxSpinnerModule, FontAwesomeModule],
 })
 export class SharedModule {}

@@ -1,5 +1,5 @@
-<div class="text-center mt-3">
-  <h2>Vacancies Found - {{ pagination?.totalItems }} found</h2>
+<div class="container text-center mt-3 border-bottom p-2">
+  <h4>Vacancies Found -> <span class="text-success">{{ pagination?.totalItems }}</span></h4>
 </div>
 
 <div class="container inline mt-3">
@@ -10,7 +10,7 @@
     autocomplete="off"
   >
     <div class="row">
-      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline">
         <label>Location: </label>
         <input
           type="text"
@@ -19,7 +19,7 @@
           [(ngModel)]="filters.location"
         />
       </div>
-      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline">
         <label>Published After : </label>
         <div class="input-group">
           <input
@@ -33,32 +33,32 @@
             (click)="pd.toggle()"
             type="button"
           >
-            &#8711;
+            <fa-icon [icon]="faCalendar"></fa-icon>
           </button>
         </div>
       </div>
 
-      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
-        <label class="me-1">Last Date Before</label>
+      <div class="col-lg-4  col-md-6 col-sm-12 form-group px-2 d-inline">
+        <label class="me-1">Last Date After :</label>
         <div class="input-group">
           <input
             class="form-control"
             (dateSelect)="onLastDateSelect($event)"
             ngbDatepicker
-            #pd="ngbDatepicker"
+            #ld="ngbDatepicker"
           />
           <button
             class="btn btn-outline-secondary calendar"
-            (click)="pd.toggle()"
+            (click)="ld.toggle()"
             type="button"
           >
-            &#8711;
+            <fa-icon [icon]="faCalendar"></fa-icon>
           </button>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+    <!-- </div> -->
+    <!-- <div class="row"> -->
+      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline">
         <label>Min Salary: </label>
         <input
           type="number"
@@ -67,7 +67,7 @@
           [(ngModel)]="filters.minSalary"
         />
       </div>
-      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+      <div class="col-lg-4  col-md-6 col-sm-12 form-group px-2 d-inline">
         <label>Max Salary: </label>
         <input
           type="number"
@@ -77,7 +77,7 @@
         />
       </div>
 
-      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline">
         <label class="me-1">Order By</label>
         <select
           name="orderBy"
@@ -93,42 +93,80 @@
     </div>
     <div class="mt-2 text-center">
       <button class="btn btn-success me-1" type="submit">Apply Filters</button>
-      <button (click)="resetFilters()" class="btn btn-warning me-1" type="button">
+      <button
+        (click)="resetFilters()"
+        class="btn btn-warning me-1"
+        type="button"
+      >
         Reset Filters
       </button>
     </div>
   </form>
 </div>
-<div class="list-group">
-  <a
+<div class="list-group list-group-flush">
+  <!-- <div class="card"> -->
+  <div
     *ngFor="let vacancy of vacancies"
-    class="container list-group-item list-group-item-action flex-column align-items-start"
+    class="container list-group-item flex-column align-items-start"
   >
     <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
       <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
-      <small>{{ vacancy.publishedDate }}</small>
+      <small>{{ vacancy.publishedDate | date }}</small>
     </div>
-    <p class="mb-1 p-1">
-      <span>
-        <span class="text-info"> experience required: </span>
-        {{ vacancy.experienceRequired }} ,
-      </span>
-      <span>
-        <span class="text-info"> Location : </span>
+    <div class="row mb-2">
+      <div class="col-auto">
+        <span class="text-primary"> Published By :</span>
+        {{ vacancy.publishedBy }}.
+      </div>
+      <div class="col-auto">
+        <span class="text-primary"> Minimum qualification: </span>
+        {{ vacancy.minimumQualification }} ,
+      </div>
+      <div class="col-auto">
+        <span class="text-primary"> Number of Vacancies : </span>
+
         {{ vacancy.location }} ,
-      </span>
-      <span>
-        <span class="text-info"> Last date to apply :</span>
-        {{ vacancy.lastDateToApply }}.
-      </span>
-    </p>
-    <div class="d-flex w-100 justify-content-between mt-3">
-      <h6 class="mb-md-0">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-auto">
+        <span class="text-primary"> experience required: </span>
+        {{ vacancy.experienceRequired }} ,
+      </div>
+      <div class="col-auto">
+        <span class="text-primary"> Location : </span>
+
+        {{ vacancy.location }} ,
+      </div>
+      <div class="col-auto">
+        <span class="text-primary"> Last date to apply :</span>
+        {{ vacancy.lastDateToApply | date }}.
+      </div>
+    </div>
+    <div class="row">
+      <h6 class="col-lg-auto col-sm-auto mb-md-0">
         Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
       </h6>
-      <button class="btn btn-info" type="button">View Details</button>
+      <button
+       class="col-lg-auto col-sm-auto btn btn-info ms-auto me-1"
+        (click)="getEmployerDetails(vacancy.employerEntityId)"
+
+      >Employer Details</button>
+      <button
+        (click)="applyForVacancy(vacancy.id)"
+        *ngIf="(accountService.currentRole$ | async) == 'JobSeeker'"
+        class="col-lg-auto col-sm-auto btn btn-success me-1"
+        type="button"
+      >
+        Apply For Vacancy
+      </button>
+      <small
+        class="text-danger"
+        *ngIf="(accountService.currentRole$ | async) != 'JobSeeker'"
+        >log in to apply</small
+      >
     </div>
-  </a>
+  </div>
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="pagination">
