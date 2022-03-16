@@ -61,7 +61,7 @@ namespace Employer.BusinessLogic.Repositories
                 query = query.Where(v => v.MinSalary > vacancyParams.MinSalary);
             if (vacancyParams.MaxSalary != 0)
                 // more than max salary records will be shows
-                query = query.Where(v => v.MaxSalary > vacancyParams.MaxSalary);
+                query = query.Where(v => v.MaxSalary < vacancyParams.MaxSalary);
             if (vacancyParams.LastDateToApply != default)
                 // only vacancies when the last date is after the applied date
                 query = query.Where(v => v.LastDateToApply.CompareTo(vacancyParams.LastDateToApply) >= 0);
