@@ -29,6 +29,7 @@
     >
       <div ngbDropdown class="d-inline-block">
         <button
+          type="button"
           class="btn btn-light"
           id="dropdownMenuEmployer"
           ngbDropdownToggle
@@ -36,16 +37,32 @@
           Employer Menu
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuEmployer">
-          <button (click)="btnViewEmployerProfile()" ngbDropdownItem>
+          <button
+            type="button"
+            (click)="btnViewEmployerProfile()"
+            ngbDropdownItem
+          >
             View Profile
           </button>
-          <button (click)="btnEditEmployerProfile()" ngbDropdownItem>
+          <button
+            type="button"
+            (click)="btnEditEmployerProfile()"
+            ngbDropdownItem
+          >
             Edit Profile
           </button>
-          <button (click)="btnViewEmployerPostedVacancies()" ngbDropdownItem>
+          <button
+            type="button"
+            (click)="btnViewEmployerPostedVacancies()"
+            ngbDropdownItem
+          >
             View/Edit Posted Vacancies
           </button>
-          <button (click)="btnViewEmployerVacancyRequests()" ngbDropdownItem>
+          <button
+            type="button"
+            (click)="btnViewEmployerVacancyRequests()"
+            ngbDropdownItem
+          >
             Vacancy Requests
           </button>
         </div>
@@ -57,6 +74,7 @@
     >
       <div ngbDropdown class="d-inline-block">
         <button
+          type="button"
           class="btn btn-light"
           id="dropdownMenuJobSeeker"
           ngbDropdownToggle
@@ -64,13 +82,17 @@
           Seeker Menu
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuJobSeeker">
-          <button (click)="btnViewJSProfile()" ngbDropdownItem>
+          <button type="button" (click)="btnViewJSProfile()" ngbDropdownItem>
             View Profile
           </button>
-          <button (click)="btnEditJSProfile()" ngbDropdownItem>
+          <button type="button" (click)="btnEditJSProfile()" ngbDropdownItem>
             Edit Profile
           </button>
-          <button (click)="btnViewJSAppliedVacReq()" ngbDropdownItem>
+          <button
+            type="button"
+            (click)="btnViewJSAppliedVacReq()"
+            ngbDropdownItem
+          >
             Applied Vacancy Requests
           </button>
         </div>

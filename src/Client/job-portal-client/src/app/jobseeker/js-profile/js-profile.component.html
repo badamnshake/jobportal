@@ -56,12 +56,14 @@
           </span>
         </p>
         <div class="d-flex w-100 justify-content-between mt-3">
-          <button class="btn btn-warning">Delete</button>
+          <button type="button" (click)="deleteQual(q.id)" class="btn btn-warning">Delete</button>
         </div>
       </a>
     </div>
     <div class="mt-5 text-center">
-      <button class="btn btn-primary profile-button" type="button">
+      <button 
+      (click)="navigateToCreateQual()" 
+      class="btn btn-primary profile-button" type="button">
         Add New Qualification
       </button>
     </div>
@@ -92,12 +94,14 @@
           </span>
         </p>
         <div class="d-flex w-100 justify-content-between mt-3">
-          <button class="btn btn-warning">Delete</button>
+          <button type="button" (click)="deleteExp(e.id)" class="btn btn-warning">Delete</button>
         </div>
       </a>
     </div>
     <div class="mt-5 text-center">
-      <button class="btn btn-primary profile-button" type="button">
+      <button 
+      (click)="navigateToCreateExp()" 
+      class="btn btn-primary profile-button" type="button">
         Add New Experience
       </button>
     </div>

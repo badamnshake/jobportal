@@ -46,14 +46,14 @@ export class NavbarComponent implements OnInit {
   btnViewEmployerVacancyRequests() {
     this.router.navigateByUrl('/');
   }
-  // employer navs
+  // js navs
   btnViewJSProfile() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/js-profile');
   }
   btnEditJSProfile() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/js-edit-profile');
   }
   btnViewJSAppliedVacReq() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/js-applied-vacancies');
   }
 }

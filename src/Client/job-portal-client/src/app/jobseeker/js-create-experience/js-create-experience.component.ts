@@ -15,6 +15,8 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 })
 export class JsCreateExperienceComponent implements OnInit {
   experienceForm: FormGroup;
+  startDate: string;
+  endDate: string;
 
   constructor(
     private fb: FormBuilder,
@@ -40,26 +42,24 @@ export class JsCreateExperienceComponent implements OnInit {
     this.experienceForm = this.fb.group({
       companyName: ['', Validators.required],
       companyUrl: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
+      startDate: [''],
+      endDate: [''],
       designation: ['', Validators.required],
-      jobDescription: [''],
+      jobDescription: ['', Validators.required],
     });
   }
   onStartDateSelect(event: NgbDateStruct) {
-    this.experienceForm.value.startDate =
-      this.ngbDateParserFormatter.format(event);
+    this.startDate = new Date(
+      this.ngbDateParserFormatter.format(event)
+    ).toISOString();
   }
   onEndDateSelect(event: NgbDateStruct) {
-    this.experienceForm.value.endDate =
-      this.ngbDateParserFormatter.format(event);
+    this.endDate = new Date(
+      this.ngbDateParserFormatter.format(event)
+    ).toISOString();
   }
   formatDates() {
-    this.experienceForm.value.startDate = new Date(
-      this.experienceForm.value.startDate
-    ).toISOString();
-    this.experienceForm.value.endDate = new Date(
-      this.experienceForm.value.endDate
-    ).toISOString();
+    this.experienceForm.value.endDate = this.endDate;
+    this.experienceForm.value.startDate = this.startDate;
   }
 }

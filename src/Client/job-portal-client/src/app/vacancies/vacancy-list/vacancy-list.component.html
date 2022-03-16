@@ -1,3 +1,104 @@
+<div class="text-center mt-3">
+  <h2>Vacancies Found - {{ pagination?.totalItems }} found</h2>
+</div>
+
+<div class="container inline mt-3">
+  <form
+    #form="ngForm"
+    class="form-inline mb-3"
+    (ngSubmit)="loadVacancies()"
+    autocomplete="off"
+  >
+    <div class="row">
+      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+        <label>Location: </label>
+        <input
+          type="text"
+          class="form-control ml-1 d-inline"
+          name="location"
+          [(ngModel)]="filters.location"
+        />
+      </div>
+      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+        <label>Published After : </label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            (dateSelect)="onPublishedDateSelect($event)"
+            ngbDatepicker
+            #pd="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary calendar"
+            (click)="pd.toggle()"
+            type="button"
+          >
+            &#8711;
+          </button>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+        <label class="me-1">Last Date Before</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            (dateSelect)="onLastDateSelect($event)"
+            ngbDatepicker
+            #pd="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary calendar"
+            (click)="pd.toggle()"
+            type="button"
+          >
+            &#8711;
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+        <label>Min Salary: </label>
+        <input
+          type="number"
+          class="form-control ml-1 d-inline"
+          name="minSalary"
+          [(ngModel)]="filters.minSalary"
+        />
+      </div>
+      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+        <label>Max Salary: </label>
+        <input
+          type="number"
+          class="form-control ml-1 d-inline"
+          name="maxSalary"
+          [(ngModel)]="filters.maxSalary"
+        />
+      </div>
+
+      <div class="col-lg-4 col-sm-12 form-group px-2 d-inline">
+        <label class="me-1">Order By</label>
+        <select
+          name="orderBy"
+          [(ngModel)]="filters.orderBy"
+          class="form-select ml-1 d-inline"
+        >
+          <option selected value="null">none</option>
+          <option *ngFor="let orderBy of toOrderBy" [value]="orderBy.value">
+            {{ orderBy.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="mt-2 text-center">
+      <button class="btn btn-success me-1" type="submit">Apply Filters</button>
+      <button (click)="resetFilters()" class="btn btn-warning me-1" type="button">
+        Reset Filters
+      </button>
+    </div>
+  </form>
+</div>
 <div class="list-group">
   <a
     *ngFor="let vacancy of vacancies"
@@ -25,19 +126,18 @@
       <h6 class="mb-md-0">
         Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
       </h6>
-      <button class="btn btn-warning">Edit Vacancy</button>
+      <button class="btn btn-info" type="button">View Details</button>
     </div>
   </a>
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="pagination">
   <ngb-pagination
-  ngDefaultControl
+    ngDefaultControl
     [(page)]="pageNumber"
     [pageSize]="pageSize"
     [collectionSize]="pagination.totalItems"
     [(ngModel)]="pagination.currentPage"
     (pageChange)="pageChanged($event)"
-    
   ></ngb-pagination>
 </div>

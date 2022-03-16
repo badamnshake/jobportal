@@ -14,6 +14,7 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 })
 export class JsCreateQualificationComponent implements OnInit {
   qualificationForm: FormGroup;
+  endDate: string;
 
   constructor(
     private fb: FormBuilder,
@@ -44,12 +45,11 @@ export class JsCreateQualificationComponent implements OnInit {
     });
   }
   onEndDateSelect(event: NgbDateStruct) {
-    this.qualificationForm.value.dateOfCompletion =
-      this.ngbDateParserFormatter.format(event);
+    this.endDate = new Date(
+      this.ngbDateParserFormatter.format(event)
+    ).toISOString();
   }
   formatDates() {
-    this.qualificationForm.value.dateOfCompletion = new Date(
-      this.qualificationForm.value.dateOfCompletion
-    ).toISOString();
+    this.qualificationForm.value.dateOfCompletion = this.endDate;
   }
 }

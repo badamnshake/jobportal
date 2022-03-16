@@ -1,6 +1,6 @@
 <form
   [formGroup]="experienceForm"
-  (ngSubmit)="experienceForm.valid && createDetails()"
+  (ngSubmit)="createDetails()"
   class="text-center border border-light p-5"
 >
   <p class="h4 mb-4">Create Experience</p>
@@ -39,11 +39,12 @@
         class="form-control"
         (dateSelect)="onStartDateSelect($event)"
         ngbDatepicker
-        #d="ngbDatepicker"
+        #sd="ngbDatepicker"
+        placeholder="Start Date"
       />
       <button
         class="btn btn-outline-secondary calendar"
-        (click)="d.toggle()"
+        (click)="sd.toggle()"
         type="button"
       >
         &#8711;
@@ -57,11 +58,12 @@
         class="form-control"
         (dateSelect)="onEndDateSelect($event)"
         ngbDatepicker
-        #d="ngbDatepicker"
+        #ed="ngbDatepicker"
+        placeholder="End Date"
       />
       <button
         class="btn btn-outline-secondary calendar"
-        (click)="d.toggle()"
+        (click)="ed.toggle()"
         type="button"
       >
         &#8711;
@@ -99,7 +101,6 @@
   <!-- Sign in button -->
   <button
     block="true"
-    [disabled]="!experienceForm.valid"
     class="btn btn-info my-4"
     type="submit"
   >
@@ -108,3 +109,5 @@
 
   <!-- Register -->
 </form>
+
+    <!-- [disabled]="!experienceForm.valid" -->

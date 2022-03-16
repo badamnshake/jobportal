@@ -1,6 +1,6 @@
 <form
   [formGroup]="qualificationForm"
-  (ngSubmit)="qualificationForm.valid && createDetails()"
+  (ngSubmit)=" createDetails()"
   class="text-center border border-light p-5"
 >
   <p class="h4 mb-4">Create Qualification</p>
@@ -34,12 +34,13 @@
 
   <!-- end date -->
   <div class="form-group mb-4 mx-auto maxW400">
-    <label class="labels">Qualification End Date</label>
+    <label class="me-auto">Qualification End Date</label>
     <div class="input-group">
       <input
         class="form-control"
         (dateSelect)="onEndDateSelect($event)"
         ngbDatepicker
+        placeholder="Completion Date"
         #d="ngbDatepicker"
       />
       <button
@@ -57,7 +58,7 @@
         qualificationForm.get('gradeOrScore').errors &&
         qualificationForm.get('gradeOrScore').touched
       "
-      type="date"
+      type="text"
       formControlName="gradeOrScore"
       class="form-control"
       placeholder="Grade or Score"
@@ -69,12 +70,13 @@
   <!-- Sign in button -->
   <button
     block="true"
-    [disabled]="!qualificationForm.valid"
     class="btn btn-info my-4"
     type="submit"
   >
-    Register
+    Create Qualification
   </button>
 
   <!-- Register -->
 </form>
+
+    <!-- [disabled]="!qualificationForm.valid" -->

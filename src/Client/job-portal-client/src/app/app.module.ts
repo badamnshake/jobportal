@@ -27,6 +27,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { JsEditProfileComponent } from './jobseeker/js-edit-profile/js-edit-profile.component';
 import { JsCreateExperienceComponent } from './jobseeker/js-create-experience/js-create-experience.component';
 import { JsCreateQualificationComponent } from './jobseeker/js-create-qualification/js-create-qualification.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -59,9 +60,9 @@ import { JsCreateQualificationComponent } from './jobseeker/js-create-qualificat
     SharedModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
 })

@@ -47,12 +47,12 @@ export class VacancyService {
       if (lastDateToApply != null)
         queryParams = queryParams.append(
           'lastDateToApply',
-          lastDateToApply.toString()
+          lastDateToApply.toISOString()
         );
       if (publishedDate != null)
         queryParams = queryParams.append(
           'publishedDate',
-          publishedDate.toString()
+          publishedDate.toISOString()
         );
       if (orderBy != null) {
         let x: number = orderBy;

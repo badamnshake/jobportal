@@ -19,6 +19,8 @@ export class JsEditProfileComponent implements OnInit {
   descriptionText: string;
   doesJsExist = true;
 
+  dateOfBirth: string;
+
   jsForm: FormGroup;
   js: JobSeeker;
   constructor(
@@ -73,12 +75,12 @@ export class JsEditProfileComponent implements OnInit {
     }
   }
   onDateSelect(event: NgbDateStruct) {
-    this.jsForm.value.dateOfBirth = this.ngbDateParserFormatter.format(event);
+    this.dateOfBirth = new Date(
+      this.ngbDateParserFormatter.format(event)
+    ).toISOString();
   }
   updateOrCreateDetails() {
-    this.jsForm.value.dateOfBirth = new Date(
-      this.jsForm.value.dateOfBirth
-    ).toISOString();
+    this.jsForm.value.dateOfBirth = this.dateOfBirth;
 
     if (!this.doesJsExist) {
       this.jobSeekerService
