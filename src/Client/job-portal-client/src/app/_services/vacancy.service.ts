@@ -33,11 +33,21 @@ export class VacancyService {
     orderBy?: ToOrderBy
   ) {
     /// adding query params per passed and requirement
+    let anyFilters = true;
     let queryParams = new HttpParams();
     if (page != null && itemsPerPage != null) {
       // adding pagination
       queryParams = queryParams.append('pageNumber', page.toString());
       queryParams = queryParams.append('pageSize', itemsPerPage.toString());
+
+      if (
+        location == null &&
+        minSalary == null &&
+        maxSalary == null &&
+        lastDateToApply == null &&
+        publishedDate == null
+      )
+        anyFilters = false;
       if (location != null)
         queryParams = queryParams.append('location', location.trim());
       if (minSalary != null)
@@ -58,6 +68,7 @@ export class VacancyService {
         let x: number = orderBy;
         queryParams = queryParams.append('orderBy', x.toString());
       }
+      queryParams = queryParams.append('anyFilters', anyFilters);
     }
     return this.http
       .get<Vacancy[]>(this.baseUrl + '/vacancy/get-vacancies/', {

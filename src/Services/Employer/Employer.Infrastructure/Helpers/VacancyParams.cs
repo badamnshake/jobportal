@@ -22,6 +22,7 @@ namespace Employer.Infrastructure.Helpers
         public DateTime LastDateToApply { get; set; } = default;
         public DateTime PublishedDate { get; set; } = default;
         public ToOrderBy OrderBy { get; set; } = ToOrderBy.MinSalaryAscending;
+        public bool AnyFilters { get; set; }
     }
 
     public enum ToOrderBy

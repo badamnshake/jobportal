@@ -54,6 +54,13 @@ namespace Employer.BusinessLogic.Repositories
                 .ProjectTo<ResponseVacancyDetails>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .AsQueryable();
+            if (!vacancyParams.AnyFilters)
+            {
+                query = query.Where(v => v.Id > ((vacancyParams.PageNumber - 1) * vacancyParams.PageSize));
+                return await PagedList<ResponseVacancyDetails>.CreateAsync(query, vacancyParams.PageNumber,
+                    vacancyParams.PageSize, false);
+            }
+
             if (vacancyParams.Location != null)
                 query = query.Where(v => v.Location.Contains(vacancyParams.Location));
             if (vacancyParams.MinSalary != 0)
@@ -65,17 +72,18 @@ namespace Employer.BusinessLogic.Repositories
             if (vacancyParams.LastDateToApply != default)
                 // only vacancies when the last date is after the applied date
                 query = query.Where(v => v.LastDateToApply.CompareTo(vacancyParams.LastDateToApply) >= 0);
-                // only vacancies when the published date is after the applied date
+            // only vacancies when the published date is after the applied date
             if (vacancyParams.PublishedDate != default)
                 query = query.Where(x => x.PublishedDate.CompareTo(vacancyParams.PublishedDate) > 0);
 
             query = vacancyParams.OrderBy switch
             {
+                ToOrderBy.MinSalaryAscending => query.OrderBy(v => v.MinSalary),
                 ToOrderBy.MinSalaryDescending => query.OrderByDescending(v => v.MinSalary),
                 ToOrderBy.MaxSalaryDescending => query.OrderByDescending(v => v.MaxSalary),
                 ToOrderBy.LastDateToApply => query.OrderByDescending(v => v.LastDateToApply),
                 ToOrderBy.PublishedDate => query.OrderBy(v => v.PublishedDate),
-                _ => query.OrderBy(v => v.MinSalary)
+                _ => query.OrderBy(v => v.Id)
             };
 
             // maybe in future the app only shows vacancies where last date isn't expired
@@ -83,7 +91,7 @@ namespace Employer.BusinessLogic.Repositories
             // query = query.Where(v => v.LastDateToApply.CompareTo(DateTime.Today) > 0);
 
             return await PagedList<ResponseVacancyDetails>.CreateAsync(query, vacancyParams.PageNumber,
-                vacancyParams.PageSize);
+                vacancyParams.PageSize, true);
         }
     }
 }
