@@ -14,7 +14,8 @@ import { VacancyService } from 'src/app/_services/vacancy.service';
 })
 export class JsAppliedVacanciesComponent implements OnInit {
   vacancyRequests: VacancyRequest[];
-  vacancies: Vacancy[];
+  vacanciesIdApplied: number[];
+  vacancies: Vacancy[] = [];
 
   pageNumber = 1;
   pageSize = 5;
@@ -30,15 +31,15 @@ export class JsAppliedVacanciesComponent implements OnInit {
 
   ngOnInit(): void {
     // get vacancy requests fetch
-    this.jobSeekerService.getMyDetails().subscribe((response) => {
-      if (response == null) this.navigateToCreateProfile();
-      this.vacancyRequests = response.vacancyRequests;
+    this.jobSeekerService.getVacanciesWhereIApplied().subscribe((response) => {
+      if (response.length == 0) this.navigateToCreateProfile();
+      this.vacanciesIdApplied = response;
+      this.totalItems = this.vacanciesIdApplied.length;
+      this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+      this.loadVacancies();
     });
     // set pagination
-    this.totalItems = this.vacancyRequests.length;
-    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
     // load items
-    this.loadVacancies();
   }
 
   navigateToCreateProfile() {
@@ -51,19 +52,21 @@ export class JsAppliedVacanciesComponent implements OnInit {
 
   loadVacancies() {
     let vacancy: Vacancy;
-    this.vacancies = null;
+    this.vacancies = [];
     let vacId: number;
-    let vacReqs = this.vacancyRequests;
+    let vacReqs = this.vacanciesIdApplied;
+
     for (
       let i = this.pageNumber - 1;
       i < vacReqs.length && i < this.pageNumber + 5;
       i++
     ) {
-      vacId = vacReqs[i].vacancyId;
+
+      vacId = vacReqs[i];
       this.vacancyService.getVacancyFromId(vacId).subscribe((response) => {
         vacancy = response;
+        this.vacancies.push(vacancy);
       });
-      this.vacancies.push(vacancy);
     }
   }
 

@@ -38,7 +38,7 @@ namespace JobSeeker.API.Controllers
         // it is not exposed directly through ocelot
         // managed by vacancy request aggregator
         // that is why no auth is added because aggregator checks auth
-        [HttpPost("create/")]
+        [HttpPost("create")]
         public async Task<ActionResult> CreateVacancyRequest(RequestCreateVacancyRequest request)
         {
             // finds the job seeker from email given by agg. (from token received in aggregator)
@@ -68,8 +68,16 @@ namespace JobSeeker.API.Controllers
             return Ok();
         }
 
-        
-        
+        [Authorize(Roles = "JobSeeker")]
+        [HttpGet("get-vacancies-where-i-applied")]
+        public async Task<ActionResult<List<int>>> GetVacanciesWhereIApplied()
+        {
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
+
+            return await _vacancyRequestRepository.GetVacanciesWhereJSApplied(jobSeekerId);
+        }
+
+
         // it is exposed in ocelot means user works directly with it no aggregator is used
         [Authorize(Roles = "JobSeeker")]
         [HttpDelete("delete/{vacancyId:int}")]
@@ -79,13 +87,13 @@ namespace JobSeeker.API.Controllers
             var vacReq = await _vacancyRequestRepository.GetVacancyRequestFromVacancyId(vacancyId);
             // if not found then return
             if (vacReq == null) return BadRequest("Vacancy Request doesn't exist");
-            
+
             // middlewares gets js from token
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
-            
+
             // edge case: if a job seeker doesn't own a vac req then can't delete it 
             if (vacReq.JobSeekerUserId != jobSeekerId) return Unauthorized("You can't delete request you don't own");
-            
+
             await _vacancyRequestRepository.DeleteVacancyRequest(vacReq);
             return Ok();
         }

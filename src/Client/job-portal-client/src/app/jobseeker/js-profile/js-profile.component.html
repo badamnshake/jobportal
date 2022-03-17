@@ -1,35 +1,5 @@
 <div class="container rounded bg-white mt-5 mb-5" *ngIf="jobSeeker">
-  <div class="row mb-2 border-bottom">
-    <h4>{{ jobSeeker.firstName }} {{ jobSeeker.lastName }}</h4>
-  </div>
-  <div class="row mb-2 border-bottom">
-    <div class="col-auto">
-      <span class="text-primary"> Email :</span>
-      {{ jobSeeker.email }}.
-    </div>
-    <div class="col-auto">
-      <span class="text-primary"> Phone: </span>
-      {{ jobSeeker.phone }} ,
-    </div>
-    <div class="col-auto">
-      <span class="text-primary"> DOB : </span>
-
-      {{ jobSeeker.dateOfBirth | date }} ,
-    </div>
-  </div>
-  <div class="row mb-2 border-bottom">
-    <div class="col-auto">
-      <span class="text-primary"> Total Experience: </span>
-      {{ jobSeeker.totalExperience }} ,
-    </div>
-    <div class="col-auto">
-      <span class="text-primary"> Expected Salary : </span>
-
-      {{ jobSeeker.expectedSalaryAnnual }} ,
-    </div>
-  </div>
-  <!-- Qualifications  -->
-  <!-- ********************************  -->
+  <app-js-list-item-profile [js]="jobSeeker"></app-js-list-item-profile>
 
   <h5 class="text-center mt-4">
     Qualifications
@@ -55,10 +25,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ************ -->
-  <!-- Experiences  -->
-  <!-- ********************************  -->
 
   <h5 class="text-center">
     Experiences

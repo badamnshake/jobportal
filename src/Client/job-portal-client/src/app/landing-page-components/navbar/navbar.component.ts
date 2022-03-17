@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { User } from '../../_models/user';
 import { AccountService } from '../../_services/account.service';
-import {Role} from "../../_models/role";
 
 @Component({
   selector: 'app-navbar',
@@ -24,36 +21,13 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    this.accountService.login(this.model).subscribe((response) => {
-      this.router.navigateByUrl('/members');
+    this.accountService.login(this.model).subscribe(() => {
+      this.router.navigateByUrl('/vacancy-list');
     });
   }
 
   logout() {
     this.accountService.logout();
     this.router.navigateByUrl('/');
-  }
-  // employer navs
-  btnViewEmployerProfile() {
-    this.router.navigateByUrl('/employer-profile');
-  }
-  btnEditEmployerProfile() {
-    this.router.navigateByUrl('/employer-profile-edit');
-  }
-  btnViewEmployerPostedVacancies() {
-    this.router.navigateByUrl('/employer-vacancy-list');
-  }
-  btnViewEmployerVacancyRequests() {
-    this.router.navigateByUrl('/');
-  }
-  // js navs
-  btnViewJSProfile() {
-    this.router.navigateByUrl('/js-profile');
-  }
-  btnEditJSProfile() {
-    this.router.navigateByUrl('/js-edit-profile');
-  }
-  btnViewJSAppliedVacReq() {
-    this.router.navigateByUrl('/js-applied-vacancies');
   }
 }

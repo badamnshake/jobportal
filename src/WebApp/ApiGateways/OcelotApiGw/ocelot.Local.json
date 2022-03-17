@@ -159,6 +159,20 @@
       "UpstreamHttpMethod": [
         "Delete"
       ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/vacancy-request/get-vacancies-where-i-applied",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/vacancy-request/get-vacancies-where-i-applied",
+      "UpstreamHttpMethod": [
+        "Get"
+      ]
     }
   ],
   "GlobalConfiguration": {

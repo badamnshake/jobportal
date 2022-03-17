@@ -1,37 +1,40 @@
-<div class="row mb-2">
-  <h4 class="col-12 col-sm-6">{{ js.firstName }}</h4>
-  <h4 class="col-12 col-sm-6">{{ js.lastName }}</h4>
+<div class="row mb-2 border-bottom text-success">
+  <h4>
+  {{ js.firstName }}
+  {{ js.lastName }}
+</h4>
 </div>
-<div class="row mb-2">
+<div class="row mb-2 border-bottom">
   <div class="col-auto">
-    <span class="text-primary"> Email :</span>
+    <span class="text-info"> Email :</span>
     {{ js.email }}.
   </div>
   <div class="col-auto">
-    <span class="text-primary"> Phone: </span>
+    <span class="text-info"> Phone: </span>
     {{ js.phone }} ,
   </div>
   <div class="col-auto">
-    <span class="text-primary"> DOB : </span>
+    <span class="text-info"> DOB : </span>
 
     {{ js.dateOfBirth | date }} ,
   </div>
 </div>
-<div class="row mb-2">
+<div class="row mb-2 border-bottom">
   <div class="col-auto">
-    <span class="text-primary"> Total Experience: </span>
+    <span class="text-info"> Total Experience: </span>
     {{ js.totalExperience }} ,
   </div>
   <div class="col-auto">
-    <span class="text-primary"> Expected Salary : </span>
+    <span class="text-info"> Expected Salary : </span>
 
     {{ js.expectedSalaryAnnual }} ,
   </div>
-  <!-- <div class="col-auto">
+</div>
+<!-- <div class="col-auto">
     <span class="text-primary"> Address :</span>
     {{ js.address }}.
   </div> -->
-</div>
+<!-- </div>
 <div class="row">
   <button
     type="button"
@@ -64,4 +67,4 @@
       ></app-js-list-item-experience>
     </div>
   </div>
-</div>
+</div> -->

@@ -1,7 +1,7 @@
 <div class="list-group list-group-flush" *ngIf="vacancyList">
   <div
     *ngFor="let vacancy of vacancyList"
-    class="container list-group-itemflex-column align-items-start"
+    class="container list-group-item flex-column align-items-start"
   >
     <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
     <div class="row">

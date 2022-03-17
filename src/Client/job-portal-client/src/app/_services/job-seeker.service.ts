@@ -24,6 +24,15 @@ export class JobSeekerService {
       })
     );
   }
+  getVacanciesWhereIApplied() {
+    return this.http
+      .get<number[]>(this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied')
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  }
   createJobSeeker(model: JobSeeker) {
     return this.http.post(this.baseUrl + '/job-seeker/create', model).pipe(
       map((id: number) => {
@@ -32,10 +41,9 @@ export class JobSeekerService {
     );
   }
   updateJobSeeker(model: JobSeeker) {
-    return this.http.put(this.baseUrl + '/job-seeker/update', model).pipe(
-      map(() => {
-      })
-    );
+    return this.http
+      .put(this.baseUrl + '/job-seeker/update', model)
+      .pipe(map(() => {}));
   }
 
   createExperience(model: Experience) {

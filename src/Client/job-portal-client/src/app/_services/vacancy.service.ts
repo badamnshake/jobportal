@@ -66,8 +66,6 @@ export class VacancyService {
       })
       .pipe(
         map((response) => {
-          console.log(response.body);
-
           this.paginatedResult.result = response.body;
           if (response.headers.get('Pagination') !== null) {
             this.paginatedResult.pagination = JSON.parse(

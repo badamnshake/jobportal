@@ -3,7 +3,7 @@
     <a class="navbar-brand" routerLink="/">Job-Portal</a>
 
     <ul class="navbar-nav me-auto mb-2 mb-md-0">
-      <li class="nav-item" *ngIf="!(accountService.currentUser$ | async)">
+      <li class="nav-item">
         <a class="nav-link" routerLinkActive="active" routerLink="/vacancy-list"
           >Search Vacancies</a
         >
@@ -38,33 +38,22 @@
           Employer Menu
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuEmployer">
-          <button
-            type="button"
-            (click)="btnViewEmployerProfile()"
-            ngbDropdownItem
-          >
+          <button type="button" routerLink="/employer-profile" ngbDropdownItem>
             View Profile
           </button>
           <button
             type="button"
-            (click)="btnEditEmployerProfile()"
+            routerLink="/employer-profile-edit"
             ngbDropdownItem
           >
             Edit Profile
           </button>
           <button
             type="button"
-            (click)="btnViewEmployerPostedVacancies()"
+            routerLink="/employer-vacancy-list"
             ngbDropdownItem
           >
             View/Edit Posted Vacancies
-          </button>
-          <button
-            type="button"
-            (click)="btnViewEmployerVacancyRequests()"
-            ngbDropdownItem
-          >
-            Vacancy Requests
           </button>
         </div>
       </div>
@@ -83,18 +72,32 @@
           Seeker Menu
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuJobSeeker">
-          <button type="button" (click)="btnViewJSProfile()" ngbDropdownItem>
+          <button type="button" routerLink="/js-profile" ngbDropdownItem>
             View Profile
           </button>
-          <button type="button" (click)="btnEditJSProfile()" ngbDropdownItem>
+          <button type="button" routerLink="/js-edit-profile" ngbDropdownItem>
             Edit Profile
           </button>
           <button
             type="button"
-            (click)="btnViewJSAppliedVacReq()"
+            routerLink="/js-create-qualification"
             ngbDropdownItem
           >
-            Applied Vacancy Requests
+            Add qualification
+          </button>
+          <button
+            type="button"
+            routerLink="/js-create-experience"
+            ngbDropdownItem
+          >
+            Add experience
+          </button>
+          <button
+            type="button"
+            routerLink="/js-applied-vacancies"
+            ngbDropdownItem
+          >
+            Applied Vacancies
           </button>
         </div>
       </div>

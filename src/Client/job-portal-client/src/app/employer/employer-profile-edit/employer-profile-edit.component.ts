@@ -13,7 +13,6 @@ export class EmployerProfileEditComponent implements OnInit {
   submitButtonText: string;
   descriptionText: string;
   doesEmpExist = true;
-  loaded = false;
 
   employerForm: FormGroup;
   employer: Employer;
@@ -24,16 +23,14 @@ export class EmployerProfileEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
     this.employerService.getEmployerMe().subscribe((response) => {
+      this.employer = response;
       if (!response) this.doesEmpExist = false;
-      else this.employer = response;
+      if (this.employer) this.employerForm.patchValue(this.employer);
     });
 
-    this.initializeForm();
-
-    if (this.employer) this.employerForm.patchValue(this.employer);
     this.setDisplayTexts();
-    this.loaded = true;
   }
 
   initializeForm() {
@@ -45,6 +42,17 @@ export class EmployerProfileEditComponent implements OnInit {
       noOfEmployees: [''],
       startYear: ['', Validators.required],
       about: ['', Validators.required],
+    });
+  }
+  patchValuesIntoForm() {
+    this.employerForm.patchValue({
+      organizationName: this.employer.organizationName,
+      organizationType: this.employer.organizationType,
+      companyEmail: this.employer.companyEmail,
+      companyPhone: this.employer.companyPhone,
+      noOfEmployees: this.employer.noOfEmployees,
+      startYear: this.employer.startYear,
+      about: this.employer.about,
     });
   }
   setDisplayTexts() {

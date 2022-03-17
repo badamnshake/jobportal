@@ -47,11 +47,16 @@ namespace JobSeeker.BusinessLogic.Repositories
             var vacReq = await _dataContext.VacancyRequests
                 .Where(v => v.VacancyId == vacancyId)
                 .Select(j => j.JobSeekerUser)
-                .Include(j => j.Qualifications)
-                .Include(j => j.Experiences)
                 .AsSplitQuery()
                 .ToListAsync();
+
             return vacReq;
+        }
+
+        public async Task<List<int>> GetVacanciesWhereJSApplied(int jobSeekerId)
+        {
+            return await _dataContext.VacancyRequests.Where(v => v.JobSeekerUserId == jobSeekerId)
+                .Select(v => v.VacancyId).ToListAsync();
         }
     }
 }

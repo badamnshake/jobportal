@@ -15,7 +15,6 @@ export class EmployerVacancyEditComponent implements OnInit {
   vacancyCreate: boolean = undefined;
   submitButtonText: string;
   descriptionText: string;
-  loaded = false;
 
   constructor(
     private employerService: EmployerService,
@@ -26,7 +25,6 @@ export class EmployerVacancyEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loaded = false;
     let vacId = parseInt(this.route.snapshot.paramMap.get('id'));
     console.log(vacId);
 
@@ -43,7 +41,6 @@ export class EmployerVacancyEditComponent implements OnInit {
       this.vacancyCreate = false;
     }
     this.setDisplayTexts();
-    this.loaded = true;
   }
 
   setDisplayTexts() {

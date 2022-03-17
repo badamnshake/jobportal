@@ -71,16 +71,16 @@ export class VacancyListComponent implements OnInit {
   }
 
   applyForVacancy(id: number) {
-    let vr: VacancyRequest;
-    vr.vacancyId = id;
+    let vr: VacancyRequest = {
+      vacancyId: id,
+    };
 
     this.jobSeekerService.createVacancyRequest(vr).subscribe(() => {
       this.toastr.success('Applied For Vacancy');
     });
   }
   getEmployerDetails(id: number) {
-    this.router.navigateByUrl(`employer-profile/${id}`)
-
+    this.router.navigateByUrl(`employer-profile/${id}`);
   }
 
   pageChanged(event: any) {

@@ -22,7 +22,6 @@ export class JsProfileComponent implements OnInit {
     this.jobSeekerService.getMyDetails().subscribe((response) => {
       if (response == null) this.navigateToCreateProfile();
       this.jobSeeker = response;
-      console.log(this.jobSeeker);
     });
   }
   navigateToCreateProfile() {
