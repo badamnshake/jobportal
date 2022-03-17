@@ -31,6 +31,7 @@ import { VacancyListItemComponent } from './vacancies/vacancy-list-item/vacancy-
 import { JsListItemProfileComponent } from './jobseeker/js-list-item-profile/js-list-item-profile.component';
 import { JsListItemQualificationComponent } from './jobseeker/js-list-item-qualification/js-list-item-qualification.component';
 import { JsListItemExperienceComponent } from './jobseeker/js-list-item-experience/js-list-item-experience.component';
+import { SeederComponent } from './_seed/seeder/seeder.component';
 
               // "node_modules/bootstrap/dist/css/bootstrap.min.css",
 @NgModule({
@@ -56,6 +57,7 @@ import { JsListItemExperienceComponent } from './jobseeker/js-list-item-experien
     JsListItemProfileComponent,
     JsListItemQualificationComponent,
     JsListItemExperienceComponent,
+    SeederComponent,
   ],
   imports: [
     BrowserModule,

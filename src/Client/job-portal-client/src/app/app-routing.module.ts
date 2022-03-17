@@ -17,6 +17,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { VacancyListComponent } from './vacancies/vacancy-list/vacancy-list.component';
 import { AuthEmployerGuard } from './_guards/auth-employer.guard';
 import { AuthJobSeekerGuard } from './_guards/auth-job-seeker.guard';
+import { SeederComponent } from './_seed/seeder/seeder.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -82,6 +83,7 @@ const routes: Routes = [
       },
     ],
   },
+  { path: 'seeder', component: SeederComponent },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
 ];

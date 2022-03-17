@@ -8,6 +8,7 @@ namespace Employer.Infrastructure.RequestResponseModels.Vacancy
         // id is automatically assigned to as primary key in entity framework
         // organization name which it is published by
         [Required] public string PublishedBy { get; set; }
+        [Required] public DateTime PublishedDate { get; set; }
 
         // public DateTime PublishedDate { get; set; }
         [Required] public int NoOfVacancies { get; set; }

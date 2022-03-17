@@ -145,5 +145,8 @@
     [collectionSize]="pagination.totalItems"
     [(ngModel)]="pagination.currentPage"
     (pageChange)="pageChanged($event)"
+    [maxSize]="5"
+    [ellipses]="false"
+    [boundaryLinks]="true"
   ></ngb-pagination>
 </div>

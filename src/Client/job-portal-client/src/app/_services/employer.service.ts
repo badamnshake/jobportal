@@ -32,7 +32,7 @@ export class EmployerService {
       })
     );
   }
-  createEmployer(model: Employer) {
+  createEmployer(model: any) {
     return this.http.post(this.baseUrl + '/employer/create', model).pipe(
       map(() => {
         return true;
