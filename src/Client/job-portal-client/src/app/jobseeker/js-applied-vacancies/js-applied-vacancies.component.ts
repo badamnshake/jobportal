@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Pagination } from 'src/app/_models/pagination';
 import { Vacancy } from 'src/app/_models/vacancy';
 import { VacancyRequest } from 'src/app/_models/vacancy-request';
@@ -23,7 +24,8 @@ export class JsAppliedVacanciesComponent implements OnInit {
   constructor(
     private vacancyService: VacancyService,
     private jobSeekerService: JobSeekerService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +65,13 @@ export class JsAppliedVacanciesComponent implements OnInit {
       });
       this.vacancies.push(vacancy);
     }
+  }
+
+  deleteVacancyRequest(vacId: number) {
+    this.jobSeekerService.deleteVacancyRequest(vacId).subscribe(() => {
+      this.toastr.success('Vacancy Request Deleted');
+      window.location.reload();
+    });
   }
 
   pageChanged(event: number) {

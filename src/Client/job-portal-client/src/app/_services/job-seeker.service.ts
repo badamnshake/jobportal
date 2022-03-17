@@ -73,9 +73,9 @@ export class JobSeekerService {
       })
     );
   }
-  deleteVacancyRequest(vacReqId: number) {
+  deleteVacancyRequest(vacId: number) {
     return this.http
-      .delete(this.baseUrl + `/vacancy-request/delete/${vacReqId}`)
+      .delete(this.baseUrl + `/vacancy-request/delete/${vacId}`)
       .pipe(
         map(() => {
           return 0;

@@ -38,12 +38,13 @@ export class JsProfileComponent implements OnInit {
   deleteExp(id: number) {
     this.jobSeekerService.deleteExperience(id).subscribe(() => {
       this.toastr.success('Experince Deleted');
+      window.location.reload();
     });
   }
   deleteQual(id: number) {
     this.jobSeekerService.deleteQualification(id).subscribe(() => {
       this.toastr.success('Qualification Deleted');
-      this.jobSeeker.qualifications.filter((q) => q.id != id);
+      window.location.reload();
     });
   }
 }

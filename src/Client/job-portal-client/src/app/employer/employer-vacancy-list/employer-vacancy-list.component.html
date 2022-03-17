@@ -5,10 +5,10 @@
   >
     <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
     <div class="row">
-      <button class="col-auto btn btn-warning ms-auto me-1" (click)="editVacancy(vacancy.id)">
+      <button type="button" class="col-auto btn btn-warning ms-auto me-1" (click)="editVacancy(vacancy.id)">
         Edit Vacancy
       </button>
-      <button class="col-auto btn btn-warning me-1" (click)="viewVacancyRequest(vacancy.id)">
+      <button type="button" class="col-auto btn btn-warning me-1" (click)="viewVacancyRequest(vacancy.id)">
         View Vacancy Requests
       </button>
     </div>
