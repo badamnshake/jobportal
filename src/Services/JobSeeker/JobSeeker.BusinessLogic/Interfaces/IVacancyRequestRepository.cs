@@ -9,7 +9,7 @@ namespace JobSeeker.BusinessLogic.Interfaces
         Task CreateVacancyRequest(VacancyRequest vacancyRequest);
         Task DeleteVacancyRequest(VacancyRequest vacancyRequest);
         Task<bool> DoesVacancyRequestExist(int vacancyId, int jobSeekerId);
-        Task<VacancyRequest> GetVacancyRequestFromId(int vacancyReqId);
+        Task<VacancyRequest> GetVacancyRequestFromVacancyId(int vacancyReqId);
         Task<List<JobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId);
     }
 }

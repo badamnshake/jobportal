@@ -1,0 +1,39 @@
+<div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
+  <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
+  <small>{{ vacancy.publishedDate | date }}</small>
+</div>
+<div class="row mb-2">
+  <div class="col-auto">
+    <span class="text-primary"> Published By :</span>
+    {{ vacancy.publishedBy }}.
+  </div>
+  <div class="col-auto">
+    <span class="text-primary"> Minimum qualification: </span>
+    {{ vacancy.minimumQualification }} ,
+  </div>
+  <div class="col-auto">
+    <span class="text-primary"> Number of Vacancies : </span>
+
+    {{ vacancy.location }} ,
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col-auto">
+    <span class="text-primary"> experience required: </span>
+    {{ vacancy.experienceRequired }} ,
+  </div>
+  <div class="col-auto">
+    <span class="text-primary"> Location : </span>
+
+    {{ vacancy.location }} ,
+  </div>
+  <div class="col-auto">
+    <span class="text-primary"> Last date to apply :</span>
+    {{ vacancy.lastDateToApply | date }}.
+  </div>
+</div>
+<div class="row">
+  <h6 class="col-lg-auto col-sm-auto mb-md-0">
+    Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
+  </h6>
+</div>

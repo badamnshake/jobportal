@@ -1,33 +1,10 @@
 <div class="list-group">
-  <a
+  <div
     *ngFor="let vacancy of vacancies"
     class="container list-group-item list-group-item-action flex-column align-items-start"
   >
-    <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
-      <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
-      <small>{{ vacancy.publishedDate }}</small>
-    </div>
-    <p class="mb-1 p-1">
-      <span>
-        <span class="text-info"> experience required: </span>
-        {{ vacancy.experienceRequired }} ,
-      </span>
-      <span>
-        <span class="text-info"> Location : </span>
-        {{ vacancy.location }} ,
-      </span>
-      <span>
-        <span class="text-info"> Last date to apply :</span>
-        {{ vacancy.lastDateToApply }}.
-      </span>
-    </p>
-    <div class="d-flex w-100 justify-content-between mt-3">
-      <h6 class="mb-md-0">
-        Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
-      </h6>
-      <button class="btn btn-warning">Edit Vacancy</button>
-    </div>
-  </a>
+    <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
+  </div>
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="totalItems">

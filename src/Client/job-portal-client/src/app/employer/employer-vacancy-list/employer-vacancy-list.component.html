@@ -1,36 +1,16 @@
-<div class="list-group" *ngIf="vacancyList">
-  <a
+<div class="list-group list-group-flush" *ngIf="vacancyList">
+  <div
     *ngFor="let vacancy of vacancyList"
-    class="container list-group-item list-group-item-action flex-column align-items-start"
+    class="container list-group-itemflex-column align-items-start"
   >
-    <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
-      <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
-      <small>{{ vacancy.publishedDate }}</small>
-    </div>
-    <p class="mb-1 p-1">
-      <span>
-        <span class="text-info"> experience required: </span>
-        {{ vacancy.experienceRequired }} ,
-      </span>
-      <span>
-        <span class="text-info"> Location : </span>
-        {{ vacancy.location }} ,
-      </span>
-      <span>
-        <span class="text-info"> Last date to apply :</span>
-        {{ vacancy.lastDateToApply }}.
-      </span>
-    </p>
-    <div class="d-flex w-100 justify-content-between mt-3">
-      <h6 class="mb-md-0">
-        Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
-      </h6>
-      <button
-        class="btn btn-warning"
-        (click)="editVacancy(vacancy.id)"
-      >
+    <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
+    <div class="row">
+      <button class="col-auto btn btn-warning ms-auto me-1" (click)="editVacancy(vacancy.id)">
         Edit Vacancy
       </button>
+      <button class="col-auto btn btn-warning me-1" (click)="viewVacancyRequest(vacancy.id)">
+        View Vacancy Requests
+      </button>
     </div>
-  </a>
+  </div>
 </div>

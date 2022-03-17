@@ -70,6 +70,7 @@ namespace JobSeeker.BusinessLogic.Repositories
                 .Include(j => j.Qualifications)
                 .Include(j => j.Experiences)
                 .Include(j => j.VacancyRequests)
+                .AsSplitQuery()
                 .SingleOrDefaultAsync(j => j.Id == id);
             return jobSeeker;
         }

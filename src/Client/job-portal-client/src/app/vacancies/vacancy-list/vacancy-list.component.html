@@ -1,5 +1,8 @@
 <div class="container text-center mt-3 border-bottom p-2">
-  <h4>Vacancies Found -> <span class="text-success">{{ pagination?.totalItems }}</span></h4>
+  <h4>
+    Vacancies Found ->
+    <span class="text-success">{{ pagination?.totalItems }}</span>
+  </h4>
 </div>
 
 <div class="container inline mt-3">
@@ -38,7 +41,7 @@
         </div>
       </div>
 
-      <div class="col-lg-4  col-md-6 col-sm-12 form-group px-2 d-inline">
+      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline">
         <label class="me-1">Last Date After :</label>
         <div class="input-group">
           <input
@@ -56,8 +59,8 @@
           </button>
         </div>
       </div>
-    <!-- </div> -->
-    <!-- <div class="row"> -->
+      <!-- </div> -->
+      <!-- <div class="row"> -->
       <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline">
         <label>Min Salary: </label>
         <input
@@ -67,7 +70,7 @@
           [(ngModel)]="filters.minSalary"
         />
       </div>
-      <div class="col-lg-4  col-md-6 col-sm-12 form-group px-2 d-inline">
+      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline">
         <label>Max Salary: </label>
         <input
           type="number"
@@ -109,49 +112,14 @@
     *ngFor="let vacancy of vacancies"
     class="container list-group-item flex-column align-items-start"
   >
-    <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
-      <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
-      <small>{{ vacancy.publishedDate | date }}</small>
-    </div>
-    <div class="row mb-2">
-      <div class="col-auto">
-        <span class="text-primary"> Published By :</span>
-        {{ vacancy.publishedBy }}.
-      </div>
-      <div class="col-auto">
-        <span class="text-primary"> Minimum qualification: </span>
-        {{ vacancy.minimumQualification }} ,
-      </div>
-      <div class="col-auto">
-        <span class="text-primary"> Number of Vacancies : </span>
-
-        {{ vacancy.location }} ,
-      </div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-auto">
-        <span class="text-primary"> experience required: </span>
-        {{ vacancy.experienceRequired }} ,
-      </div>
-      <div class="col-auto">
-        <span class="text-primary"> Location : </span>
-
-        {{ vacancy.location }} ,
-      </div>
-      <div class="col-auto">
-        <span class="text-primary"> Last date to apply :</span>
-        {{ vacancy.lastDateToApply | date }}.
-      </div>
-    </div>
-    <div class="row">
-      <h6 class="col-lg-auto col-sm-auto mb-md-0">
-        Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
-      </h6>
+    <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
+    <div class="row mt-2">
       <button
-       class="col-lg-auto col-sm-auto btn btn-info ms-auto me-1"
+        class="col-lg-auto col-sm-auto btn btn-info ms-auto me-1"
         (click)="getEmployerDetails(vacancy.employerEntityId)"
-
-      >Employer Details</button>
+      >
+        Employer Details
+      </button>
       <button
         (click)="applyForVacancy(vacancy.id)"
         *ngIf="(accountService.currentRole$ | async) == 'JobSeeker'"

@@ -1,111 +1,101 @@
 <div class="container rounded bg-white mt-5 mb-5" *ngIf="jobSeeker">
-  <div class="p-3 py-5 mx-3">
-    <div class="d-flex justify-content-around align-items-center mb-3">
-      <h4 class="text-center">
-        {{ jobSeeker.firstName }} {{ jobSeeker.lastName }}
-      </h4>
-      <h4 class="text-center">
-        <span class="text-primary">Experience </span>
-        {{ jobSeeker.totalExperience }}
-      </h4>
-    </div>
-    <div class="col-md-12 mt-2 border-bottom border-success">
-      <div class="text-primary">Email</div>
-      {{ jobSeeker.email }}
-    </div>
-    <div class="col-md-12 mt-2 border-bottom border-success">
-      <div class="text-primary">Phone</div>
-      {{ jobSeeker.phone }}
-    </div>
-    <div class="row mt-2 p-1">
-      <div class="col-md-6 border-bottom border-success mt-3">
-        <div class="text-primary">Expected Annual Salary</div>
-        {{ jobSeeker.expectedSalaryAnnual }}
-      </div>
-      <div class="col-md-6 border-bottom border-success mt-3">
-        <div class="text-primary">DOB</div>
-        {{ jobSeeker.dateOfBirth }}
-      </div>
-      <div class="col-md-12 border-bottom border-success mt-3">
-        <div class="text-primary">Address</div>
-        {{ jobSeeker.address }}
-      </div>
-    </div>
-    <div class="border border-lg"></div>
-
-    <!-- Qualifications  -->
-    <!-- ********************************  -->
-
-    <div class="list-group">
-      <a
-        *ngFor="let q of jobSeeker.qualifications"
-        class="container list-group-item list-group-item-action flex-column align-items-start"
-      >
-        <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
-          <h5 class="mb-1">{{ q.qualificationName }}</h5>
-          <small>{{ q.university }}</small>
-        </div>
-        <p class="mb-1 p-1">
-          <span>
-            <span class="text-info"> Grade/Score : </span>
-            {{ q.gradeOrScore }} ,
-          </span>
-          <span>
-            <span class="text-info"> Completion Date : </span>
-            {{ q.dateOfCompletion }} ,
-          </span>
-        </p>
-        <div class="d-flex w-100 justify-content-between mt-3">
-          <button type="button" (click)="deleteQual(q.id)" class="btn btn-warning">Delete</button>
-        </div>
-      </a>
-    </div>
-    <div class="mt-5 text-center">
-      <button 
-      (click)="navigateToCreateQual()" 
-      class="btn btn-primary profile-button" type="button">
-        Add New Qualification
-      </button>
-    </div>
-
-    <!-- ************ -->
-    <!-- Experiences  -->
-    <!-- ********************************  -->
-
-    <div class="list-group">
-      <a
-        *ngFor="let e of jobSeeker.experiences"
-        class="container list-group-item list-group-item-action flex-column align-items-start"
-      >
-        <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
-          <h5 class="mb-1">{{ e.companyName }} --</h5>
-          <small>{{ e.designation }}</small>
-        </div>
-        <p class="mb-1 p-1">
-          <span>
-            <span class="text-info"> Start : : </span>
-            {{ e.startDate }} ,
-            <span class="text-info"> End : : </span>
-            {{ e.endDate }}
-          </span>
-          <span>
-            <span class="text-info"> Job Info : </span>
-            {{ e.jobDescription }} ,
-          </span>
-        </p>
-        <div class="d-flex w-100 justify-content-between mt-3">
-          <button type="button" (click)="deleteExp(e.id)" class="btn btn-warning">Delete</button>
-        </div>
-      </a>
-    </div>
-    <div class="mt-5 text-center">
-      <button 
-      (click)="navigateToCreateExp()" 
-      class="btn btn-primary profile-button" type="button">
-        Add New Experience
-      </button>
-    </div>
-
-    <!-- ************ -->
+  <div class="row mb-2 border-bottom">
+    <h4>{{ jobSeeker.firstName }} {{ jobSeeker.lastName }}</h4>
   </div>
+  <div class="row mb-2 border-bottom">
+    <div class="col-auto">
+      <span class="text-primary"> Email :</span>
+      {{ jobSeeker.email }}.
+    </div>
+    <div class="col-auto">
+      <span class="text-primary"> Phone: </span>
+      {{ jobSeeker.phone }} ,
+    </div>
+    <div class="col-auto">
+      <span class="text-primary"> DOB : </span>
+
+      {{ jobSeeker.dateOfBirth | date }} ,
+    </div>
+  </div>
+  <div class="row mb-2 border-bottom">
+    <div class="col-auto">
+      <span class="text-primary"> Total Experience: </span>
+      {{ jobSeeker.totalExperience }} ,
+    </div>
+    <div class="col-auto">
+      <span class="text-primary"> Expected Salary : </span>
+
+      {{ jobSeeker.expectedSalaryAnnual }} ,
+    </div>
+  </div>
+  <!-- Qualifications  -->
+  <!-- ********************************  -->
+
+  <h5 class="text-center mt-4">
+    Qualifications
+    <span class="text-danger" *ngIf="jobSeeker.qualifications.length == 0"
+      >: Not Added Yet</span
+    >
+  </h5>
+
+  <div class="list-group mb-2">
+    <div
+      *ngFor="let q of jobSeeker.qualifications"
+      class="container list-group-item flex-column align-items-start"
+    >
+      <app-js-list-item-qualification [q]="q"></app-js-list-item-qualification>
+      <div class="d-flex w-100 justify-content-between mt-3">
+        <button
+          type="button"
+          (click)="deleteQual(q.id)"
+          class="btn btn-warning"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ************ -->
+  <!-- Experiences  -->
+  <!-- ********************************  -->
+
+  <h5 class="text-center">
+    Experiences
+
+    <span class="text-danger" *ngIf="jobSeeker.experiences.length == 0"
+      >: Not Added Yet</span
+    >
+  </h5>
+  <div class="list-group">
+    <div
+      *ngFor="let e of jobSeeker.experiences"
+      class="container list-group-item flex-column align-items-start"
+    >
+      <app-js-list-item-experience [e]="e"></app-js-list-item-experience>
+      <div class="d-flex w-100 justify-content-between mt-3">
+        <button type="button" (click)="deleteExp(e.id)" class="btn btn-warning">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <button
+      (click)="navigateToCreateExp()"
+      class="btn btn-outline-info col-12 col-lg-2 me-2"
+      type="button"
+    >
+      Add New Experience
+    </button>
+
+    <button
+      (click)="navigateToCreateQual()"
+      class="btn btn-outline-primary col-12 col-lg-2 me-2"
+      type="button"
+    >
+      Add New Qualification
+    </button>
+  </div>
+  <!-- ************ -->
 </div>

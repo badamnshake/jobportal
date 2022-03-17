@@ -48,4 +48,7 @@ export class EmployerVacancyListComponent implements OnInit {
   editVacancy(id: number) {
     this.router.navigateByUrl(`/employer-vacancy-edit/${id}`);
   }
+  viewVacancyRequest(id: number) {
+    this.router.navigateByUrl(`/employer-view-vacancy-reqs/${id}`);
+  }
 }

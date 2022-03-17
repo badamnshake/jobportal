@@ -1,0 +1,24 @@
+<div class="row mb-2">
+  <div class="col-12 col-sm-6">
+    <span class="text-info"> Company :</span>
+    {{ e.companyName }}
+  </div>
+  <div class="col-12 col-sm-6">
+    <span class="text-info"> Company Url :</span>
+    {{ e.companyUrl }}
+  </div>
+  <div class="col-auto">
+    <span class="text-primary"> Time :</span>
+    {{ e.startDate | date }} - {{ e.endDate | date }}
+  </div>
+  <div class="col-auto">
+    <span class="text-primary"> Designation: </span>
+    {{ e.designation }} ,
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col-auto">
+    <span class="text-primary"> Job Description: </span>
+    {{ e.jobDescription }} ,
+  </div>
+</div>

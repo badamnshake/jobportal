@@ -26,6 +26,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { JsEditProfileComponent } from './jobseeker/js-edit-profile/js-edit-profile.component';
 import { JsCreateExperienceComponent } from './jobseeker/js-create-experience/js-create-experience.component';
 import { JsCreateQualificationComponent } from './jobseeker/js-create-qualification/js-create-qualification.component';
+import { EmployerViewVacancyReqsComponent } from './employer/employer-view-vacancy-reqs/employer-view-vacancy-reqs.component';
+import { VacancyListItemComponent } from './vacancies/vacancy-list-item/vacancy-list-item.component';
+import { JsListItemProfileComponent } from './jobseeker/js-list-item-profile/js-list-item-profile.component';
+import { JsListItemQualificationComponent } from './jobseeker/js-list-item-qualification/js-list-item-qualification.component';
+import { JsListItemExperienceComponent } from './jobseeker/js-list-item-experience/js-list-item-experience.component';
 
               // "node_modules/bootstrap/dist/css/bootstrap.min.css",
 @NgModule({
@@ -46,6 +51,11 @@ import { JsCreateQualificationComponent } from './jobseeker/js-create-qualificat
     JsCreateExperienceComponent,
     JsCreateQualificationComponent,
     PageNotFoundComponent,
+    EmployerViewVacancyReqsComponent,
+    VacancyListItemComponent,
+    JsListItemProfileComponent,
+    JsListItemQualificationComponent,
+    JsListItemExperienceComponent,
   ],
   imports: [
     BrowserModule,

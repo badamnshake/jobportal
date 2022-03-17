@@ -72,11 +72,11 @@ namespace JobSeeker.API.Controllers
         
         // it is exposed in ocelot means user works directly with it no aggregator is used
         [Authorize(Roles = "JobSeeker")]
-        [HttpDelete("delete/{vacancyRequestId:int}")]
-        public async Task<ActionResult> DeleteVacancyRequest(int vacancyRequestId)
+        [HttpDelete("delete/{vacancyId:int}")]
+        public async Task<ActionResult> DeleteVacancyRequest(int vacancyId)
         {
             // gets the vacancy request
-            var vacReq = await _vacancyRequestRepository.GetVacancyRequestFromId(vacancyRequestId);
+            var vacReq = await _vacancyRequestRepository.GetVacancyRequestFromVacancyId(vacancyId);
             // if not found then return
             if (vacReq == null) return BadRequest("Vacancy Request doesn't exist");
             

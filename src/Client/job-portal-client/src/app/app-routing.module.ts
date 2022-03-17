@@ -4,6 +4,7 @@ import { EmployerProfileEditComponent } from './employer/employer-profile-edit/e
 import { EmployerProfileComponent } from './employer/employer-profile/employer-profile.component';
 import { EmployerVacancyEditComponent } from './employer/employer-vacancy-edit/employer-vacancy-edit.component';
 import { EmployerVacancyListComponent } from './employer/employer-vacancy-list/employer-vacancy-list.component';
+import { EmployerViewVacancyReqsComponent } from './employer/employer-view-vacancy-reqs/employer-view-vacancy-reqs.component';
 import { JsAppliedVacanciesComponent } from './jobseeker/js-applied-vacancies/js-applied-vacancies.component';
 import { JsCreateExperienceComponent } from './jobseeker/js-create-experience/js-create-experience.component';
 import { JsCreateQualificationComponent } from './jobseeker/js-create-qualification/js-create-qualification.component';
@@ -64,6 +65,10 @@ const routes: Routes = [
         component: EmployerProfileComponent,
       },
       {
+        path: 'employer-view-vacancy-reqs/:id',
+        component: EmployerViewVacancyReqsComponent,
+      },
+      {
         path: 'employer-profile-edit',
         component: EmployerProfileEditComponent,
       },
@@ -77,8 +82,8 @@ const routes: Routes = [
       },
     ],
   },
-  {path:'not-found',component:PageNotFoundComponent},
-  {path:'**',component:PageNotFoundComponent}
+  { path: 'not-found', component: PageNotFoundComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

@@ -37,9 +37,9 @@ namespace JobSeeker.BusinessLogic.Repositories
             return vacReq != null;
         }
 
-        public async Task<VacancyRequest> GetVacancyRequestFromId(int vacancyReqId)
+        public async Task<VacancyRequest> GetVacancyRequestFromVacancyId(int vacancyReqId)
         {
-            return await _dataContext.VacancyRequests.FindAsync(vacancyReqId);
+            return await _dataContext.VacancyRequests.SingleOrDefaultAsync(x => x.VacancyId == vacancyReqId);
         }
 
         public async Task<List<JobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId)
@@ -49,6 +49,7 @@ namespace JobSeeker.BusinessLogic.Repositories
                 .Select(j => j.JobSeekerUser)
                 .Include(j => j.Qualifications)
                 .Include(j => j.Experiences)
+                .AsSplitQuery()
                 .ToListAsync();
             return vacReq;
         }
