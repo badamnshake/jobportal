@@ -36,10 +36,9 @@ namespace JobSeeker.BusinessLogic.Repositories
                 x.VacancyId == vacancyId && x.JobSeekerUserId == jobSeekerId);
             return vacReq != null;
         }
-
-        public async Task<VacancyRequest> GetVacancyRequestFromVacancyId(int vacancyReqId)
+        public async Task<VacancyRequest> GetVacancyRequestFromVacancyId(int vacancyReqId, int jsId)
         {
-            return await _dataContext.VacancyRequests.SingleOrDefaultAsync(x => x.VacancyId == vacancyReqId);
+            return await _dataContext.VacancyRequests.SingleOrDefaultAsync(x => x.VacancyId == vacancyReqId && x.JobSeekerUserId == jsId);
         }
 
         public async Task<List<JobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId)
@@ -53,7 +52,7 @@ namespace JobSeeker.BusinessLogic.Repositories
             return vacReq;
         }
 
-        public async Task<List<int>> GetVacanciesWhereJSApplied(int jobSeekerId)
+        public async Task<List<int>> GetVacanciesWhereJsApplied(int jobSeekerId)
         {
             return await _dataContext.VacancyRequests.Where(v => v.JobSeekerUserId == jobSeekerId)
                 .Select(v => v.VacancyId).ToListAsync();

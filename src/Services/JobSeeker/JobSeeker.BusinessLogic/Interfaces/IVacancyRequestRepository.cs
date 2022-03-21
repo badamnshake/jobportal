@@ -9,8 +9,8 @@ namespace JobSeeker.BusinessLogic.Interfaces
         Task CreateVacancyRequest(VacancyRequest vacancyRequest);
         Task DeleteVacancyRequest(VacancyRequest vacancyRequest);
         Task<bool> DoesVacancyRequestExist(int vacancyId, int jobSeekerId);
-        Task<VacancyRequest> GetVacancyRequestFromVacancyId(int vacancyReqId);
+        Task<VacancyRequest> GetVacancyRequestFromVacancyId(int vacancyReqId, int jsId);
         Task<List<JobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId);
-        Task<List<int>> GetVacanciesWhereJSApplied(int jobSeekerId);
+        Task<List<int>> GetVacanciesWhereJsApplied(int jobSeekerId);
     }
 }

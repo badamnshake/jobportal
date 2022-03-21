@@ -5,7 +5,7 @@ namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Qualificat
 {
     public class ReqAddQualification
     {
-        [Required] [MaxLength(30)] public string QualificationName { get; set; }
+        [Required] public string QualificationName { get; set; }
         public string University { get; set; }
         [Required] public DateTime DateOfCompletion { get; set; }
         [MaxLength(5)] public string GradeOrScore { get; set; }

@@ -5,7 +5,7 @@ namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Experience
 {
     public class ReqAddExp
     {
-        [Required] [MaxLength(30)] public string CompanyName { get; set; }
+        [Required]  public string CompanyName { get; set; }
         [Required] public string CompanyUrl { get; set; }
         [Required] public DateTime StartDate { get; set; }
         [Required] public DateTime EndDate { get; set; }

@@ -32,10 +32,13 @@ export class JsAppliedVacanciesComponent implements OnInit {
   ngOnInit(): void {
     // get vacancy requests fetch
     this.jobSeekerService.getVacanciesWhereIApplied().subscribe((response) => {
-      if (response.length == 0) this.navigateToCreateProfile();
+      if (response.length == 0) {
+        this.toastr.error('You havent applied to anything');
+        this.navigateToCreateProfile();
+      }
       this.vacanciesIdApplied = response;
-      this.totalItems = this.vacanciesIdApplied.length;
-      this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+      // this.totalItems = this.vacanciesIdApplied.length;
+      // this.totalPages = Math.ceil(this.totalItems / this.pageSize);
       this.loadVacancies();
     });
     // set pagination
@@ -53,21 +56,28 @@ export class JsAppliedVacanciesComponent implements OnInit {
   loadVacancies() {
     let vacancy: Vacancy;
     this.vacancies = [];
-    let vacId: number;
     let vacReqs = this.vacanciesIdApplied;
 
-    for (
-      let i = this.pageNumber - 1;
-      i < vacReqs.length && i < this.pageNumber + 5;
-      i++
-    ) {
-
-      vacId = vacReqs[i];
-      this.vacancyService.getVacancyFromId(vacId).subscribe((response) => {
+    vacReqs.forEach((element) => {
+      this.vacancyService.getVacancyFromId(element).subscribe((response) => {
         vacancy = response;
         this.vacancies.push(vacancy);
       });
-    }
+    });
+
+    // for (
+    //   let i =
+    //     this.pageNumber - this.pageSize + this.pageNumber * this.pageSize - 1;
+
+    //   i < vacReqs.length && i < this.pageNumber - this.pageSize + this.pageNumber * this.pageSize  + 3;
+    //   i++
+    // ) {
+    //   vacId = vacReqs[i];
+    //   this.vacancyService.getVacancyFromId(vacId).subscribe((response) => {
+    //     vacancy = response;
+    //     this.vacancies.push(vacancy);
+    //   });
+    // }
   }
 
   deleteVacancyRequest(vacId: number) {
@@ -77,8 +87,8 @@ export class JsAppliedVacanciesComponent implements OnInit {
     });
   }
 
-  pageChanged(event: number) {
-    this.pageNumber = event;
-    this.loadVacancies();
-  }
+  // pageChanged(event: number) {
+  //   this.pageNumber = event;
+  //   this.loadVacancies();
+  // }
 }

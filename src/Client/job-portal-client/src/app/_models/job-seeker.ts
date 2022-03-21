@@ -11,7 +11,7 @@ export interface JobSeeker {
   address: string;
   totalExperience: number;
   expectedSalaryAnnual: number;
-  dateOfBirth: Date;
+  dateOfBirth: Date | string;
   qualifications: Qualification[];
   experiences: Experience[];
   vacancyRequests: VacancyRequest[];

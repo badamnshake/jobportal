@@ -74,7 +74,7 @@ namespace JobSeeker.API.Controllers
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
 
-            return await _vacancyRequestRepository.GetVacanciesWhereJSApplied(jobSeekerId);
+            return await _vacancyRequestRepository.GetVacanciesWhereJsApplied(jobSeekerId);
         }
 
 
@@ -83,13 +83,13 @@ namespace JobSeeker.API.Controllers
         [HttpDelete("delete/{vacancyId:int}")]
         public async Task<ActionResult> DeleteVacancyRequest(int vacancyId)
         {
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
             // gets the vacancy request
-            var vacReq = await _vacancyRequestRepository.GetVacancyRequestFromVacancyId(vacancyId);
+            var vacReq = await _vacancyRequestRepository.GetVacancyRequestFromVacancyId(vacancyId, jobSeekerId);
             // if not found then return
             if (vacReq == null) return BadRequest("Vacancy Request doesn't exist");
 
             // middlewares gets js from token
-            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
 
             // edge case: if a job seeker doesn't own a vac req then can't delete it 
             if (vacReq.JobSeekerUserId != jobSeekerId) return Unauthorized("You can't delete request you don't own");
