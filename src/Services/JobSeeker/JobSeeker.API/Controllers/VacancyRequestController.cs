@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AutoMapper;
 using System.Collections.Generic;
+using System.Linq;
+using JobSeeker.API.Extensions;
 using JobSeeker.BusinessLogic.Interfaces;
+using JobSeeker.Infrastrucure.Helpers;
 using JobSeeker.Infrastrucure.Models;
 using JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.VacancyRequest;
 using JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels;
@@ -27,11 +30,15 @@ namespace JobSeeker.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get/{vacancyId:int}")]
-        public async Task<List<ResponseJobSeekerUser>> GetVacancyRequestJobSeekers(int vacancyId)
+        [HttpGet("get")]
+        public async Task<PagedList<ResponseJobSeekerUser>> GetJobSeekersOnAVacancy([FromQuery] PageParams pageParams,
+            [FromQuery] int vacancyId)
         {
-            var jobSeekers = await _vacancyRequestRepository.GetVacancyRequestJobSeekers(vacancyId);
-            return _mapper.Map<List<ResponseJobSeekerUser>>(jobSeekers);
+            var jobSeekers = await _vacancyRequestRepository.GetJobSeekersOnAVacancy(pageParams, vacancyId);
+
+            Response.AddPaginationHeader(jobSeekers.CurrentPage, jobSeekers.PageSize, jobSeekers.TotalCount,
+                jobSeekers.TotalPages);
+            return jobSeekers;
         }
 
         // this path will be accessed by api gateway aggregator
@@ -70,11 +77,15 @@ namespace JobSeeker.API.Controllers
 
         [Authorize(Roles = "JobSeeker")]
         [HttpGet("get-vacancies-where-i-applied")]
-        public async Task<ActionResult<List<int>>> GetVacanciesWhereIApplied()
+        public async Task<ActionResult<PagedList<int>>> GetVacanciesWhereIApplied([FromQuery] PageParams pageParams)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
 
-            return await _vacancyRequestRepository.GetVacanciesWhereJsApplied(jobSeekerId);
+            var vacancyRequests = await _vacancyRequestRepository.GetVacanciesWhereJsApplied(pageParams, jobSeekerId);
+            Response.AddPaginationHeader(vacancyRequests.CurrentPage, vacancyRequests.PageSize, vacancyRequests.TotalCount,
+                vacancyRequests.TotalPages);
+            return vacancyRequests;
+
         }
 
 

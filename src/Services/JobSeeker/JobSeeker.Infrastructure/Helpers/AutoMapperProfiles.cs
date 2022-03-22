@@ -13,7 +13,6 @@ namespace JobSeeker.Infrastrucure.Helpers
             CreateMap<JobSeekerUser, ResponseJobSeekerUser>();
             CreateMap<Qualification, ResQualification>();
             CreateMap<Experience, ResExperience>();
-            CreateMap<VacancyRequest, ResVacancyId>();
         }
     }
 }

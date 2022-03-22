@@ -29,7 +29,8 @@ namespace VacancyRequests.Aggregator.Controllers
 
         [Authorize(Roles = "Employer")]
         [HttpGet("get-job-seekers-who-applied-on-vacancy/{vacancyId:int}")]
-        public async Task<ActionResult<List<ResponseJobSeeker>>> GetJobSeekersAppliedOnVacancy(int vacancyId)
+        // public async Task<ActionResult<List<ResponseJobSeeker>>> GetJobSeekersAppliedOnVacancy(int vacancyId, [FromQuery]PageParams pageParams)
+        public async Task<ActionResult<List<ResponseJobSeeker>>> GetJobSeekersAppliedOnVacancy(int vacancyId, [FromQuery]PageParams pageParams)
         {
             var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var response = await _employerService.GetDetails(email);
@@ -43,12 +44,14 @@ namespace VacancyRequests.Aggregator.Controllers
             if (x == null)
                 return BadRequest("Either Vacancy doesn't exist or you don't own the vacancy");
 
-            var jobSeekerResponse = await _vacancyRequestService.GetAppliedJobSeekersOnAVacancy(vacancyId);
+            var jobSeekerResponse = await _vacancyRequestService.GetAppliedJobSeekersOnAVacancy(vacancyId, pageParams);
 
             if (!response.IsSuccessStatusCode)
                 return StatusCode(500);
-
-            return await jobSeekerResponse.Content.ReadFromJsonAsync<List<ResponseJobSeeker>>();
+            
+            var vacancyRequests =  await jobSeekerResponse.Content.ReadFromJsonAsync<List<ResponseJobSeeker>>();
+            return vacancyRequests;
+            // <PagedList<ResponseJobSeeker>>();
         }
 
         [Authorize(Roles = "JobSeeker")]
@@ -67,7 +70,7 @@ namespace VacancyRequests.Aggregator.Controllers
                 jobSeekerEmail = email
             };
 
-            var vacReqCreated = await _vacancyRequestService.CreateVacancyRequest(req.vacancyId, request);
+            var vacReqCreated = await _vacancyRequestService.CreateVacancyRequest( request);
 
             if (!vacReqCreated.IsSuccessStatusCode)
                 return BadRequest("Either you applied already or JobSeeker profile doesn't exist");

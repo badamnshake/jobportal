@@ -1,6 +1,6 @@
 using System;
 
-namespace JobSeeker.Infrastrucure.RequestResponseModels.RequestModels.Qualification
+namespace JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels
 {
     public class ResQualification
     {

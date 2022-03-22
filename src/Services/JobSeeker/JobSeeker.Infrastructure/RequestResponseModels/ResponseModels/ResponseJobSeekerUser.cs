@@ -17,6 +17,5 @@ namespace JobSeeker.Infrastrucure.RequestResponseModels.ResponseModels
         public DateTime DateOfBirth { get; set; }
         public List<ResQualification> Qualifications { get; set; }
         public List<ResExperience> Experiences { get; set; }
-        public List<ResVacancyId> AppliedVacanciesId { get; set; }
     }
 }

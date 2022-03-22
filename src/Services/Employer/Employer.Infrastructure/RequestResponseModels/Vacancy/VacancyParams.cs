@@ -1,6 +1,6 @@
 using System;
 
-namespace Employer.Infrastructure.Helpers
+namespace Employer.Infrastructure.RequestResponseModels.Vacancy
 {
     public class VacancyParams
     {

@@ -6,8 +6,8 @@ namespace VacancyRequests.Aggregator.Services.Interfaces
 {
     public interface IVacancyRequestService
     {
-        public Task<HttpResponseMessage> CreateVacancyRequest(int vacancyId, VacancyRequestModel vacancyRequest);
-        public Task<HttpResponseMessage> GetAppliedJobSeekersOnAVacancy(int vacancyId);
+        public Task<HttpResponseMessage> CreateVacancyRequest(VacancyRequestModel vacancyRequest);
+        public Task<HttpResponseMessage> GetAppliedJobSeekersOnAVacancy(int vacancyId, PageParams pageParams);
 
     }
 }
