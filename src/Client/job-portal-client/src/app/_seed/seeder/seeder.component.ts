@@ -50,8 +50,8 @@ export class SeederComponent implements OnInit {
       await lastValueFrom(this.js.createExperience(js.experiences[i]));
     //
     // add vacancy requests
-    for (let i = 0; i < js.vacancyRequests.length; i++)
-      await lastValueFrom(this.js.createVacancyRequest(js.vacancyRequests[i]));
+    // for (let i = 0; i < js.vacancyRequests.length; i++)
+      // await lastValueFrom(this.js.createVacancyRequest(js.vacancyRequests[i]));
   }
   async addEmployerAndDetails() {
     this.as.logout();

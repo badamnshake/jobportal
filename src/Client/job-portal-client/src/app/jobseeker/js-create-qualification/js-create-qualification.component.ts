@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   NgbDateParserFormatter,
   NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { JobSeekerService } from 'src/app/_services/job-seeker.service';
+import { NavigationService } from 'src/app/_services/navigation.service';
 
 @Component({
   selector: 'app-js-create-qualification',
@@ -20,7 +22,8 @@ export class JsCreateQualificationComponent implements OnInit {
     private fb: FormBuilder,
     private jobSeekerService: JobSeekerService,
     private toastr: ToastrService,
-    private ngbDateParserFormatter: NgbDateParserFormatter
+    private ngbDateParserFormatter: NgbDateParserFormatter,
+    private navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +35,7 @@ export class JsCreateQualificationComponent implements OnInit {
     this.jobSeekerService
       .createQualification(this.qualificationForm.value)
       .subscribe(() => {
+        this.navigationService.back();
         this.toastr.success('Qualification Created');
       });
   }

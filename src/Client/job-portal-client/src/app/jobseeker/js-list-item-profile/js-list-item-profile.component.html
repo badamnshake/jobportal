@@ -1,40 +1,40 @@
 <div class="row mb-2 border-bottom text-success">
   <h4>
-  {{ js.firstName }}
-  {{ js.lastName }}
-</h4>
+    {{ js.firstName }}
+    {{ js.lastName }}
+  </h4>
 </div>
 <div class="row mb-2 border-bottom">
   <div class="col-auto">
     <span class="text-info"> Email :</span>
-    {{ js.email }}.
+    {{ js.email }},
   </div>
   <div class="col-auto">
     <span class="text-info"> Phone: </span>
-    {{ js.phone }} ,
+    {{ js.phone }},
   </div>
   <div class="col-auto">
-    <span class="text-info"> DOB : </span>
+    <span class="text-info"> Date of Birth : </span>
 
-    {{ js.dateOfBirth | date }} ,
+    {{ js.dateOfBirth | date }},
   </div>
 </div>
 <div class="row mb-2 border-bottom">
   <div class="col-auto">
     <span class="text-info"> Total Experience: </span>
-    {{ js.totalExperience }} ,
+    {{ js.totalExperience }},
   </div>
   <div class="col-auto">
     <span class="text-info"> Expected Salary : </span>
 
-    {{ js.expectedSalaryAnnual }} ,
+    {{ js.expectedSalaryAnnual }},
   </div>
 </div>
-<!-- <div class="col-auto">
-    <span class="text-primary"> Address :</span>
-    {{ js.address }}.
-  </div> -->
-<!-- </div>
+<div class="col-auto">
+  <span class="text-info"> Address :</span>
+  {{ js.address }}.
+</div>
+<!-- </div> 
 <div class="row">
   <button
     type="button"

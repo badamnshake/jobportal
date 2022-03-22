@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, ReplaySubject } from 'rxjs';
+import { lastValueFrom, map, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Experience } from '../_models/experience';
 import { JobSeeker } from '../_models/job-seeker';
@@ -15,8 +15,6 @@ export class JobSeekerService {
 
   constructor(private http: HttpClient) {}
 
-  getJobSeekerDetails() {}
-
   getMyDetails() {
     return this.http.get<JobSeeker>(this.baseUrl + '/job-seeker/get/').pipe(
       map((response: JobSeeker) => {
@@ -26,12 +24,19 @@ export class JobSeekerService {
   }
   getVacanciesWhereIApplied() {
     return this.http
-      .get<number[]>(this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied')
+      .get<number[]>(
+        this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied'
+      )
       .pipe(
         map((response) => {
           return response;
         })
       );
+  }
+  setVacanciesWhereJSApplied() {
+    this.getVacanciesWhereIApplied().subscribe((response) => {
+      localStorage.setItem('vacanciesApplied', JSON.stringify(response));
+    });
   }
   createJobSeeker(model: JobSeeker) {
     return this.http.post(this.baseUrl + '/job-seeker/create', model).pipe(

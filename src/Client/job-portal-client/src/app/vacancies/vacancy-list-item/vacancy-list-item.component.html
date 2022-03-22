@@ -1,39 +1,41 @@
 <div class="d-flex w-100 justify-content-between mt-1 mb-3 ms-1">
   <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
-  <small>{{ vacancy.publishedDate | date }}</small>
+  <small>
+    <span class="text-info">Published Date :</span>
+    {{ vacancy.publishedDate | date }}</small>
 </div>
 <div class="row mb-2">
   <div class="col-auto">
     <span class="text-info"> Published By :</span>
-    {{ vacancy.publishedBy }}.
+    {{ vacancy.publishedBy }}
   </div>
   <div class="col-auto">
     <span class="text-info"> Minimum qualification: </span>
-    {{ vacancy.minimumQualification }} ,
+    {{ vacancy.minimumQualification }},
   </div>
   <div class="col-auto">
     <span class="text-info"> Number of Vacancies : </span>
-
-    {{ vacancy.noOfVacancies }} ,
+    {{ vacancy.noOfVacancies }},
   </div>
 </div>
 <div class="row mb-2">
   <div class="col-auto">
-    <span class="text-info"> experience required: </span>
-    {{ vacancy.experienceRequired }} ,
+    <span class="text-info"> Experience Required: </span>
+    {{ vacancy.experienceRequired }},
   </div>
   <div class="col-auto">
     <span class="text-info"> Location : </span>
 
-    {{ vacancy.location }} ,
+    {{ vacancy.location }},
   </div>
   <div class="col-auto">
     <span class="text-info"> Last date to apply :</span>
-    {{ vacancy.lastDateToApply | date }}.
+    {{ vacancy.lastDateToApply | date }}
   </div>
 </div>
 <div class="row">
   <h6 class="col-lg-auto col-sm-auto mb-md-0">
-    Salary: {{ vacancy.minSalary }} - {{ vacancy.maxSalary }}
+    <span class="text-info"> Salary :</span>
+     {{ vacancy.minSalary | currency : 'USD' : 'symbol' : '1.0-0'  }}  - {{ vacancy.maxSalary | currency : 'USD' : 'symbol' : '1.0-0' }}
   </h6>
 </div>

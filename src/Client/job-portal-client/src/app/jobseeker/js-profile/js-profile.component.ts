@@ -35,15 +35,19 @@ export class JsProfileComponent implements OnInit {
   }
 
   deleteExp(id: number) {
-    this.jobSeekerService.deleteExperience(id).subscribe(() => {
-      this.toastr.success('Experince Deleted');
-      window.location.reload();
-    });
+    if (confirm('Are you sure you want to delete this Experience')) {
+      this.jobSeekerService.deleteExperience(id).subscribe(() => {
+        this.toastr.success('Experince Deleted');
+        window.location.reload();
+      });
+    }
   }
   deleteQual(id: number) {
-    this.jobSeekerService.deleteQualification(id).subscribe(() => {
-      this.toastr.success('Qualification Deleted');
-      window.location.reload();
-    });
+    if (confirm('Are you sure you want to delete this Qualification')) {
+      this.jobSeekerService.deleteQualification(id).subscribe(() => {
+        this.toastr.success('Qualification Deleted');
+        window.location.reload();
+      });
+    }
   }
 }

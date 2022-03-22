@@ -21,10 +21,8 @@ export class AuthJobSeekerGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+    | Observable<boolean>  
+     {
     return this.accountService.currentRole$.pipe(
       map((role) => {
         if (role == 'JobSeeker') return true;

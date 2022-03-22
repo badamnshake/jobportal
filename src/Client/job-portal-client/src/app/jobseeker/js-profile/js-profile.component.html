@@ -2,7 +2,7 @@
   <app-js-list-item-profile [js]="jobSeeker"></app-js-list-item-profile>
 
   <h5 class="text-center mt-4">
-    Qualifications
+    Qualification<span *ngIf="jobSeeker.qualifications.length > 1">s</span>
     <span class="text-danger" *ngIf="jobSeeker.qualifications.length == 0"
       >: Not Added Yet</span
     >
@@ -27,8 +27,7 @@
   </div>
 
   <h5 class="text-center">
-    Experiences
-
+    Experience<span *ngIf="jobSeeker.experiences.length > 1">s</span>
     <span class="text-danger" *ngIf="jobSeeker.experiences.length == 0"
       >: Not Added Yet</span
     >

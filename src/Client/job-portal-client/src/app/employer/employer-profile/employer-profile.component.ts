@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Employer } from 'src/app/_models/employer';
@@ -9,6 +9,7 @@ import { EmployerService } from 'src/app/_services/employer.service';
   styleUrls: ['./employer-profile.component.css'],
 })
 export class EmployerProfileComponent implements OnInit {
+  @Input()
   employer: Employer;
 
   constructor(

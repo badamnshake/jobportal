@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
+import { JobSeekerService } from './_services/job-seeker.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,10 @@ import { AccountService } from './_services/account.service';
 export class AppComponent implements OnInit {
   title = 'job-portal-client';
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private jobSeekerService: JobSeekerService
+  ) {}
 
   ngOnInit(): void {
     this.setCurrentUser();
@@ -19,5 +23,10 @@ export class AppComponent implements OnInit {
   setCurrentUser() {
     const user: User = JSON.parse(localStorage.getItem('user'));
     this.accountService.setCurrentUser(user);
+    this.accountService.currentRole$.subscribe((role) => {
+      if (role == 'JobSeeker') {
+        this.jobSeekerService.setVacanciesWhereJSApplied();
+      }
+    });
   }
 }

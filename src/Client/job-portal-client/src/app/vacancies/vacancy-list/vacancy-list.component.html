@@ -1,9 +1,9 @@
-<div class="container text-center mt-3 border-bottom p-2">
+<!-- <div class="container text-center mt-3 border-bottom p-2">
   <h4>
     Vacancies Found ->
     <span class="text-success">{{ pagination?.totalItems }}</span>
   </h4>
-</div>
+</div> -->
 
 <div class="container inline mt-3">
   <form
@@ -124,14 +124,22 @@
         (click)="applyForVacancy(vacancy.id)"
         *ngIf="(accountService.currentRole$ | async) == 'JobSeeker'"
         class="col-lg-auto col-sm-auto btn btn-success me-1"
+        [disabled]="vacanciesApplied.includes(vacancy.id)"
+        
         type="button"
       >
-        Apply For Vacancy
+        <span *ngIf="!vacanciesApplied.includes(vacancy.id)"
+          >Apply For Vacancy</span
+        >
+        <span *ngIf="vacanciesApplied.includes(vacancy.id)"
+          >Already Applied</span
+        >
       </button>
-      <small
+      <button
         class="text-danger"
+        class="col-lg-auto col-sm-auto btn btn-outline me-1 disabled"
         *ngIf="(accountService.currentRole$ | async) != 'JobSeeker'"
-        >log in to apply</small
+        >Log in to Apply</button
       >
     </div>
   </div>
