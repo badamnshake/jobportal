@@ -77,15 +77,25 @@ namespace JobSeeker.API.Controllers
 
         [Authorize(Roles = "JobSeeker")]
         [HttpGet("get-vacancies-where-i-applied")]
-        public async Task<ActionResult<PagedList<int>>> GetVacanciesWhereIApplied([FromQuery] PageParams pageParams)
+        public async Task<ActionResult<PagedList<int>>> GetVacanciesWhereIAppliedPaged(
+            [FromQuery] PageParams pageParams)
         {
             var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
 
-            var vacancyRequests = await _vacancyRequestRepository.GetVacanciesWhereJsApplied(pageParams, jobSeekerId);
-            Response.AddPaginationHeader(vacancyRequests.CurrentPage, vacancyRequests.PageSize, vacancyRequests.TotalCount,
+            var vacancyRequests =
+                await _vacancyRequestRepository.GetVacanciesWhereJsAppliedPaged(pageParams, jobSeekerId);
+            Response.AddPaginationHeader(vacancyRequests.CurrentPage, vacancyRequests.PageSize,
+                vacancyRequests.TotalCount,
                 vacancyRequests.TotalPages);
             return vacancyRequests;
+        }
 
+        [Authorize(Roles = "JobSeeker")]
+        [HttpGet("get-vacancies-where-i-applied-all")]
+        public async Task<ActionResult<List<int>>> GetVacanciesWhereIAppliedAll()
+        {
+            var jobSeekerId = (int) HttpContext.Items["jobSeekerId"]!;
+            return await _vacancyRequestRepository.GetVacanciesWhereJsAppliedAll(jobSeekerId);
         }
 
 

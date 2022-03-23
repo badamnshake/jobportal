@@ -50,9 +50,20 @@ export class JobSeekerService {
         })
       );
   }
+  getVacanciesWhereIAppliedAll() {
+    return this.http
+      .get<number[]>(
+        this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied'
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  }
   setVacanciesWhereJSApplied() {
-    this.getVacanciesWhereIApplied().subscribe((response) => {
-      localStorage.setItem('vacanciesApplied', JSON.stringify(response.result));
+    this.getVacanciesWhereIAppliedAll().subscribe((response) => {
+      localStorage.setItem('vacanciesApplied', JSON.stringify(response));
     });
   }
   createJobSeeker(model: JobSeeker) {

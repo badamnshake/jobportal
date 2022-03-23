@@ -14,6 +14,7 @@ namespace JobSeeker.BusinessLogic.Interfaces
         Task<bool> DoesVacancyRequestExist(int vacancyId, int jobSeekerId);
         Task<VacancyRequest> GetVacancyRequestFromVacancyId(int vacancyReqId, int jsId);
         Task<PagedList<ResponseJobSeekerUser>> GetJobSeekersOnAVacancy(PageParams pageParams, int vacancyId);
-        Task<PagedList<int>> GetVacanciesWhereJsApplied(PageParams pageParams, int jobSeekerId);
+        Task<PagedList<int>> GetVacanciesWhereJsAppliedPaged(PageParams pageParams, int jobSeekerId);
+        Task<List<int>> GetVacanciesWhereJsAppliedAll(int jobSeekerId);
     }
 }

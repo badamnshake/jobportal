@@ -20,7 +20,7 @@
       </li>
       <!-- </ng-container> -->
       <li class="nav-item" *ngIf="accountService.currentUser$ | async">
-        <a (click)="logout()" class="nav-link"> Logout </a>
+        <a class="nav-link" (click)="logout()" routerLink="/" > Logout </a>
       </li>
     </ul>
 

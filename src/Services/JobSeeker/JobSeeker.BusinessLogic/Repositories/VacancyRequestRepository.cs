@@ -59,15 +59,23 @@ namespace JobSeeker.BusinessLogic.Repositories
                 .OrderBy(j => j.Id)
                 .ProjectTo<ResponseJobSeekerUser>(_mapper.ConfigurationProvider)
                 .AsNoTracking();
-                
+
             // .ToListAsync();
-            return await PagedList<ResponseJobSeekerUser>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+            return await PagedList<ResponseJobSeekerUser>.CreateAsync(query, pageParams.PageNumber,
+                pageParams.PageSize);
         }
 
-        public async Task<PagedList<int>> GetVacanciesWhereJsApplied(PageParams pageParams, int jobSeekerId)
+        public async Task<PagedList<int>> GetVacanciesWhereJsAppliedPaged(PageParams pageParams, int jobSeekerId)
         {
-            var queryable = _dataContext.VacancyRequests.Where(v => v.JobSeekerUserId == jobSeekerId).OrderBy(j => j.VacancyId).Select(v => v.VacancyId);
+            var queryable = _dataContext.VacancyRequests.Where(v => v.JobSeekerUserId == jobSeekerId)
+                .OrderBy(j => j.VacancyId).Select(v => v.VacancyId);
             return await PagedList<int>.CreateAsync(queryable, pageParams.PageNumber, pageParams.PageSize);
+        }
+
+        public async Task<List<int>> GetVacanciesWhereJsAppliedAll(int jobSeekerId)
+        {
+            return await _dataContext.VacancyRequests.Where(v => v.JobSeekerUserId == jobSeekerId)
+                .OrderBy(j => j.VacancyId).Select(v => v.VacancyId).ToListAsync();
         }
     }
 }
