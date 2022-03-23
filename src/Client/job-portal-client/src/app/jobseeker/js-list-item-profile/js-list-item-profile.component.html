@@ -30,41 +30,9 @@
     {{ js.expectedSalaryAnnual }},
   </div>
 </div>
-<div class="col-auto">
-  <span class="text-info"> Address :</span>
-  {{ js.address }}.
-</div>
-<!-- </div> 
-<div class="row">
-  <button
-    type="button"
-    class="col-auto btn btn-outline-primary"
-    (click)="collapse.toggle()"
-    [attr.aria-expanded]="!isCollapsed"
-    aria-controls="collapseexample"
-  >
-    View Qualifications and Experiences
-  </button>
-</div>
-<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-  <div class="list-group list-group-flush">
-    <div
-      *ngFor="let q of js.qualifications"
-      class="container list-group-item flex-column align-items-start"
-    >
-      <app-js-list-item-qualification
-        [q]="q"
-      ></app-js-list-item-qualification>
-    </div>
+<div class="row mb-2 border-bottom">
+  <div class="col-auto">
+    <span class="text-info"> Address :</span>
+    {{ js.address }}.
   </div>
-  <div class="list-group list-group-flush">
-    <div
-      *ngFor="let e of js.experiences"
-      class="container list-group-item flex-column align-items-start"
-    >
-      <app-js-list-item-experience
-        [e]="e"
-      ></app-js-list-item-experience>
-    </div>
-  </div>
-</div> -->
+</div>

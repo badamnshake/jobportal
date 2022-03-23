@@ -29,7 +29,7 @@ namespace Employer.Infrastructure.Helpers
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize,
             bool anyFilters, int countWithoutFilter = 0)
         {
-            var count = await source.CountAsync();
+            int count;
             List<T> items;
 
 
@@ -40,6 +40,8 @@ namespace Employer.Infrastructure.Helpers
                     await source.Take(pageSize).ToListAsync();
                 return new PagedList<T>(items, count, pageNumber, pageSize);
             }
+
+            count = await source.CountAsync();
 
             items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
             return new PagedList<T>(items, count, pageNumber, pageSize);

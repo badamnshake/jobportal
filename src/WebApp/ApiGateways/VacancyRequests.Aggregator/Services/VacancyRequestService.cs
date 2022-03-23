@@ -31,7 +31,7 @@ namespace VacancyRequests.Aggregator.Services
             query["pageSize"] = pageParams.PageSize.ToString();
             query["vacancyId"] = vacancyId.ToString();
             var queryString = query.ToString()!;
-            var response = await _client.GetAsync("api/vacancy-request/get/?" + queryString);
+            var response = await _client.GetAsync("api/vacancy-request/get-job-seekers-on-a-vacancy/?" + queryString);
             return response;
         }
     }

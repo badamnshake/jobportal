@@ -30,7 +30,7 @@ namespace JobSeeker.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get")]
+        [HttpGet("get-job-seekers-on-a-vacancy")]
         public async Task<PagedList<ResponseJobSeekerUser>> GetJobSeekersOnAVacancy([FromQuery] PageParams pageParams,
             [FromQuery] int vacancyId)
         {

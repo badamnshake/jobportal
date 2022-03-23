@@ -20,8 +20,6 @@ export class JsAppliedVacanciesComponent implements OnInit {
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
-  totalItems: number;
-  totalPages: number;
 
   constructor(
     private vacancyService: VacancyService,

@@ -60,7 +60,8 @@ namespace Employer.BusinessLogic.Repositories
                 // paged list also has count which is a special case variable where using this query doesn't give real 
                 // page count so counting manually is required for smooth pagination
                 var count = await _dataContext.Vacancies.CountAsync();
-                query = query.Where(v => v.Id > (vacancyParams.PageNumber - 1) * vacancyParams.PageSize).OrderBy(v => v.Id);
+                query = query.Where(v => v.Id > (vacancyParams.PageNumber - 1) * vacancyParams.PageSize)
+                    .OrderBy(v => v.Id);
                 return await PagedList<ResponseVacancyDetails>.CreateAsync(query, vacancyParams.PageNumber,
                     vacancyParams.PageSize, false, count);
             }
@@ -96,6 +97,15 @@ namespace Employer.BusinessLogic.Repositories
 
             return await PagedList<ResponseVacancyDetails>.CreateAsync(query, vacancyParams.PageNumber,
                 vacancyParams.PageSize, true);
+        }
+
+        public async Task<PagedList<ResponseVacancyDetails>> GetVacanciesPostedByMe(PageParams pageParams,
+            int empEntityId)
+        {
+            var query = _dataContext.Vacancies.Where(v => v.EmployerEntityId == empEntityId).OrderBy(v => v.Id)
+                .ProjectTo<ResponseVacancyDetails>(_mapper.ConfigurationProvider);
+            return await PagedList<ResponseVacancyDetails>.CreateAsync(query, pageParams.PageNumber,
+                pageParams.PageSize, true);
         }
     }
 }

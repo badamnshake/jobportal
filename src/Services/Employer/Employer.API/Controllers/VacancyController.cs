@@ -29,6 +29,24 @@ namespace Employer.API.Controllers
             _employerRepository = employerRepository;
         }
 
+        [Authorize(Roles = "Employer")]
+        [HttpGet("get-vacancies-posted-by-me/")]
+        public async Task<ActionResult<PagedList<ResponseVacancyDetails>>> GetVacanciesPostedByMe(
+            [FromQuery] PageParams pageParams
+        )
+        {
+            var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!await _employerRepository.DoesEmployerExist(email))
+                return BadRequest("Employer Doesn't exist please create your employer profile first");
+
+            var empEntity = await _employerRepository.GetEmployer(email);
+            var vacancies = await _vacancyRepository.GetVacanciesPostedByMe(pageParams, empEntity.Id);
+            // this method adds pagination for the client to use
+            AddPaginationHeaderFromPagedList(vacancies);
+            return vacancies;
+        }
+
         // get details of a single vacancy
         //
         [HttpGet("get/{id:int}")]

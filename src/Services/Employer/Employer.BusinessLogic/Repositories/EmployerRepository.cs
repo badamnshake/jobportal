@@ -24,7 +24,7 @@ namespace Employer.BusinessLogic.Repositories
         {
             // get employer and include vacancy
             return await _dataContext.EmployerEntities
-                .Include(x => x.Vacancies)
+                // .Include(x => x.Vacancies)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 

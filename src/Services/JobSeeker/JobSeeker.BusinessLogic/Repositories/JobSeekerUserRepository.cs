@@ -67,10 +67,10 @@ namespace JobSeeker.BusinessLogic.Repositories
         public async Task<JobSeekerUser> GetJobSeekerDetailsForJobSeeker(int id)
         {
             var jobSeeker = await _dataContext.JobSeekerUsers
+                .AsSplitQuery()
                 .Include(j => j.Qualifications)
                 .Include(j => j.Experiences)
                 .Include(j => j.VacancyRequests)
-                .AsSplitQuery()
                 .SingleOrDefaultAsync(j => j.Id == id);
             return jobSeeker;
         }

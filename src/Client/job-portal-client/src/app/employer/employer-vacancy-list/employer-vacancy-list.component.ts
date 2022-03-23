@@ -1,9 +1,10 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Employer } from 'src/app/_models/employer';
+import { Pagination } from 'src/app/_models/pagination';
 import { Vacancy } from 'src/app/_models/vacancy';
-import { BusyService } from 'src/app/_services/busy.service';
 import { EmployerService } from '../../_services/employer.service';
 
 @Component({
@@ -14,35 +15,33 @@ import { EmployerService } from '../../_services/employer.service';
 export class EmployerVacancyListComponent implements OnInit {
   employer: Employer;
   id: number;
-  vacancyList: Vacancy[];
-  ownsVacancy = false;
-  loaded = false;
+  vacancies: Vacancy[];
+
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 5;
 
   constructor(
     private router: Router,
     private employerService: EmployerService,
-    private busyService: BusyService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.busyService.busy();
-    this.fetchVacancyListAfterLoggedIn();
-    this.busyService.idle();
-    this.loaded = true;
+    this.loadVacancies();
   }
 
-  DateToString(date: Date) {
-    return formatDate(date, 'short', 'gmt');
-  }
-
-  fetchVacancyListAfterLoggedIn() {
-    this.employerService.getEmployerMe().subscribe((response) => {
-      if (!response) {
-        console.log('need to create some vacancies');
-      } else {
-        this.vacancyList = response.vacancies;
-      }
-    });
+  loadVacancies() {
+    this.employerService
+      .getVacanciesPostedByMe(this.pageNumber, this.pageSize)
+      .subscribe((response) => {
+        if (response.pagination.totalItems == 0) {
+          this.toastr.error('You havent applied to anything');
+          this.router.navigateByUrl('/');
+        }
+        this.vacancies = response.result;
+        this.pagination = response.pagination;
+      });
   }
 
   editVacancy(id: number) {
@@ -50,5 +49,9 @@ export class EmployerVacancyListComponent implements OnInit {
   }
   viewVacancyRequest(id: number) {
     this.router.navigateByUrl(`/employer-view-vacancy-reqs/${id}`);
+  }
+  pageChanged(event: number) {
+    this.pageNumber = event;
+    this.loadVacancies();
   }
 }

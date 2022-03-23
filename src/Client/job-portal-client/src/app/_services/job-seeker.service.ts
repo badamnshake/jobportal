@@ -53,7 +53,7 @@ export class JobSeekerService {
   getVacanciesWhereIAppliedAll() {
     return this.http
       .get<number[]>(
-        this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied'
+        this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied-all'
       )
       .pipe(
         map((response) => {

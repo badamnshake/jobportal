@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Employer } from '../_models/employer';
 import { JobSeeker } from '../_models/job-seeker';
+import { PaginatedResult } from '../_models/pagination';
 import { Vacancy } from '../_models/vacancy';
 
 @Injectable({
@@ -15,6 +16,10 @@ export class EmployerService {
   // create details
   // update details
   baseUrl = environment.apiUrl;
+  paginatedResultJSOnAVacancy: PaginatedResult<JobSeeker[]> =
+    new PaginatedResult();
+  paginatedResultEmployerPostedVacancy: PaginatedResult<Vacancy[]> =
+    new PaginatedResult();
 
   constructor(private http: HttpClient) {}
 
@@ -31,6 +36,30 @@ export class EmployerService {
         return response;
       })
     );
+  }
+  getVacanciesPostedByMe(page?: number, itemsPerPage?: number) {
+    let queryParams = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      queryParams = queryParams.append('pageNumber', page.toString());
+      queryParams = queryParams.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http
+      .get<Vacancy[]>(this.baseUrl + '/vacancy/get-vacancies-posted-by-me', {
+        observe: 'response',
+        params: queryParams
+      })
+      .pipe(
+        map((response) => {
+          this.paginatedResultEmployerPostedVacancy.result = response.body;
+
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResultEmployerPostedVacancy.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return this.paginatedResultEmployerPostedVacancy;
+        })
+      );
   }
   createEmployer(model: any) {
     return this.http.post(this.baseUrl + '/employer/create', model).pipe(
@@ -54,18 +83,36 @@ export class EmployerService {
       })
     );
   }
-  updateVacancy( model: Vacancy) {
-    return this.http
-      .put(this.baseUrl + "/vacancy/update", model)
+  updateVacancy(model: Vacancy) {
+    return this.http.put(this.baseUrl + '/vacancy/update', model);
   }
-  getJobSeekersWhoAppliedOn(vacancyId: number) {
+  getJobSeekersWhoAppliedOn(
+    vacancyId: number,
+    page?: number,
+    itemsPerPage?: number
+  ) {
+    let queryParams = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      queryParams = queryParams.append('pageNumber', page.toString());
+      queryParams = queryParams.append('pageSize', itemsPerPage.toString());
+    }
     return this.http
       .get<JobSeeker[]>(
-        this.baseUrl + `/get-job-seekers-who-applied-on-vacancy/${vacancyId}`
+        this.baseUrl + `/get-job-seekers-who-applied-on-vacancy/${vacancyId}`,
+        {
+          observe: 'response',
+          params: queryParams,
+        }
       )
       .pipe(
         map((response) => {
-          return response;
+          this.paginatedResultJSOnAVacancy.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResultJSOnAVacancy.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return this.paginatedResultJSOnAVacancy;
         })
       );
   }

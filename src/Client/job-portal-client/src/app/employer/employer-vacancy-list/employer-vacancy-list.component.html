@@ -1,16 +1,40 @@
-<div class="list-group list-group-flush" *ngIf="vacancyList">
+<div class="list-group list-group-flush" *ngIf="vacancies">
   <div
-    *ngFor="let vacancy of vacancyList"
+    *ngFor="let vacancy of vacancies"
     class="container list-group-item flex-column align-items-start"
   >
     <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
     <div class="row">
-      <button type="button" class="col-auto btn btn-warning ms-auto me-1" (click)="editVacancy(vacancy.id)">
+      <button
+        type="button"
+        class="col-auto btn btn-warning ms-auto me-1"
+        (click)="editVacancy(vacancy.id)"
+      >
         Edit Vacancy
       </button>
-      <button type="button" class="col-auto btn btn-warning me-1" (click)="viewVacancyRequest(vacancy.id)">
+      <button
+        type="button"
+        class="col-auto btn btn-warning me-1"
+        (click)="viewVacancyRequest(vacancy.id)"
+      >
         View Vacancy Requests
       </button>
     </div>
   </div>
+</div>
+<div
+  class="d-flex justify-content-center"
+  *ngIf="pagination && pagination?.totalItems != 0"
+>
+  <ngb-pagination
+    ngDefaultControl
+    [(page)]="pageNumber"
+    [pageSize]="pageSize"
+    [collectionSize]="pagination.totalItems"
+    [(ngModel)]="pagination.currentPage"
+    (pageChange)="pageChanged($event)"
+    [maxSize]="5"
+    [ellipses]="false"
+    [boundaryLinks]="true"
+  ></ngb-pagination>
 </div>
