@@ -27,7 +27,7 @@ namespace Employer.Infrastructure.Helpers
 
         // takes page number and creates query to get the objects are paged
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize,
-            bool anyFilters)
+            bool anyFilters, int countWithoutFilter = 0)
         {
             var count = await source.CountAsync();
             List<T> items;
@@ -35,6 +35,7 @@ namespace Employer.Infrastructure.Helpers
 
             if (!anyFilters)
             {
+                count = countWithoutFilter;
                 items =
                     await source.Take(pageSize).ToListAsync();
                 return new PagedList<T>(items, count, pageNumber, pageSize);

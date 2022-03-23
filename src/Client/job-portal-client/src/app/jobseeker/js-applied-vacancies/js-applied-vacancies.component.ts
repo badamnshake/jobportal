@@ -17,6 +17,7 @@ export class JsAppliedVacanciesComponent implements OnInit {
   vacanciesIdApplied: number[];
   vacancies: Vacancy[] = [];
 
+  pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
   totalItems: number;
@@ -87,8 +88,8 @@ export class JsAppliedVacanciesComponent implements OnInit {
     });
   }
 
-  // pageChanged(event: number) {
-  //   this.pageNumber = event;
-  //   this.loadVacancies();
-  // }
+  pageChanged(event: number) {
+    this.pageNumber = event;
+    this.loadVacancies();
+  }
 }

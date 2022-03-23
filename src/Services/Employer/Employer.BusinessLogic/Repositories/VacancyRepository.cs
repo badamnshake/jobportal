@@ -56,9 +56,13 @@ namespace Employer.BusinessLogic.Repositories
                 .AsQueryable();
             if (!vacancyParams.AnyFilters)
             {
-                query = query.Where(v => v.Id > ((vacancyParams.PageNumber - 1) * vacancyParams.PageSize));
+                // it is an special case where creating query the usual way ends up in slowing down api
+                // paged list also has count which is a special case variable where using this query doesn't give real 
+                // page count so counting manually is required for smooth pagination
+                var count = await _dataContext.Vacancies.CountAsync();
+                query = query.Where(v => v.Id > (vacancyParams.PageNumber - 1) * vacancyParams.PageSize).OrderBy(v => v.Id);
                 return await PagedList<ResponseVacancyDetails>.CreateAsync(query, vacancyParams.PageNumber,
-                    vacancyParams.PageSize, false);
+                    vacancyParams.PageSize, false, count);
             }
 
             if (vacancyParams.Location != null)

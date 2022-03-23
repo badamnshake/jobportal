@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VacancyRequests.Aggregator.Models.Requests;
 using VacancyRequests.Aggregator.Models.Responses;
@@ -50,6 +51,10 @@ namespace VacancyRequests.Aggregator.Controllers
                 return StatusCode(500);
             
             var vacancyRequests =  await jobSeekerResponse.Content.ReadFromJsonAsync<List<ResponseJobSeeker>>();
+            var paginationHeaders =  jobSeekerResponse.Headers.GetValues("Pagination");
+            HttpContext.Response.Headers.Add("Pagination", paginationHeaders.ToArray());
+            HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+            
             return vacancyRequests;
             // <PagedList<ResponseJobSeeker>>();
         }

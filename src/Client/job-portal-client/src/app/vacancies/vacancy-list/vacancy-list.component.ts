@@ -12,9 +12,6 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 import { VacancyService } from 'src/app/_services/vacancy.service';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { EmployerService } from 'src/app/_services/employer.service';
-import { Employer } from 'src/app/_models/employer';
-import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-vacancy-list',
@@ -80,7 +77,6 @@ export class VacancyListComponent implements OnInit {
       )
       .subscribe((response) => {
         this.vacancies = response.result;
-
         this.pagination = response.pagination;
       });
   }
@@ -102,8 +98,9 @@ export class VacancyListComponent implements OnInit {
     this.router.navigateByUrl(`employer-profile/${id}`);
   }
 
-  pageChanged(event: any) {
+  pageChanged(event: number) {
     this.pageNumber = event;
+    
     this.loadVacancies();
   }
 
@@ -121,11 +118,13 @@ export class VacancyListComponent implements OnInit {
     this.filters.lastDateToApply = null;
     this.filters.publishedDate = null;
     this.filters.orderBy = null;
+    this.lastDate = null;
+    this.publishedDate = null;
   }
   // this is used to give input in select element in html so user can easily select which thing to order by
   toOrderBy: { name: string; value: ToOrderBy }[] = [
     {
-      name: 'Min salary Ascending',
+      name:`Min salary Ascending`,
       value: ToOrderBy.MinSalaryAscending,
     },
     {
