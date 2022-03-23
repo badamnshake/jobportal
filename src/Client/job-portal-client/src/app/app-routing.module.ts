@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmployerProfileEditComponent } from './employer/employer-profile-edit/employer-profile-edit.component';
 import { EmployerProfileComponent } from './employer/employer-profile/employer-profile.component';
+import { EmployerVacancyCreateComponent } from './employer/employer-vacancy-create/employer-vacancy-create.component';
 import { EmployerVacancyEditComponent } from './employer/employer-vacancy-edit/employer-vacancy-edit.component';
 import { EmployerVacancyListComponent } from './employer/employer-vacancy-list/employer-vacancy-list.component';
 import { EmployerViewVacancyReqsComponent } from './employer/employer-view-vacancy-reqs/employer-view-vacancy-reqs.component';
@@ -27,6 +28,10 @@ const routes: Routes = [
   { path: 'employer-profile/:id', component: EmployerProfileComponent },
   { path: 'vacancy-list', component: VacancyListComponent },
 
+  {
+    path: 'employer-vacancy-create',
+    component: EmployerVacancyCreateComponent,
+  },
   {
     path: '',
     runGuardsAndResolvers: 'always',
@@ -83,13 +88,12 @@ const routes: Routes = [
       },
     ],
   },
-  { path: 'seeder', component: SeederComponent },
-  { path: 'not-found', component: PageNotFoundComponent },
-  { path: '**', component: PageNotFoundComponent },
+  // { path: 'seeder', component: SeederComponent },
+  { path: '**', component: PageNotFoundComponent, pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

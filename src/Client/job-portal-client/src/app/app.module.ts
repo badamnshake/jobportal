@@ -32,6 +32,8 @@ import { JsListItemProfileComponent } from './jobseeker/js-list-item-profile/js-
 import { JsListItemQualificationComponent } from './jobseeker/js-list-item-qualification/js-list-item-qualification.component';
 import { JsListItemExperienceComponent } from './jobseeker/js-list-item-experience/js-list-item-experience.component';
 import { SeederComponent } from './_seed/seeder/seeder.component';
+import { EmployerVacancyCreateComponent } from './employer/employer-vacancy-create/employer-vacancy-create.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
               // "node_modules/bootstrap/dist/css/bootstrap.min.css",
 @NgModule({
@@ -58,6 +60,7 @@ import { SeederComponent } from './_seed/seeder/seeder.component';
     JsListItemQualificationComponent,
     JsListItemExperienceComponent,
     SeederComponent,
+    EmployerVacancyCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,7 @@ import { SeederComponent } from './_seed/seeder/seeder.component';
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent],
 })

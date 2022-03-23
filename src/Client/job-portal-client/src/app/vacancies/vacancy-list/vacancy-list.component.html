@@ -148,7 +148,7 @@
 
 <div
   class="d-flex justify-content-center"
-  *ngIf="pagination && pagination?.totalItems != 0"
+  *ngIf="pagination && pagination?.totalItems != 0 && pagination?.totalItems >= pageSize"
 >
   <ngb-pagination
     ngDefaultControl

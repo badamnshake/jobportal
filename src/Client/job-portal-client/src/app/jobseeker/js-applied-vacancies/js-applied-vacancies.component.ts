@@ -32,8 +32,8 @@ export class JsAppliedVacanciesComponent implements OnInit {
     this.loadVacancies();
   }
 
-  navigateToCreateProfile() {
-    this.router.navigateByUrl('js-edit-profile', {
+  navigateToVacancyList() {
+    this.router.navigateByUrl('/vacancy-list', {
       state: {
         userExists: false,
       },
@@ -48,8 +48,8 @@ export class JsAppliedVacanciesComponent implements OnInit {
       .getVacanciesWhereIApplied(this.pageNumber, this.pageSize)
       .subscribe((response) => {
         if (response.pagination.totalItems == 0) {
-          this.toastr.error('You havent applied to anything');
-          this.navigateToCreateProfile();
+          this.toastr.info('Please Apply to Vacancies First', 'You havent applied to Any Vacancy Yet !!');
+          this.navigateToVacancyList();
         }
         this.vacanciesIdApplied = response.result;
         this.pagination = response.pagination;
@@ -67,6 +67,7 @@ export class JsAppliedVacanciesComponent implements OnInit {
   deleteVacancyRequest(vacId: number) {
     this.jobSeekerService.deleteVacancyRequest(vacId).subscribe(() => {
       this.toastr.success('Vacancy Request Deleted');
+      // this.router.navigateByUrl('/js-applied-vacancies')
       window.location.reload();
     });
   }

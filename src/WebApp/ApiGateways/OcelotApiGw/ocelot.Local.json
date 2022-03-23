@@ -164,6 +164,20 @@
       "UpstreamHttpMethod": [
         "Get"
       ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/vacancy-request/get-vacancies-where-i-applied-all",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/vacancy-request/get-vacancies-where-i-applied-all",
+      "UpstreamHttpMethod": [
+        "Get"
+      ]
     }
   ],
   "GlobalConfiguration": {

@@ -1,0 +1,134 @@
+<form
+  class="container rounded bg-white mt-5 mb-5"
+  [formGroup]="vacancyCreateForm"
+  (ngSubmit)="createVacancy()"
+  class="text-center container p-5"
+>
+  <div class="p-3 py-5 mx-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="text-center">Create Vacancy</h4>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <label class="labels">Organization Name</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('publishedBy').errors &&
+            vacancyCreateForm.get('publishedBy').touched
+          "
+          type="text"
+          class="form-control"
+          placeholder="first name"
+          formControlName="publishedBy"
+        />
+      </div>
+      <div class="col-md-6">
+        <label class="labels">Min. Salary</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('minSalary').errors &&
+            vacancyCreateForm.get('minSalary').touched
+          "
+          formControlName="minSalary"
+          type="number"
+          class="form-control"
+          placeholder="Min Salary"
+        />
+        <label class="labels">Max. Salary</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('maxSalary').errors &&
+            vacancyCreateForm.get('maxSalary').touched
+          "
+          type="number"
+          class="form-control"
+          formControlName="maxSalary"
+          placeholder="min salary"
+        />
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <label class="labels">Experience Required</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('experienceRequired').errors &&
+            vacancyCreateForm.get('experienceRequired').touched
+          "
+          formControlName="experienceRequired"
+          type="text"
+          class="form-control"
+          placeholder="enter phone number"
+        />
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Last Date to apply</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            (dateSelect)="onLastDateToApplySelect($event)"
+            ngbDatepicker
+            placeholder="Completion Date"
+            #d="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary calendar"
+            (click)="d.toggle()"
+            type="button"
+          >
+            &#8711;
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="labels">Number of Vacancies</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('noOfVacancies').errors &&
+            vacancyCreateForm.get('noOfVacancies').touched
+          "
+          formControlName="noOfVacancies"
+          type="text"
+          class="form-control"
+          placeholder="no of vacancies"
+        />
+      </div>
+      <div class="col-md-6">
+        <label class="labels">Location</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('location').errors &&
+            vacancyCreateForm.get('location').touched
+          "
+          formControlName="location"
+          type="text"
+          class="form-control"
+          placeholder="enter job location"
+        />
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Job Description</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('jobDescription').errors &&
+            vacancyCreateForm.get('jobDescription').touched
+          "
+          formControlName="jobDescription"
+          type="text"
+          class="form-control"
+          placeholder="Enter job description"
+        />
+      </div>
+    </div>
+    <div class="mt-5 text-center">
+      <button
+        class="btn btn-primary profile-button"
+        type="button"
+        (click)="createVacancy()"
+      >
+        Create
+      </button>
+    </div>
+  </div>
+</form>

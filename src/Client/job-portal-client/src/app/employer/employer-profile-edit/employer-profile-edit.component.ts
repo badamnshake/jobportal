@@ -66,10 +66,12 @@ export class EmployerProfileEditComponent implements OnInit {
   }
   updateOrCreateDetails() {
     if (!this.doesEmpExist) {
-      this.employerService.createEmployer(this.employer).subscribe(() => {});
+      this.employerService.createEmployer(this.employerForm.value).subscribe(() => {});
     } else {
-      this.employerService.updateEmployer(this.employer).subscribe({
-        next: () => {},
+      this.employerService.updateEmployer(this.employerForm.value).subscribe({
+        next: () => {
+          
+        },
         error: () => {
           console.log('failed to udpate');
         },
