@@ -100,7 +100,6 @@ export class VacancyListComponent implements OnInit {
 
   pageChanged(event: number) {
     this.pageNumber = event;
-    
     this.loadVacancies();
   }
 

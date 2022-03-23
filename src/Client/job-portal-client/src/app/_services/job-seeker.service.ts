@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom, map, ReplaySubject } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Experience } from '../_models/experience';
 import { JobSeeker } from '../_models/job-seeker';
+import { PaginatedResult } from '../_models/pagination';
 import { Qualification } from '../_models/qualification';
 import { VacancyRequest } from '../_models/vacancy-request';
 
@@ -12,6 +13,7 @@ import { VacancyRequest } from '../_models/vacancy-request';
 })
 export class JobSeekerService {
   baseUrl = environment.apiUrl;
+  paginatedResult: PaginatedResult<number[]> = new PaginatedResult();
 
   constructor(private http: HttpClient) {}
 
@@ -22,20 +24,35 @@ export class JobSeekerService {
       })
     );
   }
-  getVacanciesWhereIApplied() {
+  getVacanciesWhereIApplied(page?: number, itemsPerPage?: number) {
+    let queryParams = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      queryParams = queryParams.append('pageNumber', page.toString());
+      queryParams = queryParams.append('pageSize', itemsPerPage.toString());
+    }
     return this.http
       .get<number[]>(
-        this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied'
+        this.baseUrl + '/vacancy-request/get-vacancies-where-i-applied',
+        {
+          observe: 'response',
+          params: queryParams,
+        }
       )
       .pipe(
         map((response) => {
-          return response;
+          this.paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return this.paginatedResult;
         })
       );
   }
   setVacanciesWhereJSApplied() {
     this.getVacanciesWhereIApplied().subscribe((response) => {
-      localStorage.setItem('vacanciesApplied', JSON.stringify(response));
+      localStorage.setItem('vacanciesApplied', JSON.stringify(response.result));
     });
   }
   createJobSeeker(model: JobSeeker) {

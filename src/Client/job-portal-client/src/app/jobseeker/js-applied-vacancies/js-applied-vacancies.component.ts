@@ -14,8 +14,8 @@ import { VacancyService } from 'src/app/_services/vacancy.service';
 })
 export class JsAppliedVacanciesComponent implements OnInit {
   vacancyRequests: VacancyRequest[];
-  vacanciesIdApplied: number[];
   vacancies: Vacancy[] = [];
+  vacanciesIdApplied: number[];
 
   pagination: Pagination;
   pageNumber = 1;
@@ -31,19 +31,7 @@ export class JsAppliedVacanciesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // get vacancy requests fetch
-    this.jobSeekerService.getVacanciesWhereIApplied().subscribe((response) => {
-      if (response.length == 0) {
-        this.toastr.error('You havent applied to anything');
-        this.navigateToCreateProfile();
-      }
-      this.vacanciesIdApplied = response;
-      // this.totalItems = this.vacanciesIdApplied.length;
-      // this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-      this.loadVacancies();
-    });
-    // set pagination
-    // load items
+    this.loadVacancies();
   }
 
   navigateToCreateProfile() {
@@ -57,28 +45,25 @@ export class JsAppliedVacanciesComponent implements OnInit {
   loadVacancies() {
     let vacancy: Vacancy;
     this.vacancies = [];
-    let vacReqs = this.vacanciesIdApplied;
 
-    vacReqs.forEach((element) => {
-      this.vacancyService.getVacancyFromId(element).subscribe((response) => {
-        vacancy = response;
-        this.vacancies.push(vacancy);
+    this.jobSeekerService
+      .getVacanciesWhereIApplied(this.pageNumber, this.pageSize)
+      .subscribe((response) => {
+        if (response.pagination.totalItems == 0) {
+          this.toastr.error('You havent applied to anything');
+          this.navigateToCreateProfile();
+        }
+        this.vacanciesIdApplied = response.result;
+        this.pagination = response.pagination;
+        this.vacanciesIdApplied.forEach((element) => {
+          this.vacancyService
+            .getVacancyFromId(element)
+            .subscribe((response) => {
+              vacancy = response;
+              this.vacancies.push(vacancy);
+            });
+        });
       });
-    });
-
-    // for (
-    //   let i =
-    //     this.pageNumber - this.pageSize + this.pageNumber * this.pageSize - 1;
-
-    //   i < vacReqs.length && i < this.pageNumber - this.pageSize + this.pageNumber * this.pageSize  + 3;
-    //   i++
-    // ) {
-    //   vacId = vacReqs[i];
-    //   this.vacancyService.getVacancyFromId(vacId).subscribe((response) => {
-    //     vacancy = response;
-    //     this.vacancies.push(vacancy);
-    //   });
-    // }
   }
 
   deleteVacancyRequest(vacId: number) {
