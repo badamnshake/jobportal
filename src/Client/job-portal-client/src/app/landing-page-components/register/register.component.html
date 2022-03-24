@@ -11,10 +11,14 @@
         registerForm.get('fullName').errors &&
         registerForm.get('fullName').touched
       "
+      [class.is-valid]="
+        !registerForm.get('fullName').errors &&
+        registerForm.get('fullName').touched
+      "
       type="text"
       formControlName="fullName"
       class="form-control"
-      placeholder="FullName"
+      placeholder="Full Name"
     />
     <div class="invalid-feedback">Please enter a fullname</div>
   </div>
@@ -23,10 +27,13 @@
       [class.is-invalid]="
         registerForm.get('email').errors && registerForm.get('email').touched
       "
+      [class.is-valid]="
+        !registerForm.get('email').errors && registerForm.get('email').touched
+      "
       type="email"
       formControlName="email"
       class="form-control"
-      placeholder="E-mail"
+      placeholder="Email"
     />
     <div class="invalid-feedback">Please enter valid email</div>
   </div>
@@ -37,12 +44,19 @@
         registerForm.get('userName').errors &&
         registerForm.get('userName').touched
       "
+      [class.is-valid]="
+        !registerForm.get('userName').errors &&
+        registerForm.get('userName').touched
+      "
       type="text"
       formControlName="userName"
       class="form-control"
       placeholder="Username"
     />
-    <div class="invalid-feedback">Please enter a username</div>
+    <div class="invalid-feedback">
+      Please enter a Username (It shouldn't have Space, Number or any Special
+      Characters)
+    </div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
     <input
@@ -50,24 +64,33 @@
         registerForm.get('password').errors &&
         registerForm.get('password').touched
       "
+      [class.is-valid]="
+        !registerForm.get('password').errors &&
+        registerForm.get('password').touched
+      "
       type="password"
       formControlName="password"
       class="form-control"
       placeholder="Password"
     />
-    <div class="invalid-feedback">Please enter password of length 8</div>
+    <div class="invalid-feedback">
+      Please enter Password of atleast length 5
+    </div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
     <input
       [class.is-invalid]="
         registerForm.get('phone').errors && registerForm.get('phone').touched
       "
+      [class.is-valid]="
+        !registerForm.get('phone').errors && registerForm.get('phone').touched
+      "
       type="text"
       formControlName="phone"
       class="form-control"
       placeholder="Phone"
     />
-    <div class="invalid-feedback">Please enter phone number</div>
+    <div class="invalid-feedback">Please enter a Valid Phone Number</div>
   </div>
   <!-- Password -->
   <div class="form-group mb-4 mx-auto maxW400">

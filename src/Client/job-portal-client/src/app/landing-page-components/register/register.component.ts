@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { ToastrService } from 'ngx-toastr';
 import { Role } from '../../_models/role';
 import { AccountService } from '../../_services/account.service';
@@ -32,11 +28,11 @@ export class RegisterComponent implements OnInit {
 
   initializeForm() {
     this.registerForm = this.fb.group({
-      userName: ['', Validators.required],
-      fullName: ['', Validators.minLength(5)],
-      email: ['', Validators.email],
-      password: ['', Validators.minLength(5)],
-      phone: ['', Validators.required],
+      userName: ['', [Validators.required, RxwebValidators.alpha()]],
+      fullName: ['', Validators.required],
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
+      phone: ['', [Validators.required, RxwebValidators.digit()]],
       userType: this.role,
     });
   }
