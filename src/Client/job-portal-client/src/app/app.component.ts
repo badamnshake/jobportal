@@ -25,6 +25,8 @@ export class AppComponent implements OnInit {
     this.accountService.setCurrentUser(user);
     this.accountService.currentRole$.subscribe((role) => {
       if (role == 'JobSeeker') {
+        console.log('why this firinng');
+        
         this.jobSeekerService.setVacanciesWhereJSApplied();
       }
     });

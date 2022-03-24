@@ -1,7 +1,7 @@
 <form
   class="container rounded bg-white mt-5 mb-5"
   [formGroup]="vacancyCreateForm"
-  (ngSubmit)="createVacancy()"
+  (ngSubmit)="vacancyCreateForm.valid && createVacancy()"
   class="text-center container p-5"
 >
   <div class="p-3 py-5 mx-3">
@@ -16,35 +16,54 @@
             vacancyCreateForm.get('publishedBy').errors &&
             vacancyCreateForm.get('publishedBy').touched
           "
+          [class.is-valid]="
+            !vacancyCreateForm.get('publishedBy').errors &&
+            vacancyCreateForm.get('publishedBy').touched
+          "
           type="text"
           class="form-control"
-          placeholder="first name"
+          placeholder="Organization Name"
           formControlName="publishedBy"
         />
+        <div class="invalid-feedback">Please enter Published By</div>
       </div>
       <div class="col-md-6">
-        <label class="labels">Min. Salary</label
-        ><input
-          [class.is-invalid]="
-            vacancyCreateForm.get('minSalary').errors &&
-            vacancyCreateForm.get('minSalary').touched
-          "
-          formControlName="minSalary"
-          type="number"
-          class="form-control"
-          placeholder="Min Salary"
-        />
-        <label class="labels">Max. Salary</label
-        ><input
-          [class.is-invalid]="
-            vacancyCreateForm.get('maxSalary').errors &&
-            vacancyCreateForm.get('maxSalary').touched
-          "
-          type="number"
-          class="form-control"
-          formControlName="maxSalary"
-          placeholder="min salary"
-        />
+        <div class="form-group">
+          <label class="labels">Min. Salary</label
+          ><input
+            [class.is-invalid]="
+              vacancyCreateForm.get('minSalary').errors &&
+              vacancyCreateForm.get('minSalary').touched
+            "
+            [class.is-valid]="
+              !vacancyCreateForm.get('minSalary').errors &&
+              vacancyCreateForm.get('minSalary').touched
+            "
+            formControlName="minSalary"
+            type="number"
+            class="form-control"
+            placeholder="Minimum Salary"
+          />
+          <div class="invalid-feedback">Please enter a Minimum Salary (Must be Less than Maximum Salary)</div>
+        </div>
+        <div class="form-group">
+          <label class="labels">Max. Salary</label
+          ><input
+            [class.is-invalid]="
+              vacancyCreateForm.get('maxSalary').errors &&
+              vacancyCreateForm.get('maxSalary').touched
+            "
+            [class.is-valid]="
+              !vacancyCreateForm.get('maxSalary').errors &&
+              vacancyCreateForm.get('maxSalary').touched
+            "
+            type="number"
+            class="form-control"
+            formControlName="maxSalary"
+            placeholder="Maximum salary"
+          />
+          <div class="invalid-feedback">Please enter a Maximum Salary (Must be Greater than Minimum Salary)</div>
+        </div>
       </div>
     </div>
     <div class="row mt-3">
@@ -55,20 +74,45 @@
             vacancyCreateForm.get('experienceRequired').errors &&
             vacancyCreateForm.get('experienceRequired').touched
           "
+          [class.is-valid]="
+            !vacancyCreateForm.get('experienceRequired').errors &&
+            vacancyCreateForm.get('experienceRequired').touched
+          "
           formControlName="experienceRequired"
           type="text"
           class="form-control"
-          placeholder="enter phone number"
+          placeholder="Experience Required"
         />
+        <div class="invalid-feedback">Please enter a Experience Required</div>
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Minimum Qualification</label
+        ><input
+          [class.is-invalid]="
+            vacancyCreateForm.get('minimumQualification').errors &&
+            vacancyCreateForm.get('minimumQualification').touched
+          "
+          [class.is-valid]="
+            !vacancyCreateForm.get('minimumQualification').errors &&
+            vacancyCreateForm.get('minimumQualification').touched
+          "
+          formControlName="minimumQualification"
+          type="text"
+          class="form-control"
+          placeholder="Minimum Qualification"
+        />
+        <div class="invalid-feedback">Please enter a Experience Required</div>
       </div>
       <div class="col-md-12">
         <label class="labels">Last Date to apply</label>
         <div class="input-group">
           <input
+            [class.is-invalid]="!isLastDateValid()"
+            [class.is-valid]="isLastDateValid()"
             class="form-control"
             (dateSelect)="onLastDateToApplySelect($event)"
             ngbDatepicker
-            placeholder="Completion Date"
+            placeholder="Last Date To Apply"
             #d="ngbDatepicker"
           />
           <button
@@ -76,8 +120,9 @@
             (click)="d.toggle()"
             type="button"
           >
-            &#8711;
+            <fa-icon [icon]="faCalendar"></fa-icon>
           </button>
+          <div class="invalid-feedback">Please enter a Last Date To Apply</div>
         </div>
       </div>
 
@@ -88,11 +133,16 @@
             vacancyCreateForm.get('noOfVacancies').errors &&
             vacancyCreateForm.get('noOfVacancies').touched
           "
+          [class.is-valid]="
+            !vacancyCreateForm.get('noOfVacancies').errors &&
+            vacancyCreateForm.get('noOfVacancies').touched
+          "
           formControlName="noOfVacancies"
           type="text"
           class="form-control"
-          placeholder="no of vacancies"
+          placeholder="Number of vacancies"
         />
+        <div class="invalid-feedback">Please enter a Number Of Vacancies</div>
       </div>
       <div class="col-md-6">
         <label class="labels">Location</label
@@ -101,11 +151,16 @@
             vacancyCreateForm.get('location').errors &&
             vacancyCreateForm.get('location').touched
           "
+          [class.is-valid]="
+            !vacancyCreateForm.get('location').errors &&
+            vacancyCreateForm.get('location').touched
+          "
           formControlName="location"
           type="text"
           class="form-control"
-          placeholder="enter job location"
+          placeholder="Job Location"
         />
+        <div class="invalid-feedback">Please enter Location</div>
       </div>
       <div class="col-md-12">
         <label class="labels">Job Description</label
@@ -114,15 +169,21 @@
             vacancyCreateForm.get('jobDescription').errors &&
             vacancyCreateForm.get('jobDescription').touched
           "
+          [class.is-valid]="
+            !vacancyCreateForm.get('jobDescription').errors &&
+            vacancyCreateForm.get('jobDescription').touched
+          "
           formControlName="jobDescription"
           type="text"
           class="form-control"
-          placeholder="Enter job description"
+          placeholder="Job description"
         />
+        <div class="invalid-feedback">Please enter Job Description</div>
       </div>
     </div>
     <div class="mt-5 text-center">
       <button
+        [disabled]="!vacancyCreateForm.valid"
         class="btn btn-primary profile-button"
         type="button"
         (click)="createVacancy()"

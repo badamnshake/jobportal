@@ -68,7 +68,7 @@ export class JsAppliedVacanciesComponent implements OnInit {
   }
 
   deleteVacancyRequest(vacId: number) {
-    if (confirm('Are you sure you want to delete this Experience')) {
+    if (confirm('Are you sure you want to delete this Vacancy Request')) {
       this.jobSeekerService.deleteVacancyRequest(vacId).subscribe(() => {
         this.toastr.success('Vacancy Request Deleted');
         // this.router.navigateByUrl('/js-applied-vacancies')

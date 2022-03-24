@@ -86,6 +86,10 @@ const routes: Routes = [
         path: 'employer-vacancy-edit/:id',
         component: EmployerVacancyEditComponent,
       },
+      {
+        path: 'employer-vacancy-create',
+        component: EmployerVacancyCreateComponent,
+      },
     ],
   },
   // { path: 'seeder', component: SeederComponent },

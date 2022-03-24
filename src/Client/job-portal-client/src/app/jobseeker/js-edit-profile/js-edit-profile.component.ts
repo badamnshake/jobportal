@@ -26,7 +26,6 @@ export class JsEditProfileComponent implements OnInit {
   // dateOfBirth: string;
   dateOfBirth: string;
 
-  dateOfBirthInput: NgbDate;
   jsForm: FormGroup;
   js: JobSeeker;
   constructor(

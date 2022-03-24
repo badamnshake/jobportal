@@ -14,17 +14,28 @@
       </button>
       <button
         type="button"
-        class="col-auto btn btn-warning me-1"
+        class="col-auto btn btn-info me-1"
         (click)="viewVacancyRequest(vacancy.id)"
       >
         View Vacancy Requests
+      </button>
+      <button
+        type="button"
+        class="col-auto btn btn-danger me-1"
+        (click)="deleteVacancy(vacancy.id)"
+      >
+        Delete Vacancy
       </button>
     </div>
   </div>
 </div>
 <div
   class="d-flex justify-content-center"
-  *ngIf="pagination && pagination?.totalItems != 0 && pagination?.totalItems >= pageSize"
+  *ngIf="
+    pagination &&
+    pagination?.totalItems != 0 &&
+    pagination?.totalItems >= pageSize
+  "
 >
   <ngb-pagination
     ngDefaultControl

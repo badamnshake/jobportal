@@ -1,95 +1,196 @@
-<ng-container *ngIf="vacancy">
-  <div class="container rounded bg-white mt-5 mb-5">
-    <div class="p-3 py-5 mx-3">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="text-center">Update Vacancy</h4>
-      </div>
-      <div class="row mt-2">
-        <div class="col-md-6">
-          <label class="labels">Organization Name</label
-          ><input
+<form
+  class="container rounded bg-white mt-5 mb-5"
+  [formGroup]="vacancyUpdateForm"
+  (ngSubmit)="vacancyUpdateForm.valid && updateVacancy()"
+  class="text-center container p-5"
+>
+  <div class="p-3 py-5 mx-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="text-center">Update Vacancy</h4>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <label class="labels">Organization Name</label
+        ><input
+          [class.is-invalid]="
+            vacancyUpdateForm.get('publishedBy').errors &&
+            vacancyUpdateForm.get('publishedBy').touched
+          "
+          [class.is-valid]="
+            !vacancyUpdateForm.get('publishedBy').errors &&
+            vacancyUpdateForm.get('publishedBy').touched
+          "
           type="text"
           class="form-control"
-          placeholder="first name"
-          [(ngModel)]="vacancy.publishedBy"
+          placeholder="Organization Name"
+          formControlName="publishedBy"
         />
-        </div>
-        <div class="col-md-6">
+        <div class="invalid-feedback">Please enter Published By</div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
           <label class="labels">Min. Salary</label
           ><input
-          type="number"
-          class="form-control"
-          [(ngModel)]="vacancy.minSalary"
-          placeholder="min salary"
-        />
+            [class.is-invalid]="
+              vacancyUpdateForm.get('minSalary').errors &&
+              vacancyUpdateForm.get('minSalary').touched
+            "
+            [class.is-valid]="
+              !vacancyUpdateForm.get('minSalary').errors &&
+              vacancyUpdateForm.get('minSalary').touched
+            "
+            formControlName="minSalary"
+            type="number"
+            class="form-control"
+            placeholder="Minimum Salary"
+          />
+          <div class="invalid-feedback">Please enter a Minimum Salary</div>
+        </div>
+        <div class="form-group">
           <label class="labels">Max. Salary</label
           ><input
-          type="number"
-          class="form-control"
-          [(ngModel)]="vacancy.maxSalary"
-          placeholder="min salary"
-        />
+            [class.is-invalid]="
+              vacancyUpdateForm.get('maxSalary').errors &&
+              vacancyUpdateForm.get('maxSalary').touched
+            "
+            [class.is-valid]="
+              !vacancyUpdateForm.get('maxSalary').errors &&
+              vacancyUpdateForm.get('maxSalary').touched
+            "
+            type="number"
+            class="form-control"
+            formControlName="maxSalary"
+            placeholder="Maximum salary"
+          />
+          <div class="invalid-feedback">Please enter a Maximum Salary</div>
         </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-md-12">
-          <label class="labels">Experience Required</label
-          ><input
-          type="text"
-          class="form-control"
-          placeholder="enter phone number"
-          [(ngModel)]="vacancy.experienceRequired"
-        />
-        </div>
-        <div class="col-md-12">
-          <label class="labels">Last Date to apply</label
-          ><input
-          type="text"
-          ngbDatepicker
-          #d="ngbDatepicker"
-          class="form-control"
-          placeholder="enter last date to apply"
-          [(ngModel)]="vacancy.lastDateToApply"
-        />
-        </div>
-
-        <div class="col-md-6">
-          <label class="labels">Number of Vacancies</label
-          ><input
-          type="text"
-          class="form-control"
-          placeholder="no of vacancies"
-          [(ngModel)]="vacancy.noOfVacancies"
-        />
-        </div>
-        <div class="col-md-6">
-          <label class="labels">Location</label
-          ><input
-          type="text"
-          class="form-control"
-          [(ngModel)]="vacancy.location"
-          placeholder="enter job location"
-        />
-        </div>
-        <div class="col-md-12">
-          <label class="labels">Job Description</label
-          ><input
-          type="text"
-          class="form-control"
-          placeholder="Enter job description"
-          [(ngModel)]="vacancy.jobDescription"
-        />
-        </div>
-      </div>
-      <div class="mt-5 text-center">
-        <button
-          class="btn btn-primary profile-button"
-          type="button"
-          (click)="updateDetails()"
-        >
-          Update
-        </button>
       </div>
     </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <label class="labels">Experience Required</label
+        ><input
+          [class.is-invalid]="
+            vacancyUpdateForm.get('experienceRequired').errors &&
+            vacancyUpdateForm.get('experienceRequired').touched
+          "
+          [class.is-valid]="
+            !vacancyUpdateForm.get('experienceRequired').errors &&
+            vacancyUpdateForm.get('experienceRequired').touched
+          "
+          formControlName="experienceRequired"
+          type="text"
+          class="form-control"
+          placeholder="Experience Required"
+        />
+        <div class="invalid-feedback">Please enter a Experience Required</div>
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Minimum Qualification</label
+        ><input
+          [class.is-invalid]="
+            vacancyUpdateForm.get('minimumQualification').errors &&
+            vacancyUpdateForm.get('minimumQualification').touched
+          "
+          [class.is-valid]="
+            !vacancyUpdateForm.get('minimumQualification').errors &&
+            vacancyUpdateForm.get('minimumQualification').touched
+          "
+          formControlName="minimumQualification"
+          type="text"
+          class="form-control"
+          placeholder="Minimum Qualification"
+        />
+        <div class="invalid-feedback">Please enter a Experience Required</div>
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Last Date to apply</label>
+        <div class="input-group">
+          <input
+            [class.is-invalid]="!isLastDateValid()"
+            [class.is-valid]="isLastDateValid()"
+            class="form-control"
+            (dateSelect)="onLastDateToApplySelect($event)"
+            ngbDatepicker
+            formControlName="lastDateToApply"
+            placeholder="Last Date To Apply"
+            #d="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary calendar"
+            (click)="d.toggle()"
+            type="button"
+          >
+            <fa-icon [icon]="faCalendar"></fa-icon>
+          </button>
+          <div class="invalid-feedback">Please enter a Last Date To Apply</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="labels">Number of Vacancies</label
+        ><input
+          [class.is-invalid]="
+            vacancyUpdateForm.get('noOfVacancies').errors &&
+            vacancyUpdateForm.get('noOfVacancies').touched
+          "
+          [class.is-valid]="
+            !vacancyUpdateForm.get('noOfVacancies').errors &&
+            vacancyUpdateForm.get('noOfVacancies').touched
+          "
+          formControlName="noOfVacancies"
+          type="text"
+          class="form-control"
+          placeholder="Number of vacancies"
+        />
+        <div class="invalid-feedback">Please enter a Number Of Vacancies</div>
+      </div>
+      <div class="col-md-6">
+        <label class="labels">Location</label
+        ><input
+          [class.is-invalid]="
+            vacancyUpdateForm.get('location').errors &&
+            vacancyUpdateForm.get('location').touched
+          "
+          [class.is-valid]="
+            !vacancyUpdateForm.get('location').errors &&
+            vacancyUpdateForm.get('location').touched
+          "
+          formControlName="location"
+          type="text"
+          class="form-control"
+          placeholder="Job Location"
+        />
+        <div class="invalid-feedback">Please enter Location</div>
+      </div>
+      <div class="col-md-12">
+        <label class="labels">Job Description</label
+        ><input
+          [class.is-invalid]="
+            vacancyUpdateForm.get('jobDescription').errors &&
+            vacancyUpdateForm.get('jobDescription').touched
+          "
+          [class.is-valid]="
+            !vacancyUpdateForm.get('jobDescription').errors &&
+            vacancyUpdateForm.get('jobDescription').touched
+          "
+          formControlName="jobDescription"
+          type="text"
+          class="form-control"
+          placeholder="Job description"
+        />
+        <div class="invalid-feedback">Please enter Job Description</div>
+      </div>
+    </div>
+    <div class="mt-5 text-center">
+      <button
+        [disabled]="!vacancyUpdateForm.valid"
+        class="btn btn-primary profile-button"
+        type="button"
+        (click)="updateVacancy()"
+      >
+        Update
+      </button>
+    </div>
   </div>
-</ng-container>
+</form>

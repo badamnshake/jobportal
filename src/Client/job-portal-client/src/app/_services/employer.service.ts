@@ -46,7 +46,7 @@ export class EmployerService {
     return this.http
       .get<Vacancy[]>(this.baseUrl + '/vacancy/get-vacancies-posted-by-me', {
         observe: 'response',
-        params: queryParams
+        params: queryParams,
       })
       .pipe(
         map((response) => {
@@ -85,6 +85,9 @@ export class EmployerService {
   }
   updateVacancy(model: Vacancy) {
     return this.http.put(this.baseUrl + '/vacancy/update', model);
+  }
+  deleteVacancy(id: number) {
+    return this.http.delete(this.baseUrl + '/vacancy/delete/' + id);
   }
   getJobSeekersWhoAppliedOn(
     vacancyId: number,

@@ -7,6 +7,9 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { Vacancy } from 'src/app/_models/vacancy';
 import { EmployerService } from 'src/app/_services/employer.service';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employer-vacancy-create',
@@ -14,6 +17,7 @@ import { EmployerService } from 'src/app/_services/employer.service';
   styleUrls: ['./employer-vacancy-create.component.css'],
 })
 export class EmployerVacancyCreateComponent implements OnInit {
+  faCalendar = faCalendar;
   vacancy: Vacancy;
   vacancyCreateForm: FormGroup;
   lastDateToApply: string;
@@ -22,7 +26,8 @@ export class EmployerVacancyCreateComponent implements OnInit {
     private fb: FormBuilder,
     private employerService: EmployerService,
     private toastr: ToastrService,
-    private ngbDateParserFormatter: NgbDateParserFormatter
+    private ngbDateParserFormatter: NgbDateParserFormatter,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -32,15 +37,29 @@ export class EmployerVacancyCreateComponent implements OnInit {
   initializeForm() {
     this.vacancyCreateForm = this.fb.group({
       publishedBy: ['', Validators.required],
-      publishedDate: ['', Validators.required],
-      noOfVacancies: [0, Validators.required],
+      // publishedDate: ['', Validators.required],
+      noOfVacancies: [0, [Validators.required, RxwebValidators.digit()]],
       minimumQualification: ['', Validators.required],
       jobDescription: ['', Validators.required],
       experienceRequired: ['', Validators.required],
       location: ['', Validators.required],
-      lastDateToApply: ['', Validators.required],
-      minSalary: [0, Validators.required],
-      maxSalary: [0, Validators.required],
+      lastDateToApply: [''],
+      minSalary: [
+        0,
+        [
+          Validators.required,
+          RxwebValidators.digit(),
+          RxwebValidators.lessThan({ fieldName: 'maxSalary' }),
+        ],
+      ],
+      maxSalary: [
+        0,
+        [
+          Validators.required,
+          RxwebValidators.digit(),
+          RxwebValidators.greaterThan({ fieldName: 'minSalary' }),
+        ],
+      ],
     });
   }
   createVacancy() {
@@ -48,7 +67,7 @@ export class EmployerVacancyCreateComponent implements OnInit {
     this.employerService
       .createVacancy(this.vacancyCreateForm.value)
       .subscribe(() => {
-        // this.navigation.back();
+        this.router.navigateByUrl('/employer-vacancy-list');
         this.toastr.success('Vacancy Created');
       });
   }
@@ -56,5 +75,8 @@ export class EmployerVacancyCreateComponent implements OnInit {
     this.lastDateToApply = new Date(
       this.ngbDateParserFormatter.format(event)
     ).toISOString();
+  }
+  isLastDateValid() {
+    return this.lastDateToApply != null;
   }
 }

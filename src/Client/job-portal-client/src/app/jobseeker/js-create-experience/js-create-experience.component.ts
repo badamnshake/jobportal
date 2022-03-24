@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-js-create-experience',
@@ -51,9 +50,12 @@ export class JsCreateExperienceComponent implements OnInit {
       companyName: ['', Validators.required],
       companyUrl: [
         '',
-        Validators.pattern(
-          '^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:.[a-zA-Z]{2,})+$'
-        ),
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:.[a-zA-Z]{2,})+$'
+          ),
+        ],
       ],
       startDate: [''],
       endDate: [''],

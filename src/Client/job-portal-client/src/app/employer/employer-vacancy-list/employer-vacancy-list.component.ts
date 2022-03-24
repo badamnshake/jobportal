@@ -36,8 +36,8 @@ export class EmployerVacancyListComponent implements OnInit {
       .getVacanciesPostedByMe(this.pageNumber, this.pageSize)
       .subscribe((response) => {
         if (response.pagination.totalItems == 0) {
-          this.toastr.error('You havent applied to anything');
-          this.router.navigateByUrl('/');
+          this.toastr.info('You havent created Vacancy Yet! Let\'s Create One');
+          this.router.navigateByUrl('/employer-vacancy-create');
         }
         this.vacancies = response.result;
         this.pagination = response.pagination;
@@ -46,6 +46,14 @@ export class EmployerVacancyListComponent implements OnInit {
 
   editVacancy(id: number) {
     this.router.navigateByUrl(`/employer-vacancy-edit/${id}`);
+  }
+  deleteVacancy(id: number) {
+    if (confirm('Are you sure you want to delete this Vacancy')) {
+      this.employerService.deleteVacancy(id).subscribe(() => {
+        this.toastr.success('Vacancy Deleted');
+        window.location.reload();
+      });
+    }
   }
   viewVacancyRequest(id: number) {
     this.router.navigateByUrl(`/employer-view-vacancy-reqs/${id}`);

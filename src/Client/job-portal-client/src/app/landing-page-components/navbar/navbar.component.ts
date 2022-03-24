@@ -27,7 +27,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.accountService.logout();
-    this.router.navigateByUrl('/');
+    if (confirm('Are you sure you want to Log Out')) {
+      this.accountService.logout();
+      this.router.navigateByUrl('/');
+    }
   }
 }

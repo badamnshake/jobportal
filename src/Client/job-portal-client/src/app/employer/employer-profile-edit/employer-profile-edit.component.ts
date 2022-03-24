@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { ToastrService } from 'ngx-toastr';
 import { Employer } from 'src/app/_models/employer';
 import { EmployerService } from 'src/app/_services/employer.service';
 
@@ -18,6 +20,7 @@ export class EmployerProfileEditComponent implements OnInit {
   employer: Employer;
   constructor(
     private router: Router,
+    private toastr: ToastrService,
     private fb: FormBuilder,
     private employerService: EmployerService
   ) {}
@@ -37,10 +40,10 @@ export class EmployerProfileEditComponent implements OnInit {
     this.employerForm = this.fb.group({
       organizationName: ['', Validators.required],
       organizationType: ['', Validators.required],
-      companyEmail: ['', Validators.email],
-      companyPhone: [''],
-      noOfEmployees: [''],
-      startYear: ['', Validators.required],
+      companyEmail: ['', [Validators.email, Validators.required]],
+      companyPhone: ['', [RxwebValidators.digit(), Validators.required]],
+      noOfEmployees: ['', [RxwebValidators.digit(), Validators.required]],
+      startYear: ['', [RxwebValidators.digit(), Validators.required]],
       about: ['', Validators.required],
     });
   }
@@ -66,16 +69,19 @@ export class EmployerProfileEditComponent implements OnInit {
   }
   updateOrCreateDetails() {
     if (!this.doesEmpExist) {
-      this.employerService.createEmployer(this.employerForm.value).subscribe(() => {});
+      this.employerService
+        .createEmployer(this.employerForm.value)
+        .subscribe(() => {
+          this.router.navigateByUrl('/');
+          this.toastr.success('Profile Created');
+        });
     } else {
-      this.employerService.updateEmployer(this.employerForm.value).subscribe({
-        next: () => {
-          
-        },
-        error: () => {
-          console.log('failed to udpate');
-        },
-      });
+      this.employerService
+        .updateEmployer(this.employerForm.value)
+        .subscribe(() => {
+          this.router.navigateByUrl('/');
+          this.toastr.success('Profile Updated');
+        });
     }
   }
 }

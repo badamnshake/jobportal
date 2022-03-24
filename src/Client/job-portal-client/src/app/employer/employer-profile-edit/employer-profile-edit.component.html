@@ -11,6 +11,10 @@
       <div class="col-md-6">
         <label class="labels">Organization Name</label
         ><input
+          [class.is-valid]="
+            !employerForm.get('organizationName').errors &&
+            employerForm.get('organizationName').touched
+          "
           [class.is-invalid]="
             employerForm.get('organizationName').errors &&
             employerForm.get('organizationName').touched
@@ -20,10 +24,15 @@
           class="form-control"
           placeholder="Organization Name"
         />
+        <div class="invalid-feedback">Please enter Organization Name</div>
       </div>
       <div class="col-md-6">
         <label class="labels">Organization Type</label
         ><input
+          [class.is-valid]="
+            !employerForm.get('organizationType').errors &&
+            employerForm.get('organizationType').touched
+          "
           [class.is-invalid]="
             employerForm.get('organizationType').errors &&
             employerForm.get('organizationType').touched
@@ -33,12 +42,17 @@
           class="form-control"
           placeholder="Organization Type"
         />
+        <div class="invalid-feedback">Please enter Organization Type</div>
       </div>
     </div>
     <div class="row mt-3">
       <div class="col-md-12">
         <label class="labels">Company Phone</label
         ><input
+          [class.is-valid]="
+            !employerForm.get('companyPhone').errors &&
+            employerForm.get('companyPhone').touched
+          "
           [class.is-invalid]="
             employerForm.get('companyPhone').errors &&
             employerForm.get('companyPhone').touched
@@ -48,10 +62,17 @@
           class="form-control"
           placeholder="Company Phone"
         />
+        <div class="invalid-feedback">
+          Please enter Valid Company Phone Number
+        </div>
       </div>
       <div class="col-md-12">
         <label class="labels">Company Email</label
         ><input
+          [class.is-valid]="
+            !employerForm.get('companyEmail').errors &&
+            employerForm.get('companyEmail').touched
+          "
           [class.is-invalid]="
             employerForm.get('companyEmail').errors &&
             employerForm.get('companyEmail').touched
@@ -61,6 +82,9 @@
           class="form-control"
           placeholder="Company Email"
         />
+        <div class="invalid-feedback">
+          Please enter Valid Company Phone Email
+        </div>
       </div>
     </div>
     <div class="row mt-3">
@@ -71,11 +95,16 @@
             employerForm.get('noOfEmployees').errors &&
             employerForm.get('noOfEmployees').touched
           "
+          [class.is-valid]="
+            !employerForm.get('noOfEmployees').errors &&
+            employerForm.get('noOfEmployees').touched
+          "
           type="text"
           formControlName="noOfEmployees"
           class="form-control"
-          placeholder="Start Year"
+          placeholder="Number Of Employees"
         />
+        <div class="invalid-feedback">Please enter Number of Employees</div>
       </div>
       <div class="col-md-6">
         <label class="labels">Start Year</label
@@ -84,11 +113,16 @@
             employerForm.get('startYear').errors &&
             employerForm.get('startYear').touched
           "
+          [class.is-valid]="
+            !employerForm.get('startYear').errors &&
+            employerForm.get('startYear').touched
+          "
           type="text"
           formControlName="startYear"
           class="form-control"
           placeholder="Start Year"
         />
+        <div class="invalid-feedback">Please enter Company Start Year</div>
       </div>
       <div class="col-md-12">
         <label class="labels">About</label
@@ -97,14 +131,20 @@
             employerForm.get('about').errors &&
             employerForm.get('about').touched
           "
+          [class.is-valid]="
+            !employerForm.get('about').errors &&
+            employerForm.get('about').touched
+          "
           type="text"
           formControlName="about"
           class="form-control"
           placeholder="About"
         />
+        <div class="invalid-feedback">Please enter About</div>
       </div>
     </div>
     <button
+      [disabled]="!employerForm.valid"
       class="btn btn-primary my-4"
       type="submit"
       (click)="updateOrCreateDetails()"
