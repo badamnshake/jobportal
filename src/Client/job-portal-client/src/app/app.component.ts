@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
 import { JobSeekerService } from './_services/job-seeker.service';
@@ -13,11 +14,16 @@ export class AppComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private jobSeekerService: JobSeekerService
+    private jobSeekerService: JobSeekerService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.setCurrentUser();
+    if (this.accountService.isTokenExpired()) {
+      this.toastr.info('The session has Expired', 'You need to Login Again');
+    } else {
+      this.setCurrentUser();
+    }
   }
 
   setCurrentUser() {
@@ -26,7 +32,7 @@ export class AppComponent implements OnInit {
     this.accountService.currentRole$.subscribe((role) => {
       if (role == 'JobSeeker') {
         console.log('why this firinng');
-        
+
         this.jobSeekerService.setVacanciesWhereJSApplied();
       }
     });

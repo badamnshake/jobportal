@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable  } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { map, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Role } from '../_models/role';
-import jwtDecode from 'jwt-decode';
+import jwtDecode, { JwtDecodeOptions, JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -62,5 +62,13 @@ export class AccountService {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
     this.currentRoleSource.next(null);
+  }
+  isTokenExpired() {
+    let user;
+    this.currentUser$.subscribe((resp) => {
+      user = resp;
+    });
+    let decodedJwt: JwtPayload = jwtDecode(user.token);
+    return Date.now() >= decodedJwt.exp * 1000;
   }
 }
