@@ -1,7 +1,7 @@
 <form
   [formGroup]="qualificationForm"
-  (ngSubmit)=" createDetails()"
-  class="text-center container  p-5"
+  (ngSubmit)="qualificationForm.valid && createDetails()"
+  class="text-center container p-5"
 >
   <p class="h4 mb-4">Create Qualification</p>
 
@@ -11,12 +11,18 @@
         qualificationForm.get('qualificationName').errors &&
         qualificationForm.get('qualificationName').touched
       "
+      [class.is-valid]="
+        !qualificationForm.get('qualificationName').errors &&
+        qualificationForm.get('qualificationName').touched
+      "
       type="text"
       formControlName="qualificationName"
       class="form-control"
       placeholder="Name"
     />
-    <div class="invalid-feedback">Please enter Qualification Name</div>
+    <div class="invalid-feedback">
+      Please enter Qualification Name
+    </div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
     <input
@@ -24,12 +30,18 @@
         qualificationForm.get('university').errors &&
         qualificationForm.get('university').touched
       "
+      [class.is-valid]="
+        !qualificationForm.get('university').errors &&
+        qualificationForm.get('university').touched
+      "
       type="url"
       formControlName="university"
       class="form-control"
       placeholder="university name"
     />
-    <div class="invalid-feedback">Please enter university name</div>
+    <div class="invalid-feedback">
+      Please enter University Name 
+    </div>
   </div>
 
   <!-- end date -->
@@ -38,6 +50,8 @@
     <div class="input-group">
       <input
         class="form-control"
+        [class.is-invalid]="!isLastDateValid()"
+        [class.is-valid]="isLastDateValid()"
         (dateSelect)="onEndDateSelect($event)"
         ngbDatepicker
         placeholder="Completion Date"
@@ -48,8 +62,9 @@
         (click)="d.toggle()"
         type="button"
       >
-        &#8711;
+        <fa-icon [icon]="faCalendar"></fa-icon>
       </button>
+      <div class="invalid-feedback">Completion Date is Required</div>
     </div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
@@ -58,23 +73,25 @@
         qualificationForm.get('gradeOrScore').errors &&
         qualificationForm.get('gradeOrScore').touched
       "
+      [class.is-valid]="
+        !qualificationForm.get('gradeOrScore').errors &&
+        qualificationForm.get('gradeOrScore').touched
+      "
       type="text"
       formControlName="gradeOrScore"
       class="form-control"
       placeholder="Grade or Score"
     />
-    <div class="invalid-feedback">Please enter Grade or Score</div>
+    <div class="invalid-feedback">
+      Please enter Grade or Score of Maximum Length 5
+    </div>
   </div>
-  <!-- Password -->
-
-  <!-- Sign in button -->
   <button
+    [disabled]="!qualificationForm.valid"
     block="true"
     class="btn btn-info my-4"
     type="submit"
   >
     Add Qualification
   </button>
-
-  <!-- Register -->
 </form>

@@ -56,7 +56,7 @@ namespace JobSeeker.API.Controllers
 
 
             // it goes through job seeker xp and checks if they own it
-            if (jobSeekerUser.Qualifications.SingleOrDefault(x => x.Id == id) == null)
+            if (jobSeekerUser.Experiences.SingleOrDefault(x => x.Id == id) == null)
             {
                 // here it means a job seeker who doesn't own a xp is trying to change it
                 // weird case but taken care of

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import {
   NgbDateParserFormatter,
   NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { JobSeekerService } from 'src/app/_services/job-seeker.service';
-// import { NavigationService } from 'src/app/_services/navigation.service';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-js-create-qualification',
@@ -17,13 +18,14 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 export class JsCreateQualificationComponent implements OnInit {
   qualificationForm: FormGroup;
   endDate: string;
+  faCalendar = faCalendar;
 
   constructor(
     private fb: FormBuilder,
     private jobSeekerService: JobSeekerService,
     private toastr: ToastrService,
     private ngbDateParserFormatter: NgbDateParserFormatter,
-    // private navigationService: NavigationService
+    private router: Router // private navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class JsCreateQualificationComponent implements OnInit {
     this.jobSeekerService
       .createQualification(this.qualificationForm.value)
       .subscribe(() => {
-        // this.navigationService.back();
+        this.router.navigateByUrl('js-profile');
         this.toastr.success('Qualification Created');
       });
   }
@@ -43,9 +45,9 @@ export class JsCreateQualificationComponent implements OnInit {
   initializeForm() {
     this.qualificationForm = this.fb.group({
       qualificationName: ['', Validators.required],
-      university: ['', Validators.required],
-      dateOfCompletion: ['', Validators.required],
-      gradeOrScore: ['', Validators.maxLength(3)],
+      university: ['',  Validators.required],
+      dateOfCompletion: [''],
+      gradeOrScore: ['',[ Validators.maxLength(5), Validators.required]],
     });
   }
   onEndDateSelect(event: NgbDateStruct) {
@@ -55,5 +57,8 @@ export class JsCreateQualificationComponent implements OnInit {
   }
   formatDates() {
     this.qualificationForm.value.dateOfCompletion = this.endDate;
+  }
+  isLastDateValid() {
+    return this.endDate != null;
   }
 }

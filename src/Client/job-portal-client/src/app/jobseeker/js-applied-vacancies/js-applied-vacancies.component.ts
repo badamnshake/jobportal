@@ -48,7 +48,10 @@ export class JsAppliedVacanciesComponent implements OnInit {
       .getVacanciesWhereIApplied(this.pageNumber, this.pageSize)
       .subscribe((response) => {
         if (response.pagination.totalItems == 0) {
-          this.toastr.info('Please Apply to Vacancies First', 'You havent applied to Any Vacancy Yet !!');
+          this.toastr.info(
+            'Please Apply to Vacancies First',
+            'You havent applied to Any Vacancy Yet !!'
+          );
           this.navigateToVacancyList();
         }
         this.vacanciesIdApplied = response.result;
@@ -65,11 +68,13 @@ export class JsAppliedVacanciesComponent implements OnInit {
   }
 
   deleteVacancyRequest(vacId: number) {
-    this.jobSeekerService.deleteVacancyRequest(vacId).subscribe(() => {
-      this.toastr.success('Vacancy Request Deleted');
-      // this.router.navigateByUrl('/js-applied-vacancies')
-      window.location.reload();
-    });
+    if (confirm('Are you sure you want to delete this Experience')) {
+      this.jobSeekerService.deleteVacancyRequest(vacId).subscribe(() => {
+        this.toastr.success('Vacancy Request Deleted');
+        // this.router.navigateByUrl('/js-applied-vacancies')
+        window.location.reload();
+      });
+    }
   }
 
   pageChanged(event: number) {

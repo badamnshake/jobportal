@@ -14,17 +14,24 @@
           [class.is-invalid]="
             jsForm.get('firstName').errors && jsForm.get('firstName').touched
           "
+          [class.is-valid]="
+            !jsForm.get('firstName').errors && jsForm.get('firstName').touched
+          "
           type="text"
           formControlName="firstName"
           class="form-control"
           placeholder="first Name"
         />
+        <div class="invalid-feedback">
+          Please enter First Name (Only Alphabets)
+        </div>
       </div>
       <div class="col-md-6">
         <label class="labels">Last Name</label
         ><input
-          [class.is-invalid]="
-            jsForm.get('lastName').errors && jsForm.get('lastName').touched
+          [class.is-invalid]="jsForm.get('lastName').errors"
+          [class.is-valid]="
+            !jsForm.get('lastName').errors && jsForm.get('lastName').touched
           "
           type="text"
           formControlName="lastName"
@@ -32,92 +39,115 @@
           placeholder="Last Name"
         />
       </div>
+      <div class="invalid-feedback">
+        Please enter Last Name (Only Alphabets)
+      </div>
     </div>
     <div class="row mt-3">
       <div class="col-md-12">
         <label class="labels"> Phone</label
         ><input
-          [class.is-invalid]="
-            jsForm.get('phone').errors && jsForm.get('phone').touched
+          [class.is-invalid]="jsForm.get('phone').errors"
+          [class.is-valid]="
+            !jsForm.get('phone').errors && jsForm.get('phone').touched
           "
           type="text"
           formControlName="phone"
           class="form-control"
           placeholder=" Phone"
         />
+        <div class="invalid-feedback">Please enter a Valid Phone Number</div>
       </div>
       <div class="col-md-12">
         <label class="labels">Email</label
         ><input
-          [class.is-invalid]="
-            jsForm.get('email').errors && jsForm.get('email').touched
+          [class.is-invalid]="jsForm.get('email').errors"
+          [class.is-valid]="
+            !jsForm.get('email').errors && jsForm.get('email').touched
           "
           type="text"
           formControlName="email"
           class="form-control"
           placeholder="Email"
         />
+        <div class="invalid-feedback">Please enter a Valid Email</div>
       </div>
     </div>
     <div class="row mt-3">
       <div class="col-md-4">
         <label class="labels">Total Experience</label
         ><input
-          [class.is-invalid]="
-            jsForm.get('totalExperience').errors &&
-            jsForm.get('totalExperience').touched
+          [class.is-invalid]="jsForm.get('totalExperience').errors"
+          [class.is-valid]="
+            !jsForm.get('totalExperience').errors && jsForm.get('totalExperience').touched
           "
           type="text"
           formControlName="totalExperience"
           class="form-control"
           placeholder="Total Experience"
         />
+        <div class="invalid-feedback">
+          Please enter a Total Experience in Years (Number)
+        </div>
       </div>
       <div class="col-md-4">
         <label class="labels">Expected Salary</label
         ><input
-          [class.is-invalid]="
-            jsForm.get('expectedSalaryAnnual').errors &&
-            jsForm.get('expectedSalaryAnnual').touched
+          [class.is-invalid]="jsForm.get('expectedSalaryAnnual').errors"
+          [class.is-valid]="
+            !jsForm.get('expectedSalaryAnnual').errors && jsForm.get('expectedSalaryAnnual').touched
           "
           type="text"
           formControlName="expectedSalaryAnnual"
           class="form-control"
           placeholder="Start Year"
         />
+        <div class="invalid-feedback">
+          Please enter an Expected Annual Salary
+        </div>
       </div>
       <div class="col-md-4">
-        <label class="labels">D.O.B</label>
+        <label class="labels">Date Of Birth</label>
         <div class="input-group">
           <input
+            [class.is-invalid]="!isDOBValid()"
             class="form-control"
-            (dateSelect)="onDateSelect($event)"
             ngbDatepicker
+            formControlName="dateOfBirth"
             #d="ngbDatepicker"
+            [startDate]="this.jsForm.value.dateOfBirth"
+            (dateSelect)="onDateSelect($event)"
           />
           <button
             class="btn btn-outline-secondary calendar"
             (click)="d.toggle()"
             type="button"
           >
-            &#8711;
+            <fa-icon [icon]="faCalendar"></fa-icon>
           </button>
+          <div class="invalid-feedback">Please enter Date of Birth</div>
         </div>
       </div>
       <div class="col-md-12">
-        <label class="labels">About</label
+        <label class="labels">Address</label
         ><input
-          [class.is-invalid]="
-            jsForm.get('address').errors && jsForm.get('address').touched
+          [class.is-invalid]="jsForm.get('address').errors"
+          [class.is-valid]="
+            !jsForm.get('address').errors && jsForm.get('address').touched
           "
           type="text"
           formControlName="address"
           class="form-control"
           placeholder="Address"
         />
+        <div class="invalid-feedback">Please enter Address</div>
       </div>
     </div>
-    <button class="btn btn-primary my-4" type="submit">
+    <button
+      [disabled]="!jsForm.valid"
+      class="btn btn-primary my-4"
+      type="submit"
+    >
       {{ submitButtonText }}
     </button>
   </div>

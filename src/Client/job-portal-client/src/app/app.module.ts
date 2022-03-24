@@ -34,6 +34,7 @@ import { JsListItemExperienceComponent } from './jobseeker/js-list-item-experien
 import { SeederComponent } from './_seed/seeder/seeder.component';
 import { EmployerVacancyCreateComponent } from './employer/employer-vacancy-create/employer-vacancy-create.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
               // "node_modules/bootstrap/dist/css/bootstrap.min.css",
 @NgModule({
@@ -66,9 +67,10 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgbModule,
+    // forms
     FormsModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     HttpClientModule,
     SharedModule,
   ],

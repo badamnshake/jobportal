@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
+  NgbDate,
   NgbDateParserFormatter,
   NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
-import { Employer } from 'src/app/_models/employer';
 import { JobSeeker } from 'src/app/_models/job-seeker';
 import { JobSeekerService } from 'src/app/_services/job-seeker.service';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { factor, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-js-edit-profile',
@@ -15,19 +18,23 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
   styleUrls: ['./js-edit-profile.component.css'],
 })
 export class JsEditProfileComponent implements OnInit {
+  faCalendar = faCalendar;
   submitButtonText: string;
   descriptionText: string;
   doesJsExist = true;
 
+  // dateOfBirth: string;
   dateOfBirth: string;
 
+  dateOfBirthInput: NgbDate;
   jsForm: FormGroup;
   js: JobSeeker;
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private jobSeekerService: JobSeekerService,
-    private ngbDateParserFormatter: NgbDateParserFormatter
+    private ngbDateParserFormatter: NgbDateParserFormatter,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -43,13 +50,13 @@ export class JsEditProfileComponent implements OnInit {
 
   initializeForm() {
     this.jsForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
+      firstName: ['', [RxwebValidators.alpha(), Validators.required]],
+      lastName: ['', [RxwebValidators.alpha(), Validators.required]],
+      email: ['', Validators.email],
+      phone: ['', RxwebValidators.digit()],
       address: ['', Validators.required],
-      totalExperience: [''],
-      expectedSalaryAnnual: [''],
+      totalExperience: [0, RxwebValidators.digit()],
+      expectedSalaryAnnual: [0, RxwebValidators.digit()],
       dateOfBirth: [''],
     });
   }
@@ -62,8 +69,13 @@ export class JsEditProfileComponent implements OnInit {
       address: this.js.address,
       totalExperience: this.js.totalExperience,
       expectedSalaryAnnual: this.js.expectedSalaryAnnual,
-      dateOfBirth: this.js.dateOfBirth,
+      dateOfBirth: this.ngbDateParserFormatter.parse(
+        this.js.dateOfBirth.toString()
+      ),
     });
+    this.dateOfBirth = new Date(
+      this.ngbDateParserFormatter.format(this.jsForm.value.dateOfBirth)
+    ).toISOString();
   }
   setDisplayTexts() {
     if (!this.doesJsExist) {
@@ -80,19 +92,21 @@ export class JsEditProfileComponent implements OnInit {
     ).toISOString();
   }
   updateOrCreateDetails() {
+    // this.jsForm.value.dateOfBirth = this.dateOfBirth;
     this.jsForm.value.dateOfBirth = this.dateOfBirth;
-
     if (!this.doesJsExist) {
-      this.jobSeekerService
-        .createJobSeeker(this.jsForm.value)
-        .subscribe(() => {});
+      this.jobSeekerService.createJobSeeker(this.jsForm.value).subscribe(() => {
+        this.router.navigateByUrl('/js-profile');
+        this.toastr.success('Profile Created');
+      });
     } else {
-      this.jobSeekerService.updateJobSeeker(this.jsForm.value).subscribe({
-        next: () => {},
-        error: () => {
-          console.log('failed to udpate');
-        },
+      this.jobSeekerService.updateJobSeeker(this.jsForm.value).subscribe(() => {
+        this.router.navigateByUrl('/js-profile');
+        this.toastr.success('Profile Updated');
       });
     }
+  }
+  isDOBValid() {
+    return this.dateOfBirth != null;
   }
 }

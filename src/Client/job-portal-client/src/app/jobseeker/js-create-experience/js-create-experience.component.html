@@ -1,14 +1,19 @@
 <form
   [formGroup]="experienceForm"
-  (ngSubmit)="createDetails()"
-  class="text-center border border-light p-5"
+  (ngSubmit)="experienceForm.valid && createDetails()"
+  class="text-center p-5 container"
 >
   <p class="h4 mb-4">Create Experience</p>
 
   <div class="form-group mb-4 mx-auto maxW400">
+    <label class="labels">Company Name</label>
     <input
       [class.is-invalid]="
         experienceForm.get('companyName').errors &&
+        experienceForm.get('companyName').touched
+      "
+      [class.is-valid]="
+        !experienceForm.get('companyName').errors &&
         experienceForm.get('companyName').touched
       "
       type="text"
@@ -16,12 +21,19 @@
       class="form-control"
       placeholder="Company Name"
     />
-    <div class="invalid-feedback">Please enter Company Name</div>
+    <div class="invalid-feedback">
+      Company Name is Required 
+    </div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
+    <label class="labels">Company Url</label>
     <input
       [class.is-invalid]="
         experienceForm.get('companyUrl').errors &&
+        experienceForm.get('companyUrl').touched
+      "
+      [class.is-valid]="
+        !experienceForm.get('companyUrl').errors &&
         experienceForm.get('companyUrl').touched
       "
       type="url"
@@ -29,13 +41,15 @@
       class="form-control"
       placeholder="companyUrl"
     />
-    <div class="invalid-feedback">Please enter company url</div>
+    <div class="invalid-feedback">Please enter a valid Company Url</div>
   </div>
 
   <div class="form-group mb-4 mx-auto maxW400">
     <label class="labels">Start Date</label>
     <div class="input-group">
       <input
+        [class.is-invalid]="!areDatesValid()"
+        [class.is-valid]="areDatesValid()"
         class="form-control"
         (dateSelect)="onStartDateSelect($event)"
         ngbDatepicker
@@ -43,18 +57,21 @@
         placeholder="Start Date"
       />
       <button
-        class="btn btn-outline-secondary calendar"
+        class="btn btn-secondary calendar"
         (click)="sd.toggle()"
         type="button"
       >
-        &#8711;
+        <fa-icon [icon]="faCalendar"></fa-icon>
       </button>
+      <div class="invalid-feedback">{{ dateErrorMsg }}</div>
     </div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
     <label class="labels">End Date</label>
     <div class="input-group">
       <input
+        [class.is-invalid]="!areDatesValid()"
+        [class.is-valid]="areDatesValid()"
         class="form-control"
         (dateSelect)="onEndDateSelect($event)"
         ngbDatepicker
@@ -62,31 +79,39 @@
         placeholder="End Date"
       />
       <button
-        class="btn btn-outline-secondary calendar"
+        class="btn btn-secondary calendar"
         (click)="ed.toggle()"
         type="button"
       >
-        &#8711;
+        <fa-icon [icon]="faCalendar"></fa-icon>
       </button>
+      <div class="invalid-feedback">{{ dateErrorMsg }}</div>
     </div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
+    <label class="labels">Designation</label>
     <input
       [class.is-invalid]="
         experienceForm.get('designation').errors &&
         experienceForm.get('designation').touched
       "
+      [class.is-valid]="
+        !experienceForm.get('designation').errors &&
+        experienceForm.get('designation').touched
+      "
       type="text"
       formControlName="designation"
       class="form-control"
-      placeholder="designation"
+      placeholder="Designation"
     />
-    <div class="invalid-feedback">Please enter designation</div>
+    <div class="invalid-feedback">Please enter Designation</div>
   </div>
   <div class="form-group mb-4 mx-auto maxW400">
+    <label class="labels">Job Description</label>
     <input
-      [class.is-invalid]="
-        experienceForm.get('jobDescription').errors &&
+      [class.is-invalid]="experienceForm.get('jobDescription').errors"
+      [class.is-valid]="
+        !experienceForm.get('jobDescription').errors &&
         experienceForm.get('jobDescription').touched
       "
       type="text"
@@ -94,12 +119,15 @@
       class="form-control"
       placeholder="Job Description"
     />
-    <div class="invalid-feedback">Please enter Job Description</div>
+    <div class="invalid-feedback">
+      Please enter Job Description (atleast 10 characters are required)
+    </div>
   </div>
   <!-- Password -->
 
   <!-- Sign in button -->
   <button
+    [disabled]="!experienceForm.valid"
     block="true"
     class="btn btn-info my-4"
     type="submit"
@@ -110,4 +138,4 @@
   <!-- Register -->
 </form>
 
-    <!-- [disabled]="!experienceForm.valid" -->
+<!-- [disabled]="!experienceForm.valid" -->
