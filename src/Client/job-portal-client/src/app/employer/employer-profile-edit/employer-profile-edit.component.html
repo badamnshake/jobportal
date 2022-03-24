@@ -1,11 +1,11 @@
 <form
   [formGroup]="employerForm"
-  (ngSubmit)="employerForm.valid && updateOrCreateDetails()"
+  (ngSubmit)="employerForm.valid && updateDetails()"
   class="container rounded bg-white mt-5 mb-5"
 >
   <div class="p-3 py-5 mx-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4 class="text-center">{{ descriptionText }}</h4>
+      <h4 class="text-center">Profile Settings</h4>
     </div>
     <div class="row mt-2">
       <div class="col-md-6">
@@ -147,9 +147,8 @@
       [disabled]="!employerForm.valid"
       class="btn btn-primary my-4"
       type="submit"
-      (click)="updateOrCreateDetails()"
     >
-      {{ submitButtonText }}
+      Save
     </button>
   </div>
 </form>

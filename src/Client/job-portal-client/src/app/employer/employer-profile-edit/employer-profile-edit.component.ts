@@ -12,12 +12,9 @@ import { EmployerService } from 'src/app/_services/employer.service';
   styleUrls: ['./employer-profile-edit.component.css'],
 })
 export class EmployerProfileEditComponent implements OnInit {
-  submitButtonText: string;
-  descriptionText: string;
-  doesEmpExist = true;
-
   employerForm: FormGroup;
   employer: Employer;
+  doesProfileExist = false;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -29,11 +26,11 @@ export class EmployerProfileEditComponent implements OnInit {
     this.initializeForm();
     this.employerService.getEmployerMe().subscribe((response) => {
       this.employer = response;
-      if (!response) this.doesEmpExist = false;
-      if (this.employer) this.employerForm.patchValue(this.employer);
+      if (response) {
+        this.doesProfileExist = true;
+        this.employerForm.patchValue(this.employer);
+      }
     });
-
-    this.setDisplayTexts();
   }
 
   initializeForm() {
@@ -58,29 +55,22 @@ export class EmployerProfileEditComponent implements OnInit {
       about: this.employer.about,
     });
   }
-  setDisplayTexts() {
-    if (!this.doesEmpExist) {
-      this.submitButtonText = 'Create Profile';
-      this.descriptionText = 'Add Details  & Create Profile';
-    } else {
-      this.submitButtonText = 'Update Details';
-      this.descriptionText = 'Profile Settings';
-    }
-  }
-  updateOrCreateDetails() {
-    if (!this.doesEmpExist) {
+  updateDetails() {
+    if (!this.doesProfileExist) {
       this.employerService
         .createEmployer(this.employerForm.value)
         .subscribe(() => {
-          this.router.navigateByUrl('/');
-          this.toastr.success('Profile Created');
+          this.router.navigateByUrl('/').then(() => {
+            this.toastr.success('Profile Created');
+          });
         });
     } else {
       this.employerService
         .updateEmployer(this.employerForm.value)
         .subscribe(() => {
-          this.router.navigateByUrl('/');
-          this.toastr.success('Profile Updated');
+          this.router.navigateByUrl('/').then(() => {
+            this.toastr.success('Profile Updated');
+          });
         });
     }
   }

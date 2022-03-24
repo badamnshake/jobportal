@@ -1,4 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpBackend,
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -6,6 +11,7 @@ import { Employer } from '../_models/employer';
 import { JobSeeker } from '../_models/job-seeker';
 import { PaginatedResult } from '../_models/pagination';
 import { Vacancy } from '../_models/vacancy';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +26,15 @@ export class EmployerService {
     new PaginatedResult();
   paginatedResultEmployerPostedVacancy: PaginatedResult<Vacancy[]> =
     new PaginatedResult();
+  private httpBackend: HttpClient;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private accountService: AccountService,
+    private http: HttpClient,
+    private handler: HttpBackend
+  ) {
+    this.httpBackend = new HttpClient(handler);
+  }
 
   getEmployerFromId(id: number) {
     return this.http.get<Employer>(this.baseUrl + `/employer/get/${id}`).pipe(
@@ -31,11 +44,22 @@ export class EmployerService {
     );
   }
   getEmployerMe() {
-    return this.http.get<Employer>(this.baseUrl + '/employer/get/').pipe(
-      map((response: Employer) => {
-        return response;
+    let token;
+    this.accountService.currentUser$.subscribe((user) => {
+      token = user.token;
+    });
+
+    return this.httpBackend
+      .get<Employer>(this.baseUrl + '/employer/get', {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        }),
       })
-    );
+      .pipe(
+        map((response: Employer) => {
+          return response;
+        })
+      );
   }
   getVacanciesPostedByMe(page?: number, itemsPerPage?: number) {
     let queryParams = new HttpParams();
