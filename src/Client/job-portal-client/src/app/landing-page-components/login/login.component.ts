@@ -8,7 +8,7 @@ import { AccountService } from '../../_services/account.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -28,19 +28,14 @@ export class LoginComponent implements OnInit {
   initializeForm() {
     this.loginForm = this.fb.group({
       email: ['', Validators.email],
-      password: ['', Validators.minLength(3)]
+      password: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
 
   login() {
-    this.accountService.login(this.loginForm.value).subscribe({
-      next: (response) => {
-        this.router.navigateByUrl('/');
-      },
-      error: (e) => {
-        console.log(e);
-        this.toastr.error(e.error);
-      },
+    this.accountService.login(this.loginForm.value).subscribe(() => {
+      this.router.navigateByUrl('/');
+      this.toastr.success('Logged In Successfully');
     });
   }
 }

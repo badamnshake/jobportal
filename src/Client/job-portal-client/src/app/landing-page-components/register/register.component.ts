@@ -43,11 +43,10 @@ export class RegisterComponent implements OnInit {
     console.log(this.registerForm.value);
 
     this.accountService.register(this.registerForm.value).subscribe({
-      next: (response) => {
+      next: () => {
         this.router.navigateByUrl('/');
       },
       error: (e) => {
-        console.log(e);
         this.toastr.error(e.error);
       },
     });

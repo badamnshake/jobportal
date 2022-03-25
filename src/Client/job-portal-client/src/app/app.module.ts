@@ -35,6 +35,7 @@ import { SeederComponent } from './_seed/seeder/seeder.component';
 import { EmployerVacancyCreateComponent } from './employer/employer-vacancy-create/employer-vacancy-create.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { ChangePasswordComponent } from './landing-page-components/change-password/change-password.component';
 
               // "node_modules/bootstrap/dist/css/bootstrap.min.css",
 @NgModule({
@@ -62,6 +63,7 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
     JsListItemExperienceComponent,
     SeederComponent,
     EmployerVacancyCreateComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

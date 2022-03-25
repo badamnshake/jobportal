@@ -6,6 +6,6 @@ namespace Identity.Infrastructure.RequestResponseModels
     {
         // one thing can be added which is having old and new password
         // but as relying on token authentication is done with that
-        [Required] public string NewPassword { get; set; }
+        [Required] [MinLength(5)] public string NewPassword { get; set; }
     }
 }

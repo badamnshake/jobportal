@@ -42,9 +42,8 @@ export class JsEditProfileComponent implements OnInit {
       if (!response) this.doesJsExist = false;
       else this.js = response;
       if (this.js) this.patchValuesIntoForm();
+      this.setDisplayTexts();
     });
-
-    this.setDisplayTexts();
   }
 
   initializeForm() {

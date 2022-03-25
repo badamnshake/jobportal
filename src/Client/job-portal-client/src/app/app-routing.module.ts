@@ -11,6 +11,7 @@ import { JsCreateExperienceComponent } from './jobseeker/js-create-experience/js
 import { JsCreateQualificationComponent } from './jobseeker/js-create-qualification/js-create-qualification.component';
 import { JsEditProfileComponent } from './jobseeker/js-edit-profile/js-edit-profile.component';
 import { JsProfileComponent } from './jobseeker/js-profile/js-profile.component';
+import { ChangePasswordComponent } from './landing-page-components/change-password/change-password.component';
 import { HomeComponent } from './landing-page-components/home/home.component';
 import { LoginComponent } from './landing-page-components/login/login.component';
 import { RegisterComponent } from './landing-page-components/register/register.component';
@@ -18,7 +19,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { VacancyListComponent } from './vacancies/vacancy-list/vacancy-list.component';
 import { AuthEmployerGuard } from './_guards/auth-employer.guard';
 import { AuthJobSeekerGuard } from './_guards/auth-job-seeker.guard';
-import { SeederComponent } from './_seed/seeder/seeder.component';
+import { AuthLoginGuard } from './_guards/auth-login.guard';
+// import { SeederComponent } from './_seed/seeder/seeder.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,8 +31,44 @@ const routes: Routes = [
   { path: 'vacancy-list', component: VacancyListComponent },
 
   {
-    path: 'employer-vacancy-create',
-    component: EmployerVacancyCreateComponent,
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthLoginGuard],
+
+    children: [
+      {
+        path: 'change-password',
+        component: ChangePasswordComponent,
+      },
+    ],
+  },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthJobSeekerGuard],
+
+    children: [
+      {
+        path: 'js-profile',
+        component: JsProfileComponent,
+      },
+      {
+        path: 'js-edit-profile',
+        component: JsEditProfileComponent,
+      },
+      {
+        path: 'js-create-qualification',
+        component: JsCreateQualificationComponent,
+      },
+      {
+        path: 'js-create-experience',
+        component: JsCreateExperienceComponent,
+      },
+      {
+        path: 'js-applied-vacancies',
+        component: JsAppliedVacanciesComponent,
+      },
+    ],
   },
   {
     path: '',

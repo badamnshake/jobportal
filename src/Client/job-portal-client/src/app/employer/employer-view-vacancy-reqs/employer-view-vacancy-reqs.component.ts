@@ -15,7 +15,7 @@ export class EmployerViewVacancyReqsComponent implements OnInit {
   jobSeekers: JobSeeker[];
   pagination: Pagination;
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 3;
   vacancyId: number;
   /// takes vacancy id in the params
   constructor(

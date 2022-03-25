@@ -22,8 +22,6 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + '/user/login', model).pipe(
       map((response: User) => {
         const user = response;
-        console.log(user);
-
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.setCurrentUser(user);
@@ -63,12 +61,17 @@ export class AccountService {
     this.currentUserSource.next(null);
     this.currentRoleSource.next(null);
   }
-  isTokenExpired() {
-    let user;
-    this.currentUser$.subscribe((resp) => {
-      user = resp;
-    });
-    let decodedJwt: JwtPayload = jwtDecode(user.token);
-    return Date.now() >= decodedJwt.exp * 1000;
+  changePassword(model: any) {
+    return this.http
+      .put<User>(this.baseUrl + '/user/change-password', model)
+      .pipe(
+        map((response: User) => {
+          const user = response;
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+            this.setCurrentUser(user);
+          }
+        })
+      );
   }
 }

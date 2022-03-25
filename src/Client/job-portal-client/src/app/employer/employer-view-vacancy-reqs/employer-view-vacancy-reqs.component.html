@@ -4,12 +4,62 @@
     class="container list-group-item flex-column align-items-start"
   >
     <app-js-list-item-profile [js]="js"></app-js-list-item-profile>
+
+    <ngb-accordion #acc="ngbAccordion">
+      <ngb-panel
+        [disabled]="true"
+        title="No Qualifications"
+        *ngIf="js.qualifications.length == 0"
+      >
+      </ngb-panel>
+      <ngb-panel
+        *ngIf="js.qualifications.length > 0"
+        title="View Qualifications"
+      >
+        <ng-template ngbPanelContent>
+          <div class="list-group list-group-flush">
+            <div
+              class="container list-group-item"
+              *ngFor="let q of js.qualifications"
+            >
+              <app-js-list-item-qualification
+                [q]="q"
+              ></app-js-list-item-qualification>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel
+        [disabled]="true"
+        title="No Past Experience"
+        *ngIf="js.experiences.length == 0"
+      >
+      </ngb-panel>
+      <ngb-panel title="View Experiences" *ngIf="js.experiences.length > 0">
+        <ng-template ngbPanelContent>
+          <div class="list-group list-group-flush">
+            <div
+              class="container list-group-item"
+              *ngFor="let e of js.experiences"
+            >
+              <app-js-list-item-experience
+                [e]="e"
+              ></app-js-list-item-experience>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
   </div>
 </div>
 
 <div
   class="d-flex justify-content-center"
-  *ngIf="pagination && pagination?.totalItems != 0 && pagination?.totalItems >= pageSize"
+  *ngIf="
+    pagination &&
+    pagination?.totalItems != 0 &&
+    pagination?.totalItems >= pageSize
+  "
 >
   <ngb-pagination
     ngDefaultControl
