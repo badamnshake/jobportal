@@ -5,24 +5,37 @@
   <h4 class="text-danger">No Vacancies Found</h4>
 </div>
 
-<div class="container inline mt-3 text-center">
+<div class="container inline mt-3">
   <form
     #form="ngForm"
     class="form-inline mb-3"
     (ngSubmit)="loadVacancies()"
     autocomplete="off"
   >
-    <div class="row align-self-center">
-      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline" style="width: 200px;">
+    <div class="row align-items-start">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 form-group px-2"
+        style="width: 200px"
+      >
         <label>Location: </label>
         <input
+          id="typeahead-focus"
+          type="text"
+          class="form-control"
+          [ngbTypeahead]="search"
+          (focus)="focus$.next($any($event).target.value)"
+          (click)="click$.next($any($event).target.value)"
+          #instance="ngbTypeahead"
           type="text"
           class="form-control ml-1 d-inline"
           name="location"
           [(ngModel)]="filters.location"
         />
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline" style="width: 170px;">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline"
+        style="width: 170px"
+      >
         <label>Published After : </label>
         <div class="input-group">
           <input
@@ -41,7 +54,10 @@
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline" style="width: 170px;">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline"
+        style="width: 170px"
+      >
         <label class="me-1">Last Date After :</label>
         <div class="input-group">
           <input
@@ -61,7 +77,10 @@
       </div>
       <!-- </div> -->
       <!-- <div class="row"> -->
-      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline" style="width: 130px;">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline"
+        style="width: 130px"
+      >
         <label>Salary From: </label>
         <input
           type="number"
@@ -70,18 +89,23 @@
           [(ngModel)]="filters.minSalary"
         />
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline" style="width: 130px;">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline"
+        style="width: 130px"
+      >
         <label>Salary To: </label>
         <input
           type="number"
           class="form-control ml-1 d-inline"
-          
           name="maxSalary"
           [(ngModel)]="filters.maxSalary"
         />
       </div>
 
-      <div class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline" style="width: 180px;">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 form-group px-2 d-inline"
+        style="width: 180px"
+      >
         <label class="me-1">Order By</label>
         <select
           name="orderBy"
@@ -95,7 +119,7 @@
         </select>
       </div>
     </div>
-    <div class="mt-2 text-center">
+    <div class="mt-2 col-lg-4 col-md-6 col-sm-12">
       <button class="btn btn-success me-1" type="submit">Apply Filters</button>
       <button
         (click)="resetFilters()"
@@ -113,42 +137,21 @@
     *ngFor="let vacancy of vacancies"
     class="container list-group-item flex-column align-items-start"
   >
-    <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
-    <div class="row mt-2">
-      <button
-        class="col-lg-auto col-sm-auto btn btn-info ms-auto me-1"
-        (click)="getEmployerDetails(vacancy.employerEntityId)"
-      >
-        Employer Details
-      </button>
-      <button
-        (click)="applyForVacancy(vacancy.id)"
-        *ngIf="(accountService.currentRole$ | async) == 'JobSeeker'"
-        class="col-lg-auto col-sm-auto btn btn-success me-1"
-        [disabled]="vacanciesApplied.includes(vacancy.id)"
-        type="button"
-      >
-        <span *ngIf="!vacanciesApplied.includes(vacancy.id)"
-          >Apply For Vacancy</span
-        >
-        <span *ngIf="vacanciesApplied.includes(vacancy.id)"
-          >Already Applied</span
-        >
-      </button>
-      <button
-        class="text-danger"
-        class="col-lg-auto col-sm-auto btn btn-outline me-1 disabled"
-        *ngIf="(accountService.currentRole$ | async) != 'JobSeeker'"
-      >
-        Log in to Apply
-      </button>
-    </div>
+    <app-vacancy-list-item
+      [vacancy]="vacancy"
+      [isVacancyList]="true"
+      [vacanciesApplied]="vacanciesApplied"
+    ></app-vacancy-list-item>
   </div>
 </div>
 
 <div
   class="d-flex justify-content-center"
-  *ngIf="pagination && pagination?.totalItems != 0 && pagination?.totalItems >= pageSize"
+  *ngIf="
+    pagination &&
+    pagination?.totalItems != 0 &&
+    pagination?.totalItems >= pageSize
+  "
 >
   <ngb-pagination
     ngDefaultControl

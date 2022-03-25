@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, max, min } from 'rxjs';
+import { catchError, map, max, min, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { JobSeeker } from '../_models/job-seeker';
 import { PaginatedResult } from '../_models/pagination';
@@ -12,14 +12,20 @@ import { ToOrderBy, Vacancy } from '../_models/vacancy';
 export class VacancyService {
   baseUrl = environment.apiUrl;
   paginatedResult: PaginatedResult<Vacancy[]> = new PaginatedResult();
+  private httpBackend: HttpClient;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private handler: HttpBackend
+    ) {
+
+    this.httpBackend = new HttpClient(handler);
+    }
 
   getVacancyFromId(id: number) {
-    return this.http.get<Vacancy>(this.baseUrl + `/vacancy/get/${id}`).pipe(
+    return this.httpBackend.get<Vacancy>(this.baseUrl + `/vacancy/get/${id}`).pipe(
       map((response: Vacancy) => {
         return response;
-      })
+      }),
     );
   }
   getVacancies(

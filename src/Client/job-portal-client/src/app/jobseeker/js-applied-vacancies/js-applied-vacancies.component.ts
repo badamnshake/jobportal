@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs';
 import { Pagination } from 'src/app/_models/pagination';
 import { Vacancy } from 'src/app/_models/vacancy';
 import { VacancyRequest } from 'src/app/_models/vacancy-request';
@@ -57,24 +58,23 @@ export class JsAppliedVacanciesComponent implements OnInit {
         this.vacanciesIdApplied = response.result;
         this.pagination = response.pagination;
         this.vacanciesIdApplied.forEach((element) => {
-          this.vacancyService
-            .getVacancyFromId(element)
-            .subscribe((response) => {
+          this.vacancyService.getVacancyFromId(element).subscribe({
+            next: (response) => {
               vacancy = response;
               this.vacancies.push(vacancy);
-            });
+            },
+            error: (error) => {
+              if (error.status == 400) {
+                console.log('hello');
+
+                this.jobSeekerService
+                  .deleteVacancyRequest(element)
+                  .subscribe(() => {});
+              }
+            },
+          });
         });
       });
-  }
-
-  deleteVacancyRequest(vacId: number) {
-    if (confirm('Are you sure you want to delete this Vacancy Request')) {
-      this.jobSeekerService.deleteVacancyRequest(vacId).subscribe(() => {
-        this.toastr.success('Vacancy Request Deleted');
-        // this.router.navigateByUrl('/js-applied-vacancies')
-        window.location.reload();
-      });
-    }
   }
 
   pageChanged(event: number) {

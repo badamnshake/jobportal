@@ -3,30 +3,7 @@
     *ngFor="let vacancy of vacancies"
     class="container list-group-item flex-column align-items-start"
   >
-    <app-vacancy-list-item [vacancy]="vacancy"></app-vacancy-list-item>
-    <div class="row">
-      <button
-        type="button"
-        class="col-auto btn btn-warning ms-auto me-1"
-        (click)="editVacancy(vacancy.id)"
-      >
-        Edit Vacancy
-      </button>
-      <button
-        type="button"
-        class="col-auto btn btn-info me-1"
-        (click)="viewVacancyRequest(vacancy.id)"
-      >
-        View Vacancy Requests
-      </button>
-      <button
-        type="button"
-        class="col-auto btn btn-danger me-1"
-        (click)="deleteVacancy(vacancy.id)"
-      >
-        Delete Vacancy
-      </button>
-    </div>
+    <app-vacancy-list-item [vacancy]="vacancy" [isEmployerVacancyList]="true"></app-vacancy-list-item>
   </div>
 </div>
 <div

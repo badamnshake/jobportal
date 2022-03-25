@@ -18,7 +18,7 @@
           >Register</a
         >
       </li>
-      <li class="nav-item" *ngIf="(accountService.currentUser$ | async)">
+      <li class="nav-item" *ngIf="accountService.currentUser$ | async">
         <a
           class="nav-link"
           routerLinkActive="active"
@@ -112,7 +112,7 @@
             routerLink="/js-applied-vacancies"
             ngbDropdownItem
           >
-            Applied Vacancies
+            Vacancies Applied
           </button>
         </div>
       </div>

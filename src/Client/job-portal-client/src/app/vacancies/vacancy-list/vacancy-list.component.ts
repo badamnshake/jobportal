@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   NgbDateParserFormatter,
   NgbDateStruct,
+  NgbModal,
+  NgbTypeahead,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Pagination } from 'src/app/_models/pagination';
@@ -12,6 +14,17 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 import { VacancyService } from 'src/app/_services/vacancy.service';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { EmployerProfileComponent } from 'src/app/employer/employer-profile/employer-profile.component';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+  Observable,
+  OperatorFunction,
+  Subject,
+} from 'rxjs';
 
 @Component({
   selector: 'app-vacancy-list',
@@ -50,6 +63,33 @@ export class VacancyListComponent implements OnInit {
     this.resetFilters();
     this.loadVacancies();
   }
+  @ViewChild('instance', { static: true }) instance: NgbTypeahead;
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
+
+  search: OperatorFunction<string, readonly string[]> = (
+    text$: Observable<string>
+  ) => {
+    const debouncedText$ = text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    );
+    const clicksWithClosedPopup$ = this.click$.pipe(
+      filter(() => !this.instance.isPopupOpen())
+    );
+    const inputFocus$ = this.focus$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map((term) =>
+        (term === ''
+          ? states
+          : states.filter(
+              (v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1
+            )
+        ).slice(0, 10)
+      )
+    );
+  };
 
   loadVacanciesWhereJSApplied() {
     if (
@@ -123,7 +163,7 @@ export class VacancyListComponent implements OnInit {
   // this is used to give input in select element in html so user can easily select which thing to order by
   toOrderBy: { name: string; value: ToOrderBy }[] = [
     {
-      name:`Min salary Ascending`,
+      name: `Min salary Ascending`,
       value: ToOrderBy.MinSalaryAscending,
     },
     {
@@ -153,3 +193,69 @@ interface getVacancyFilters {
   publishedDate?: Date;
   orderBy?: ToOrderBy;
 }
+
+const states = [
+  'New York',
+  'Ahmedabad',
+  'Ohio',
+  'Mumbai',
+  'Bangalore',
+  'California',
+  'Delaware',
+  'Michigan',
+  'Pune',
+  'Alabama',
+  'Alaska',
+  'American Samoa',
+  'Arizona',
+  'Arkansas',
+  'Colorado',
+  'Connecticut',
+  'District Of Columbia',
+  'Federated States Of Micronesia',
+  'Florida',
+  'Georgia',
+  'Guam',
+  'Hawaii',
+  'Idaho',
+  'Illinois',
+  'Indiana',
+  'Iowa',
+  'Kansas',
+  'Kentucky',
+  'Louisiana',
+  'Maine',
+  'Marshall Islands',
+  'Maryland',
+  'Massachusetts',
+  'Minnesota',
+  'Mississippi',
+  'Missouri',
+  'Montana',
+  'Nebraska',
+  'Nevada',
+  'New Hampshire',
+  'New Jersey',
+  'New Mexico',
+  'North Carolina',
+  'North Dakota',
+  'Northern Mariana Islands',
+  'Oklahoma',
+  'Oregon',
+  'Palau',
+  'Pennsylvania',
+  'Puerto Rico',
+  'Rhode Island',
+  'South Carolina',
+  'South Dakota',
+  'Tennessee',
+  'Texas',
+  'Utah',
+  'Vermont',
+  'Virgin Islands',
+  'Virginia',
+  'Washington',
+  'West Virginia',
+  'Wisconsin',
+  'Wyoming',
+];

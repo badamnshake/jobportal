@@ -44,20 +44,6 @@ export class EmployerVacancyListComponent implements OnInit {
       });
   }
 
-  editVacancy(id: number) {
-    this.router.navigateByUrl(`/employer-vacancy-edit/${id}`);
-  }
-  deleteVacancy(id: number) {
-    if (confirm('Are you sure you want to delete this Vacancy')) {
-      this.employerService.deleteVacancy(id).subscribe(() => {
-        this.toastr.success('Vacancy Deleted');
-        window.location.reload();
-      });
-    }
-  }
-  viewVacancyRequest(id: number) {
-    this.router.navigateByUrl(`/employer-view-vacancy-reqs/${id}`);
-  }
   pageChanged(event: number) {
     this.pageNumber = event;
     this.loadVacancies();

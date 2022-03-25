@@ -2,7 +2,8 @@
   <h5 class="mb-1">{{ vacancy.jobDescription }}</h5>
   <small>
     <span class="text-info">Published Date :</span>
-    {{ vacancy.publishedDate | date }}</small>
+    {{ vacancy.publishedDate | date }}</small
+  >
 </div>
 <div class="row mb-2">
   <div class="col-auto">
@@ -36,6 +37,98 @@
 <div class="row">
   <h6 class="col-lg-auto col-sm-auto mb-md-0">
     <span class="text-info"> Salary :</span>
-     {{ vacancy.minSalary | currency : 'USD' : 'symbol' : '1.0-0'  }}  - {{ vacancy.maxSalary | currency : 'USD' : 'symbol' : '1.0-0' }}
+    {{ vacancy.minSalary | currency: "USD":"symbol":"1.0-0" }} -
+    {{ vacancy.maxSalary | currency: "USD":"symbol":"1.0-0" }}
   </h6>
 </div>
+
+<ng-container *ngIf="isVacancyList">
+  <div class="row mt-2">
+    <button
+      type="button"
+      class="col-lg-auto col-sm-auto btn btn-info ms-auto me-1"
+      (click)="open(content, vacancy.employerEntityId)"
+    >
+      Employer Details
+    </button>
+    <button
+      (click)="applyForVacancy(vacancy.id)"
+      *ngIf="(accountService.currentRole$ | async) == 'JobSeeker'"
+      class="col-lg-auto col-sm-auto btn btn-success me-1"
+      [disabled]="vacanciesApplied.includes(vacancy.id)"
+      type="button"
+    >
+      <span *ngIf="!vacanciesApplied.includes(vacancy.id)"
+        >Apply For Vacancy</span
+      >
+      <span *ngIf="vacanciesApplied.includes(vacancy.id)">Already Applied</span>
+    </button>
+    <button
+      class="text-danger"
+      class="col-lg-auto col-sm-auto btn btn-outline me-1 disabled"
+      *ngIf="(accountService.currentRole$ | async) != 'JobSeeker'"
+    >
+      Log in to Apply
+    </button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isAppliedVacancies">
+  <div class="d-flex w-100 justify-content-between mt-3">
+    <button
+      type="button"
+      (click)="deleteVacancyRequest(vacancy.id)"
+      class="btn btn-warning"
+    >
+      Delete
+    </button>
+  </div>
+</ng-container>
+<ng-container *ngIf="isEmployerVacancyList">
+  <div class="row">
+    <button
+      type="button"
+      class="col-auto btn btn-warning ms-auto me-1"
+      (click)="editVacancy(vacancy.id)"
+    >
+      Edit Vacancy
+    </button>
+    <button
+      type="button"
+      class="col-auto btn btn-info me-1"
+      (click)="viewVacancyRequest(vacancy.id)"
+    >
+      View Vacancy Requests
+    </button>
+    <button
+      type="button"
+      class="col-auto btn btn-danger me-1"
+      (click)="deleteVacancy(vacancy.id)"
+    >
+      Delete Vacancy
+    </button>
+  </div>
+</ng-container>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title ms-2">Employer Details</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-employer-profile [employer]="employerInfo"></app-employer-profile>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-danger"
+      (click)="modal.close()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

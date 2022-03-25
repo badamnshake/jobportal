@@ -27,7 +27,7 @@
   <div class="col-auto">
     <span class="text-info"> Expected Salary : </span>
 
-    {{ js.expectedSalaryAnnual }},
+    {{ js.expectedSalaryAnnual | currency: "USD":"symbol":"1.0-0" }}
   </div>
 </div>
 <div class="row mb-2 border-bottom">
