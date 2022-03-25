@@ -19,16 +19,16 @@ export class EmployerProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let id = parseInt(this.route.snapshot.paramMap.get('id'));
+    // let id = parseInt(this.route.snapshot.paramMap.get('id'));
 
-    if (id) {
-      this.employerService.getEmployerFromId(id).subscribe((response) => {
-        this.employer = response;
-      });
-      return;
-    }
-    this.employerService.getEmployerMe().subscribe((response) => {
-      this.employer = response;
-    });
+    // if (id) {
+    //   this.employerService.getEmployerFromId(id).subscribe((response) => {
+    //     this.employer = response;
+    //   });
+    //   return;
+    // }
+    // this.employerService.getEmployerMe().subscribe((response) => {
+    //   this.employer = response;
+    // });
   }
 }

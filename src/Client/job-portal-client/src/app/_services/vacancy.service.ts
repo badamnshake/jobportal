@@ -51,8 +51,8 @@ export class VacancyService {
         minSalary == null &&
         maxSalary == null &&
         lastDateToApply == null &&
-        publishedDate == null &&
-        orderBy == null
+        orderBy == null &&
+        publishedDate == null 
       )
         anyFilters = false;
       if (location != null)

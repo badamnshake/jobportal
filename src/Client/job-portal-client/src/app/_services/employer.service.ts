@@ -44,7 +44,7 @@ export class EmployerService {
     );
   }
   getEmployerMe() {
-    let token;
+    let token: string;
     this.accountService.currentUser$.subscribe((user) => {
       token = user.token;
     });

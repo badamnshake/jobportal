@@ -46,7 +46,7 @@
           Employer Menu
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuEmployer">
-          <button type="button" routerLink="/employer-profile" ngbDropdownItem>
+          <button type="button" (click)="showEmployerDetails(content)" ngbDropdownItem>
             View Profile
           </button>
           <button
@@ -119,3 +119,27 @@
     </div>
   </div>
 </nav>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title ms-2">Employer Details</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-employer-profile [employer]="employerInfo"></app-employer-profile>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-danger"
+      (click)="modal.close()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

@@ -48,7 +48,6 @@ export class EmployerVacancyEditComponent implements OnInit {
 
   initializeForm() {
     this.vacancyUpdateForm = this.fb.group({
-      publishedBy: ['', Validators.required],
       publishedDate: ['', Validators.required],
       noOfVacancies: [0, [Validators.required, RxwebValidators.digit()]],
       minimumQualification: ['', Validators.required],

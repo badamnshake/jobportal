@@ -18,6 +18,11 @@ namespace VacancyRequests.Aggregator.Services
             var response = await _client.GetAsync($"api/vacancy/get/{vacancyId}");
             return response;
         }
+        public async Task<HttpResponseMessage> DeleteVacancy(int vacancyId)
+        {
+            var response = await _client.GetAsync($"api/vacancy/delete/{vacancyId}");
+            return response;
+        }
 
     }
 }

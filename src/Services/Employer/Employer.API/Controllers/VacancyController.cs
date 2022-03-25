@@ -78,9 +78,10 @@ namespace Employer.API.Controllers
             var vac = _mapper.Map<Vacancy>(details);
 
             // published time is set to now
-            // vac.PublishedDate = DateTime.Now;
+            vac.PublishedDate = DateTime.Now;
 
             // foreign key to emp table
+            vac.PublishedBy = employer.OrganizationName;
             vac.EmployerEntityId = employer.Id;
             var vacancy = await _vacancyRepository.AddVacancy(vac);
             return _mapper.Map<ResponseVacancyDetails>(vacancy);

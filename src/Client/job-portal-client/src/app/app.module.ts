@@ -36,6 +36,7 @@ import { EmployerVacancyCreateComponent } from './employer/employer-vacancy-crea
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { ChangePasswordComponent } from './landing-page-components/change-password/change-password.component';
+// import { ConfirmModalComponent } from './_helpers/confirm-modal/confirm-modal.component';
 
               // "node_modules/bootstrap/dist/css/bootstrap.min.css",
 @NgModule({
@@ -64,6 +65,7 @@ import { ChangePasswordComponent } from './landing-page-components/change-passwo
     SeederComponent,
     EmployerVacancyCreateComponent,
     ChangePasswordComponent,
+    // ConfirmModalComponent,
   ],
   imports: [
     BrowserModule,

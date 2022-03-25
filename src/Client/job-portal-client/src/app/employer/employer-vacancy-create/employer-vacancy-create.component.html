@@ -5,28 +5,28 @@
 >
   <div class="p-3 py-5 mx-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4 class="text-center">Create Vacancy</h4>
+      <h4>Create Vacancy</h4>
     </div>
     <div class="row mt-2">
-      <div class="col-md-6">
-        <label class="labels">Organization Name</label
+      <div class="col-md-9">
+        <label class="labels">Job Description</label
         ><input
           [class.is-invalid]="
-            vacancyCreateForm.get('publishedBy').errors &&
-            vacancyCreateForm.get('publishedBy').touched
+            vacancyCreateForm.get('jobDescription').errors &&
+            vacancyCreateForm.get('jobDescription').touched
           "
           [class.is-valid]="
-            !vacancyCreateForm.get('publishedBy').errors &&
-            vacancyCreateForm.get('publishedBy').touched
+            !vacancyCreateForm.get('jobDescription').errors &&
+            vacancyCreateForm.get('jobDescription').touched
           "
+          formControlName="jobDescription"
           type="text"
           class="form-control"
-          placeholder="Organization Name"
-          formControlName="publishedBy"
+          placeholder="Job description"
         />
-        <div class="invalid-feedback">Please enter Published By</div>
+        <div class="invalid-feedback">Please enter Job Description</div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="form-group">
           <label class="labels">Min. Salary</label
           ><input
@@ -43,8 +43,12 @@
             class="form-control"
             placeholder="Minimum Salary"
           />
-          <div class="invalid-feedback">Please enter a Minimum Salary (Must be Less than Maximum Salary)</div>
+          <div class="invalid-feedback">
+            Please enter a Minimum Salary (Must be Less than Maximum Salary)
+          </div>
         </div>
+      </div>
+      <div class="col-md-4">
         <div class="form-group">
           <label class="labels">Max. Salary</label
           ><input
@@ -61,12 +65,14 @@
             formControlName="maxSalary"
             placeholder="Maximum salary"
           />
-          <div class="invalid-feedback">Please enter a Maximum Salary (Must be Greater than Minimum Salary)</div>
+          <div class="invalid-feedback">
+            Please enter a Maximum Salary (Must be Greater than Minimum Salary)
+          </div>
         </div>
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col-md-12">
+      <div class="col-md-6">
         <label class="labels">Experience Required</label
         ><input
           [class.is-invalid]="
@@ -84,7 +90,7 @@
         />
         <div class="invalid-feedback">Please enter a Experience Required</div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-6">
         <label class="labels">Minimum Qualification</label
         ><input
           [class.is-invalid]="
@@ -102,7 +108,7 @@
         />
         <div class="invalid-feedback">Please enter a Experience Required</div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-4">
         <label class="labels">Last Date to apply</label>
         <div class="input-group">
           <input
@@ -125,7 +131,7 @@
         </div>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label class="labels">Number of Vacancies</label
         ><input
           [class.is-invalid]="
@@ -143,7 +149,7 @@
         />
         <div class="invalid-feedback">Please enter a Number Of Vacancies</div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label class="labels">Location</label
         ><input
           [class.is-invalid]="
@@ -160,24 +166,6 @@
           placeholder="Job Location"
         />
         <div class="invalid-feedback">Please enter Location</div>
-      </div>
-      <div class="col-md-12">
-        <label class="labels">Job Description</label
-        ><input
-          [class.is-invalid]="
-            vacancyCreateForm.get('jobDescription').errors &&
-            vacancyCreateForm.get('jobDescription').touched
-          "
-          [class.is-valid]="
-            !vacancyCreateForm.get('jobDescription').errors &&
-            vacancyCreateForm.get('jobDescription').touched
-          "
-          formControlName="jobDescription"
-          type="text"
-          class="form-control"
-          placeholder="Job description"
-        />
-        <div class="invalid-feedback">Please enter Job Description</div>
       </div>
     </div>
     <div class="mt-3">

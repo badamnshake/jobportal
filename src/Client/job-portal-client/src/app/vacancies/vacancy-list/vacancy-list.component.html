@@ -112,7 +112,6 @@
           [(ngModel)]="filters.orderBy"
           class="form-select ml-1 d-inline"
         >
-          <option selected value="null">None</option>
           <option *ngFor="let orderBy of toOrderBy" [value]="orderBy.value">
             {{ orderBy.name }}
           </option>

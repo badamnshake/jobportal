@@ -104,6 +104,7 @@ export class VacancyListComponent implements OnInit {
   loadVacancies() {
     this.filters.lastDateToApply = this.lastDate;
     this.filters.publishedDate = this.publishedDate;
+    
     this.vacancyService
       .getVacancies(
         this.pageNumber,
@@ -118,6 +119,7 @@ export class VacancyListComponent implements OnInit {
       .subscribe((response) => {
         this.vacancies = response.result;
         this.pagination = response.pagination;
+        console.log(this.vacancies);
       });
   }
 

@@ -31,7 +31,8 @@ export class VacancyListItemComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
   async applyForVacancy(id: number) {
     let vr: VacancyRequest = {
       vacancyId: id,
@@ -45,12 +46,10 @@ export class VacancyListItemComponent implements OnInit {
       this.toastr.success('Applied For Vacancy');
     });
   }
-  getEmployerDetails(id: number) {
-    // this.router.navigateByUrl(`employer-profile/${id}`);
-  }
-  open(content: any, id: number) {
+  showEmployerDetails(content: any, id: number) {
     this.employerService.getEmployerFromId(id).subscribe((response) => {
       this.employerInfo = response;
+      
       this.modalService
         .open(content, { ariaLabelledBy: 'modal-basic-title' })
         .result.then(
