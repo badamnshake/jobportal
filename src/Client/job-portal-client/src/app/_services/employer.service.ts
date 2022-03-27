@@ -36,6 +36,13 @@ export class EmployerService {
     this.httpBackend = new HttpClient(handler);
   }
 
+  /* 
+   request : GET
+   response: Employer 
+   ------------------------------------------------------------------------ 
+   gets the employer details from employer id
+   usually shown as info
+  */
   getEmployerFromId(id: number) {
     return this.http.get<Employer>(this.baseUrl + `/employer/get/${id}`).pipe(
       map((response: Employer) => {
@@ -43,6 +50,13 @@ export class EmployerService {
       })
     );
   }
+  /* 
+   request : GET
+   response: Employer 
+   ------------------------------------------------------------------------ 
+   gets the employer details from login token
+   a user must be logged for this to work
+  */
   getEmployerMe() {
     let token: string;
     this.accountService.currentUser$.subscribe((user) => {
@@ -61,6 +75,14 @@ export class EmployerService {
         })
       );
   }
+  /* 
+   request : GET
+   response: Vacancy[] 
+   ------------------------------------------------------------------------ 
+   gets the vacancies posted by an employer
+   a user must be logged in as employer for this to work
+   uses pagination
+  */
   getVacanciesPostedByMe(page?: number, itemsPerPage?: number) {
     let queryParams = new HttpParams();
     if (page != null && itemsPerPage != null) {
@@ -85,6 +107,14 @@ export class EmployerService {
         })
       );
   }
+  /* 
+   request : POST
+   response: 200 status code
+   ------------------------------------------------------------------------ 
+   registers the employer details in the database
+   for functionalities like creating vacancies and posting stuff 
+   creating a profile is a must
+  */
   createEmployer(model: any) {
     return this.http.post(this.baseUrl + '/employer/create', model).pipe(
       map(() => {
@@ -92,6 +122,12 @@ export class EmployerService {
       })
     );
   }
+  /* 
+   request : PUT
+   response: 200 status code
+   ------------------------------------------------------------------------ 
+   updates the employer details in the database
+  */
   updateEmployer(model: Employer) {
     return this.http.put(this.baseUrl + '/employer/update', model).pipe(
       map(() => {
@@ -99,7 +135,18 @@ export class EmployerService {
       })
     );
   }
-  // related to vacancies
+
+  /* -------------------------------------------------------------------------- */
+  /*                          vacancy related services                          */
+  /* -------------------------------------------------------------------------- */
+
+  /* 
+   request : POST
+   response: Vacancy
+   ------------------------------------------------------------------------ 
+   creates new vacancy,
+   where job seekers can apply
+  */
   createVacancy(model: any) {
     return this.http.post(this.baseUrl + '/vacancy/create', model).pipe(
       map((vac: Vacancy) => {
@@ -107,12 +154,30 @@ export class EmployerService {
       })
     );
   }
+  /* 
+   request : PUT
+   response: status code 200
+   ------------------------------------------------------------------------ 
+   updates existing vacancy
+  */
   updateVacancy(model: Vacancy) {
     return this.http.put(this.baseUrl + '/vacancy/update', model);
   }
+  /* 
+   request : DELETE
+   response: status code 200
+   ------------------------------------------------------------------------ 
+   deletes a posted vacancy
+  */
   deleteVacancy(id: number) {
     return this.http.delete(this.baseUrl + '/vacancy/delete/' + id);
   }
+  /* 
+   request : GET
+   response: JobSeeker[]
+   ------------------------------------------------------------------------ 
+   gets job seekers who applied on a vacancy posted by currently logged in  employer
+  */
   getJobSeekersWhoAppliedOn(
     vacancyId: number,
     page?: number,

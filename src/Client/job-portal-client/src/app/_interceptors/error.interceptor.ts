@@ -9,6 +9,9 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
+
+// this is used when calling server any error is arised
+// it uses toastr to show errors
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router, private toastr: ToastrService) {}
@@ -25,17 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error) {
           switch (error.status) {
             case 400:
-              // // if (error.error.errors) {
-              // //   const modalStateErrors = [];
-              // //   for (const key in error.error.errrors) {
-              // //     if (error.error.errors[key]) {
-              // //       modalStateErrors.push(error.error.errors[key]);
-              // //     }
-              // //   }
-              // //   throw modalStateErrors.flat();
-              // } else {
-              this.toastr.error(error.error,'Item Not Found');
-              // }
+              this.toastr.error(error.error,'Item not found, Or validation error occured');
               break;
             case 401:
               this.toastr.error(error.error,'Unauthorized');

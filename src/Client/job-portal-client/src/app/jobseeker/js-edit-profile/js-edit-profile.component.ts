@@ -75,6 +75,8 @@ export class JsEditProfileComponent implements OnInit {
       this.ngbDateParserFormatter.format(this.jsForm.value.dateOfBirth)
     ).toISOString();
   }
+  // both edit and show profile depend on this
+  // setting button accordingly
   setDisplayTexts() {
     if (!this.doesJsExist) {
       this.submitButtonText = 'Create Profile';

@@ -16,6 +16,8 @@ import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 })
 export class VacancyListItemComponent implements OnInit {
   @Input() vacancy: Vacancy;
+  /* ----------------- checks if which menu is used to display ---------------- */
+  /* ------------------ and adjusts the component accordingly ----------------- */
   @Input() isVacancyList: boolean = false;
   @Input() isAppliedVacancies: boolean = false;
   @Input() isEmployerVacancyList: boolean = false;
@@ -33,6 +35,7 @@ export class VacancyListItemComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  /* ------------------- job seeker can apply for a vacancy ------------------- */
   async applyForVacancy(id: number) {
     let vr: VacancyRequest = {
       vacancyId: id,
@@ -46,6 +49,9 @@ export class VacancyListItemComponent implements OnInit {
       this.toastr.success('Applied For Vacancy');
     });
   }
+  /* -------------------------------------------------------------------------- */
+  /*         shows employer profile in a modal using ng bootstrap modal         */
+  /* -------------------------------------------------------------------------- */
   showEmployerDetails(content: any, id: number) {
     this.employerService.getEmployerFromId(id).subscribe((response) => {
       this.employerInfo = response;
@@ -60,18 +66,21 @@ export class VacancyListItemComponent implements OnInit {
         );
     });
   }
+  /* ------------ deletes a vacancy request and reloads the window ------------ */
   deleteVacancyRequest(vacId: number) {
     if (confirm('Are you sure you want to delete this Vacancy Request')) {
       this.jobSeekerService.deleteVacancyRequest(vacId).subscribe(() => {
         this.toastr.success('Vacancy Request Deleted');
-        // this.router.navigateByUrl('/js-applied-vacancies')
         window.location.reload();
       });
     }
   }
+  /* -------------------------------------------------------------------------- */
   editVacancy(id: number) {
     this.router.navigateByUrl(`/employer-vacancy-edit/${id}`);
   }
+  /* ---------------- for employer they can delete the vacancy ---------------- */ 
+  /* -------------------------------------------------------------------------- */
   deleteVacancy(id: number) {
     if (confirm('Are you sure you want to delete this Vacancy')) {
       this.employerService.deleteVacancy(id).subscribe(() => {

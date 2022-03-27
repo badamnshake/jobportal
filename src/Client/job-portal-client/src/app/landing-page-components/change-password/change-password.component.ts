@@ -29,7 +29,7 @@ export class ChangePasswordComponent implements OnInit {
     });
   }
 
-  login() {
+  changePassword() {
     this.accountService.changePassword(this.changePasswordForm.value).subscribe({
       next: () => {
         this.router.navigateByUrl('/');

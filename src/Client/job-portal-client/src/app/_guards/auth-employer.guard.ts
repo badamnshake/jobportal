@@ -7,6 +7,11 @@ import { AccountService } from '../_services/account.service';
 @Injectable({
   providedIn: 'root',
 })
+
+/* -------------------------------------------------------------------------- */
+/*            for protecting routes only which employer can access     
+ it checks the roles and role is employer then it is activated       */
+/* -------------------------------------------------------------------------- */
 export class AuthEmployerGuard implements CanActivate {
   constructor(
     private accountService: AccountService,

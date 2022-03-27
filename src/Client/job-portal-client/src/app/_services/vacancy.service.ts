@@ -1,8 +1,7 @@
 import { HttpBackend, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, max, min, throwError } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { JobSeeker } from '../_models/job-seeker';
 import { PaginatedResult } from '../_models/pagination';
 import { ToOrderBy, Vacancy } from '../_models/vacancy';
 
@@ -21,6 +20,12 @@ export class VacancyService {
     this.httpBackend = new HttpClient(handler);
     }
 
+  /* 
+   request : GET
+   response: vacancy
+   ------------------------------------------------------------------------ 
+   gets a vacancy from ID
+  */
   getVacancyFromId(id: number) {
     return this.httpBackend.get<Vacancy>(this.baseUrl + `/vacancy/get/${id}`).pipe(
       map((response: Vacancy) => {
@@ -28,6 +33,17 @@ export class VacancyService {
       }),
     );
   }
+  /* 
+   request : GET
+   response: vacancy[]
+   ------------------------------------------------------------------------ 
+   with filtration and pagination 
+   it gets various vacancies
+   query params received are used as filters
+   ///
+   when no filters applied a filled anyFilters passed in to server
+   as it increases performance
+  */
   getVacancies(
     page?: number,
     itemsPerPage?: number,

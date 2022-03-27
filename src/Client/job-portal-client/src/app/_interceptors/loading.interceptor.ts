@@ -8,6 +8,9 @@ import {
 import { delay, finalize, Observable } from 'rxjs';
 import { BusyService } from '../_services/busy.service';
 
+/* -------------------------------------------------------------------------- */
+/*         it is used to show loading indicator while fetching request        */
+/* -------------------------------------------------------------------------- */
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
   constructor(private busyService: BusyService) {}

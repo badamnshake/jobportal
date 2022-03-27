@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+/* -------------------------------------------------------------------------- */
+/*            for protecting routes only which logged in user can access     */
+/* -------------------------------------------------------------------------- */
 export class AuthLoginGuard implements CanActivate {
   constructor(
     private accountService: AccountService,
@@ -16,9 +19,7 @@ export class AuthLoginGuard implements CanActivate {
     return this.accountService.currentUser$.pipe(
       map((user) => {
         if (user) return true;
-        this.toastr.error(
-          'You must be logged in to access this Route'
-        );
+        this.toastr.error('You must be logged in to access this Route');
         return false;
       })
     );

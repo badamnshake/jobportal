@@ -63,6 +63,8 @@ export class VacancyListComponent implements OnInit {
     this.resetFilters();
     this.loadVacancies();
   }
+
+  /* -------------------- search functionality in location -------------------- */
   @ViewChild('instance', { static: true }) instance: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
@@ -90,7 +92,12 @@ export class VacancyListComponent implements OnInit {
       )
     );
   };
+  /* --------------------------------------------------------------- */
+  /* --------------------------------------------------------------- */
 
+  /* ----------------- used to show already applied in button ----------------- */
+  /* ---------- saves vacancy Ids to check against to disable button ---------- */
+  /* -------------------------------------------------------------------------- */
   loadVacanciesWhereJSApplied() {
     if (
       this.accountService.currentRole$.subscribe((role) => role == 'JobSeeker')
@@ -101,10 +108,12 @@ export class VacancyListComponent implements OnInit {
       if (this.vacanciesApplied == null) this.vacanciesApplied = [];
     } else this.vacanciesApplied = null;
   }
+  /* -------------------------------------------------------------------------- */
+  /* ------------------------ loads vacancies paginated ----------------------- */
   loadVacancies() {
     this.filters.lastDateToApply = this.lastDate;
     this.filters.publishedDate = this.publishedDate;
-    
+
     this.vacancyService
       .getVacancies(
         this.pageNumber,
@@ -133,7 +142,7 @@ export class VacancyListComponent implements OnInit {
         'vacanciesApplied',
         JSON.stringify(this.vacanciesApplied)
       );
-      this.toastr.success('Applied For Vacancy');
+      this.toastr.success('Applied for Vacancy');
     });
   }
   getEmployerDetails(id: number) {
@@ -187,6 +196,7 @@ export class VacancyListComponent implements OnInit {
   ];
 }
 
+// vacancy filters interface for ease of use
 interface getVacancyFilters {
   location?: string;
   minSalary?: number;
@@ -196,6 +206,7 @@ interface getVacancyFilters {
   orderBy?: ToOrderBy;
 }
 
+// used for autocomplete suggestion in location
 const states = [
   'New York',
   'Ahmedabad',

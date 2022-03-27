@@ -34,6 +34,7 @@ export class JsProfileComponent implements OnInit {
     this.router.navigateByUrl('js-create-qualification');
   }
 
+  // delete or create exp
   deleteExp(id: number) {
     if (confirm('Are you sure you want to delete this Experience')) {
       this.jobSeekerService.deleteExperience(id).subscribe(() => {
@@ -42,6 +43,7 @@ export class JsProfileComponent implements OnInit {
       });
     }
   }
+  // delete qualification
   deleteQual(id: number) {
     if (confirm('Are you sure you want to delete this Qualification')) {
       this.jobSeekerService.deleteQualification(id).subscribe(() => {

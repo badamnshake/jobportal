@@ -9,6 +9,10 @@ import {
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+/* -------------------------------------------------------------------------- */
+/*                        externally added modules are here                        */
+/*                       so that app modules is less cluttered                        */
+/* -------------------------------------------------------------------------- */
 @NgModule({
   declarations: [],
   imports: [

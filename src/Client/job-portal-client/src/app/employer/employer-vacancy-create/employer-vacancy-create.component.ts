@@ -69,11 +69,14 @@ export class EmployerVacancyCreateComponent implements OnInit {
         this.toastr.success('Vacancy Created');
       });
   }
+  // set date gotten from ng bootstrap datepicker component
+  // this process is required to show better UI
   onLastDateToApplySelect(event: NgbDateStruct) {
     this.lastDateToApply = new Date(
       this.ngbDateParserFormatter.format(event)
     ).toISOString();
   }
+  // check if user touched the datepicker and selected a value
   isLastDateValid() {
     return this.lastDateToApply != null;
   }

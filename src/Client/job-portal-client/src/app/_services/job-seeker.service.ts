@@ -17,6 +17,12 @@ export class JobSeekerService {
 
   constructor(private http: HttpClient) {}
 
+  /* 
+   request : GET
+   response: JobSeeker
+   ------------------------------------------------------------------------ 
+   gets the currently logged in job seekers info
+  */
   getMyDetails() {
     return this.http.get<JobSeeker>(this.baseUrl + '/job-seeker/get/').pipe(
       map((response: JobSeeker) => {
@@ -24,6 +30,13 @@ export class JobSeekerService {
       })
     );
   }
+  /* 
+   request : GET
+   response: number[] (array of vacancy Id's)
+   ------------------------------------------------------------------------ 
+   gets the currently logged in job seekers vacancy requests
+   ** paginated **
+  */
   getVacanciesWhereIApplied(page?: number, itemsPerPage?: number) {
     let queryParams = new HttpParams();
     if (page != null && itemsPerPage != null) {
@@ -50,6 +63,15 @@ export class JobSeekerService {
         })
       );
   }
+  /* 
+   request : GET
+   response: number[] (array of vacancy Id's)
+   ------------------------------------------------------------------------ 
+   gets the currently logged in job seekers vacancy requests
+   **  non paginated **
+   the difference between this and paginated version is that
+   paginated is used for display and this for UI efficiency
+  */
   getVacanciesWhereIAppliedAll() {
     return this.http
       .get<number[]>(
@@ -61,11 +83,19 @@ export class JobSeekerService {
         })
       );
   }
+  // it sets in the local storage where js has applied so From UI job seekers
+  // can't apply to same vacancy again
   setVacanciesWhereJSApplied() {
     this.getVacanciesWhereIAppliedAll().subscribe((response) => {
       localStorage.setItem('vacanciesApplied', JSON.stringify(response));
     });
   }
+  /* 
+   request : POST
+   response: number (job seeker Id)
+   ------------------------------------------------------------------------ 
+   creates job seekers profile on the server
+  */
   createJobSeeker(model: JobSeeker) {
     return this.http.post(this.baseUrl + '/job-seeker/create', model).pipe(
       map((id: number) => {
@@ -73,12 +103,24 @@ export class JobSeekerService {
       })
     );
   }
+  /* 
+   request : PUT
+   response: stats code 200
+   ------------------------------------------------------------------------ 
+   updates job seekers profile on the server
+  */
   updateJobSeeker(model: JobSeeker) {
     return this.http
       .put(this.baseUrl + '/job-seeker/update', model)
       .pipe(map(() => {}));
   }
 
+  /* 
+   request : POST
+   response: stats code 200
+   ------------------------------------------------------------------------ 
+   creates job seekers experience field
+  */
   createExperience(model: Experience) {
     return this.http.post(this.baseUrl + '/experience/create', model).pipe(
       map(() => {
@@ -86,6 +128,12 @@ export class JobSeekerService {
       })
     );
   }
+  /* 
+   request : DELETE
+   response: stats code 200
+   ------------------------------------------------------------------------ 
+   deletes job seekers experience field
+  */
   deleteExperience(id: number) {
     return this.http.delete(this.baseUrl + `/experience/delete/${id}`).pipe(
       map(() => {
@@ -93,6 +141,12 @@ export class JobSeekerService {
       })
     );
   }
+  /* 
+   request : POST
+   response: stats code 200
+   ------------------------------------------------------------------------ 
+   creates job seekers qualfication field
+  */
   createQualification(model: Qualification) {
     return this.http.post(this.baseUrl + '/qualification/create', model).pipe(
       map(() => {
@@ -100,6 +154,12 @@ export class JobSeekerService {
       })
     );
   }
+  /* 
+   request : DELETE
+   response: stats code 200
+   ------------------------------------------------------------------------ 
+   deletes job seekers qualification field
+  */
   deleteQualification(id: number) {
     return this.http.delete(this.baseUrl + `/qualification/delete/${id}`).pipe(
       map(() => {
@@ -107,6 +167,12 @@ export class JobSeekerService {
       })
     );
   }
+  /* 
+   request : POST
+   response: stats code 200
+   ------------------------------------------------------------------------ 
+   creates new vacancy request on a vacancy
+  */
   createVacancyRequest(model: VacancyRequest) {
     return this.http.post(this.baseUrl + '/vacancy-request/create', model).pipe(
       map(() => {
@@ -114,6 +180,12 @@ export class JobSeekerService {
       })
     );
   }
+  /* 
+   request : DELETE
+   response: stats code 200
+   ------------------------------------------------------------------------ 
+   deletes a  vacancy request on a vacancy
+  */
   deleteVacancyRequest(vacId: number) {
     return this.http
       .delete(this.baseUrl + `/vacancy-request/delete/${vacId}`)

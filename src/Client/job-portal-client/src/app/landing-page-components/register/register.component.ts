@@ -38,17 +38,12 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    // backend takes 0 or 1 to set the role
     this.registerForm.value.userType =
       this.registerForm.value.userType == 'JobSeeker' ? 0 : 1;
-    console.log(this.registerForm.value);
 
-    this.accountService.register(this.registerForm.value).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/');
-      },
-      error: (e) => {
-        this.toastr.error(e.error);
-      },
+    this.accountService.register(this.registerForm.value).subscribe(() => {
+      this.router.navigateByUrl('/');
     });
   }
 }

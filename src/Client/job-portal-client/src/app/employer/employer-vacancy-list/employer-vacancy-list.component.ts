@@ -31,6 +31,8 @@ export class EmployerVacancyListComponent implements OnInit {
     this.loadVacancies();
   }
 
+  // employer can see his posted vacancy
+  // delete edit and view vac requests from this
   loadVacancies() {
     this.employerService
       .getVacanciesPostedByMe(this.pageNumber, this.pageSize)

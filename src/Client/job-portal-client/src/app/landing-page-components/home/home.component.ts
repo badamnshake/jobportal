@@ -8,6 +8,7 @@ import { AccountService } from 'src/app/_services/account.service';
 })
 export class HomeComponent implements OnInit {
 
+  // account service to fetch role and display actions according
   constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {

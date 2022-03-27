@@ -8,6 +8,7 @@ import { Experience } from 'src/app/_models/experience';
 })
 export class JsListItemExperienceComponent implements OnInit {
 
+  // experience data
   @Input() e: Experience;
   constructor() { }
 

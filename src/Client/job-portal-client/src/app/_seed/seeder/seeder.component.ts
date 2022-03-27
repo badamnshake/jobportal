@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
-import { Employer } from 'src/app/_models/employer';
 import { JobSeeker } from 'src/app/_models/job-seeker';
 import { AccountService } from 'src/app/_services/account.service';
 import { EmployerService } from 'src/app/_services/employer.service';
@@ -15,6 +14,11 @@ import jsData from '../Data/jsData.json';
   templateUrl: './seeder.component.html',
   styleUrls: ['./seeder.component.css'],
 })
+/* -------------------------------------------------------------------------- */
+/*                    it is used to seed data into database                   */
+/*                    it doesn't run automatically and requires config                   */
+/*                    be careful with using this                   */
+/* -------------------------------------------------------------------------- */
 export class SeederComponent implements OnInit {
   constructor(
     private as: AccountService,

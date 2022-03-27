@@ -44,6 +44,7 @@ export class EmployerProfileEditComponent implements OnInit {
       about: ['', Validators.required],
     });
   }
+  // it patches employer details into the form 
   patchValuesIntoForm() {
     this.employerForm.patchValue({
       organizationName: this.employer.organizationName,

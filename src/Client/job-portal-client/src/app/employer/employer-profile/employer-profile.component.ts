@@ -12,23 +12,8 @@ export class EmployerProfileComponent implements OnInit {
   @Input()
   employer: Employer;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private employerService: EmployerService
-  ) {}
+  // it is only used in modal
+  constructor() {}
 
-  ngOnInit(): void {
-    // let id = parseInt(this.route.snapshot.paramMap.get('id'));
-
-    // if (id) {
-    //   this.employerService.getEmployerFromId(id).subscribe((response) => {
-    //     this.employer = response;
-    //   });
-    //   return;
-    // }
-    // this.employerService.getEmployerMe().subscribe((response) => {
-    //   this.employer = response;
-    // });
-  }
+  ngOnInit(): void {}
 }

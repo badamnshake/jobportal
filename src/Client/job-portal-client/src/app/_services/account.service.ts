@@ -4,7 +4,7 @@ import { map, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Role } from '../_models/role';
-import jwtDecode, { JwtDecodeOptions, JwtPayload } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,13 @@ export class AccountService {
 
   constructor(private http: HttpClient) {}
 
+  /* 
+   request : POST
+   response: User 
+   ------------------------------------------------------------------------ 
+   login request which logs in the user and gets JWT token back
+   if login fails the response is not ok, interceptor
+  */
   login(model: any) {
     return this.http.post<User>(this.baseUrl + '/user/login', model).pipe(
       map((response: User) => {
@@ -29,6 +36,14 @@ export class AccountService {
       })
     );
   }
+  /* 
+   request : POST
+   response: User 
+   ------------------------------------------------------------------------ 
+   register request which registers the user and gets JWT token back,
+   validation error or same email error can occur which will be raised
+   as toast by interceptor
+  */
   register(model: any) {
     return this.http.post(this.baseUrl + '/user/register', model).pipe(
       map((user: User) => {
@@ -39,6 +54,12 @@ export class AccountService {
       })
     );
   }
+  /* 
+   request : DELETE
+   response: 200(OK) 
+   ------------------------------------------------------------------------ 
+   deletes the user from db and cascades the info db
+  */
 
   delete() {
     return this.http.delete(this.baseUrl + '/user/delete').pipe(
@@ -47,6 +68,12 @@ export class AccountService {
       })
     );
   }
+  /* 
+   ------------------------------------------------------------------------ 
+   sets the current user in local storage for future purpose
+   as well as sets the variable and observables for other components to use
+   also sets the role observable
+  */
   setCurrentUser(user: User) {
     if (!user) {
       this.logout();
@@ -56,11 +83,22 @@ export class AccountService {
     let decodedJwt: any = jwtDecode(user.token);
     this.currentRoleSource.next(decodedJwt.role);
   }
+  /* 
+   ------------------------------------------------------------------------ 
+   logs out the user
+  */
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
     this.currentRoleSource.next(null);
   }
+  /* 
+   request : PUT
+   response: User
+   ------------------------------------------------------------------------ 
+   updates the users password,
+   gets the new token back from the server
+  */
   changePassword(model: any) {
     return this.http
       .put<User>(this.baseUrl + '/user/change-password', model)

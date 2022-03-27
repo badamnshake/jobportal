@@ -41,6 +41,8 @@ export class JsAppliedVacanciesComponent implements OnInit {
     });
   }
 
+  // applied vacancies array is stored as number (vacancy Id's)
+  // from vacancy service *(get from Id) every vacancy is fetched to display
   loadVacancies() {
     let vacancy: Vacancy;
     this.vacancies = [];

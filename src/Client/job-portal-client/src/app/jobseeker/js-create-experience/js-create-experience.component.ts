@@ -36,7 +36,7 @@ export class JsCreateExperienceComponent implements OnInit {
   }
 
   createDetails() {
-    this.formatDates();
+    this.setDatesValuesInForm();
     this.jobSeekerService
       .createExperience(this.experienceForm.value)
       .subscribe(() => {
@@ -63,6 +63,9 @@ export class JsCreateExperienceComponent implements OnInit {
       jobDescription: ['', Validators.minLength(10)],
     });
   }
+  /* ---------------------- get dates from ngb datepicker --------------------- */
+  /* ---------- this operation is needed because need to convert from --------- */
+  /* -------- ngbdatastruct to iso date type for things to work nicely -------- */
   onStartDateSelect(event: NgbDateStruct) {
     this.startDate = new Date(
       this.ngbDateParserFormatter.format(event)
@@ -73,10 +76,15 @@ export class JsCreateExperienceComponent implements OnInit {
       this.ngbDateParserFormatter.format(event)
     ).toISOString();
   }
-  formatDates() {
+  /* ------------------------------------ - ----------------------------------- */
+
+  /* ------------------------------------ - ----------------------------------- */
+  setDatesValuesInForm() {
     this.experienceForm.value.endDate = this.endDate;
     this.experienceForm.value.startDate = this.startDate;
   }
+
+  /* ---------------------- checking if dates work nicely --------------------- */
   areDatesValid() {
     if (this.startDate == null || this.endDate == null) {
       this.dateErrorMsg = 'Start and End Dates are Required';

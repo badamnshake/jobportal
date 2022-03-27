@@ -4,6 +4,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable({
   providedIn: 'root',
 })
+
+/* -------------------------------------------------------------------------- */
+/*                              loading indicator                             */
+/* -------------------------------------------------------------------------- */
+
+// this service indicated loading and shows spinner when fetching the request
+// it uses Ngx Spinner
+// docs link:  https://www.npmjs.com/package/ngx-spinner
+
 export class BusyService {
   busyRequestCount = 0;
 

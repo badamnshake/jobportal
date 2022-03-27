@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { JobSeekerService } from 'src/app/_services/job-seeker.service';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-js-create-qualification',

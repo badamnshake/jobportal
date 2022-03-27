@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // after loggin in you are transfered to vacancy list
   login() {
     this.accountService.login(this.model).subscribe(() => {
       this.router.navigateByUrl('/vacancy-list');
@@ -38,17 +39,16 @@ export class NavbarComponent implements OnInit {
       this.router.navigateByUrl('/');
     }
   }
+  // shows employer details in a modal
+  // when modal is closed employer info is reset
   showEmployerDetails(content: any) {
     this.employerService.getEmployerMe().subscribe((response) => {
       this.employerInfo = response;
       this.modalService
         .open(content, { ariaLabelledBy: 'modal-basic-title' })
-        .result.then(
-          (result) => {
-            this.employerInfo == null;
-          },
-          (reason) => {}
-        );
+        .result.then(() => {
+          this.employerInfo == null;
+        });
     });
   }
 }
