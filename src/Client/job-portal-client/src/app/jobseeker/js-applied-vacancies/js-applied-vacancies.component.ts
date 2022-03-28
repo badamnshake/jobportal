@@ -51,10 +51,7 @@ export class JsAppliedVacanciesComponent implements OnInit {
       .getVacanciesWhereIApplied(this.pageNumber, this.pageSize)
       .subscribe((response) => {
         if (response.pagination.totalItems == 0) {
-          this.toastr.info(
-            'Please Apply to Vacancies First',
-            'You havent applied to Any Vacancy Yet !!'
-          );
+          this.toastr.info("You haven't applied to any vacancy yet!");
           this.navigateToVacancyList();
         }
         this.vacanciesIdApplied = response.result;

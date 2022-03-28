@@ -16,3 +16,10 @@
     {{ q.gradeOrScore }}
   </div>
 </div>
+<ng-container *ngIf="showDeleteButton">
+  <div class="d-flex w-100 justify-content-between mt-3">
+    <button type="button" (click)="deleteQual(q.id)" class="btn btn-warning">
+      Delete
+    </button>
+  </div>
+</ng-container>

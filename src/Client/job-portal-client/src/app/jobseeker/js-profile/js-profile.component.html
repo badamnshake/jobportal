@@ -13,16 +13,10 @@
       *ngFor="let q of jobSeeker.qualifications"
       class="container list-group-item flex-column align-items-start"
     >
-      <app-js-list-item-qualification [q]="q"></app-js-list-item-qualification>
-      <div class="d-flex w-100 justify-content-between mt-3">
-        <button
-          type="button"
-          (click)="deleteQual(q.id)"
-          class="btn btn-warning"
-        >
-          Delete
-        </button>
-      </div>
+      <app-js-list-item-qualification
+        [q]="q"
+        [showDeleteButton]="true"
+      ></app-js-list-item-qualification>
     </div>
   </div>
 
@@ -37,12 +31,10 @@
       *ngFor="let e of jobSeeker.experiences"
       class="container list-group-item flex-column align-items-start"
     >
-      <app-js-list-item-experience [e]="e"></app-js-list-item-experience>
-      <div class="d-flex w-100 justify-content-between mt-3">
-        <button type="button" (click)="deleteExp(e.id)" class="btn btn-warning">
-          Delete
-        </button>
-      </div>
+      <app-js-list-item-experience
+        [e]="e"
+        [showDeleteButton]="true"
+      ></app-js-list-item-experience>
     </div>
   </div>
   <div class="row mt-2">

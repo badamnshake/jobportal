@@ -22,3 +22,9 @@
     {{ e.jobDescription }}
   </div>
 </div>
+<ng-container *ngIf="showDeleteButton"></ng-container>
+<div class="d-flex w-100 justify-content-between mt-3">
+  <button type="button" (click)="deleteExp(e.id)" class="btn btn-warning">
+    Delete
+  </button>
+</div>

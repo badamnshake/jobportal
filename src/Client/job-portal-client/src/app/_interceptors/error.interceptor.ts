@@ -28,7 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error) {
           switch (error.status) {
             case 400:
-              this.toastr.error(error.error,'Item not found, Or validation error occured');
+              this.toastr.error(error.error,'Item not found, You need to Create Profile First');
               break;
             case 401:
               this.toastr.error(error.error,'Unauthorized');
@@ -41,7 +41,6 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
             default:
               this.toastr.error('Something unexpected went wrong');
-              console.log(error);
               break;
           }
         }

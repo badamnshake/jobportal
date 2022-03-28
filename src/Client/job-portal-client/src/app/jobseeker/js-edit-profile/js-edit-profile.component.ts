@@ -42,7 +42,6 @@ export class JsEditProfileComponent implements OnInit {
       if (!response) this.doesJsExist = false;
       else this.js = response;
       if (this.js) this.patchValuesIntoForm();
-      this.setDisplayTexts();
     });
   }
 
@@ -77,15 +76,6 @@ export class JsEditProfileComponent implements OnInit {
   }
   // both edit and show profile depend on this
   // setting button accordingly
-  setDisplayTexts() {
-    if (!this.doesJsExist) {
-      this.submitButtonText = 'Create Profile';
-      this.descriptionText = 'Add Details  & Create Profile';
-    } else {
-      this.submitButtonText = 'Update Details';
-      this.descriptionText = 'Profile Settings';
-    }
-  }
   onDateSelect(event: NgbDateStruct) {
     this.dateOfBirth = new Date(
       this.ngbDateParserFormatter.format(event)

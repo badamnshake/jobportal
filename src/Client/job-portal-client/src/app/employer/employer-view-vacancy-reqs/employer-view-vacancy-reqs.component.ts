@@ -35,7 +35,7 @@ export class EmployerViewVacancyReqsComponent implements OnInit {
       .getJobSeekersWhoAppliedOn(this.vacancyId, this.pageNumber, this.pageSize)
       .subscribe((response) => {
         if (response.pagination.totalItems == 0) {
-          this.toastr.info('No one has Applied for this vacancy yet');
+          this.toastr.info('No one has applied for this vacancy yet');
           this.router.navigateByUrl('employer-vacancy-list');
         } else {
           this.jobSeekers = response.result;

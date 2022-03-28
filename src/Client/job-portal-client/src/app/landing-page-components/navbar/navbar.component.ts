@@ -42,13 +42,19 @@ export class NavbarComponent implements OnInit {
   // shows employer details in a modal
   // when modal is closed employer info is reset
   showEmployerDetails(content: any) {
-    this.employerService.getEmployerMe().subscribe((response) => {
-      this.employerInfo = response;
-      this.modalService
-        .open(content, { ariaLabelledBy: 'modal-basic-title' })
-        .result.then(() => {
-          this.employerInfo == null;
-        });
+    this.employerService.getEmployerMe().subscribe({
+      next: (response) => {
+        this.employerInfo = response;
+        this.modalService
+          .open(content, { ariaLabelledBy: 'modal-basic-title' })
+          .result.then(() => {
+            this.employerInfo == null;
+          });
+      },
+      error: () => {
+        this.router.navigateByUrl('/employer-profile-edit');
+        this.toastr.error('Please create a profile first');
+      },
     });
   }
 }

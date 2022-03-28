@@ -39,11 +39,25 @@ export class RegisterComponent implements OnInit {
 
   register() {
     // backend takes 0 or 1 to set the role
+    let isJobSeekerRole = this.registerForm.value.userType == 'JobSeeker';
     this.registerForm.value.userType =
       this.registerForm.value.userType == 'JobSeeker' ? 0 : 1;
 
     this.accountService.register(this.registerForm.value).subscribe(() => {
       this.router.navigateByUrl('/');
+      if (isJobSeekerRole) {
+        this.router.navigateByUrl('/js-edit-profile');
+        this.toastr.success(
+          "Let's create your profile",
+          'Registered Successfully'
+        );
+      } else {
+        this.router.navigateByUrl('/employer-profile-edit');
+        this.toastr.success(
+          "Let's create your profile",
+          'Registered Successfully'
+        );
+      }
     });
   }
 }

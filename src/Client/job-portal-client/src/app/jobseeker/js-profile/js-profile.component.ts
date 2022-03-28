@@ -20,11 +20,11 @@ export class JsProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.jobSeekerService.getMyDetails().subscribe((response) => {
-      if (response == null) this.navigateToCreateProfile();
+      if (response == null) this.navigateToEditProfile();
       this.jobSeeker = response;
     });
   }
-  navigateToCreateProfile() {
+  navigateToEditProfile() {
     this.router.navigateByUrl('js-edit-profile');
   }
   navigateToCreateExp() {
@@ -34,22 +34,4 @@ export class JsProfileComponent implements OnInit {
     this.router.navigateByUrl('js-create-qualification');
   }
 
-  // delete or create exp
-  deleteExp(id: number) {
-    if (confirm('Are you sure you want to delete this Experience')) {
-      this.jobSeekerService.deleteExperience(id).subscribe(() => {
-        this.toastr.success('Experince Deleted');
-        window.location.reload();
-      });
-    }
-  }
-  // delete qualification
-  deleteQual(id: number) {
-    if (confirm('Are you sure you want to delete this Qualification')) {
-      this.jobSeekerService.deleteQualification(id).subscribe(() => {
-        this.toastr.success('Qualification Deleted');
-        window.location.reload();
-      });
-    }
-  }
 }
